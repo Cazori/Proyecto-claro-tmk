@@ -22,6 +22,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STORAGE_DIR = os.path.join(BASE_DIR, "storage")
 PROCESSED_DATA_FILE = os.path.join(STORAGE_DIR, "processed_inventory.json")
 NORMALIZATION_CACHE_FILE = os.path.join(STORAGE_DIR, "normalization_cache.json")
+METADATA_FILE = os.path.join(STORAGE_DIR, "processing_metadata.json")
 MAX_FILES = 5
 
 async def normalize_products_batch(descriptions):
@@ -208,6 +209,13 @@ async def process_inventory_pdf(file_path):
         df["especificaciones"] = df["Subproducto"].apply(lambda x: get_attr(x, "especificaciones"))
 
         df.to_json(PROCESSED_DATA_FILE, orient="records", force_ascii=False, indent=4)
+        
+        # Save metadata to track which file was processed
+        try:
+            with open(METADATA_FILE, "w", encoding="utf-8") as f:
+                json.dump({"last_processed_file": os.path.basename(file_path)}, f)
+        except: pass
+        
         print(f"Éxito: {len(df)} ítems procesados.")
         return df
 
@@ -238,25 +246,34 @@ def rotate_inventories():
 async def get_latest_inventory():
     """
     Returns the most recent processed DataFrame. 
-    Smart logical: If the latest PDF is newer than the processed JSON, it re-processes.
+    Uses metadata to detect if the latest PDF has changed.
     """
     pdf_files = glob.glob(os.path.join(STORAGE_DIR, "*.pdf"))
-    latest_pdf = max(pdf_files, key=os.path.getmtime) if pdf_files else None
+    if not pdf_files:
+        return None
+        
+    # Sort by mtime then name to find the "newest"
+    pdf_files.sort(key=lambda x: (os.path.getmtime(x), x), reverse=True)
+    latest_pdf = pdf_files[0]
+    latest_pdf_name = os.path.basename(latest_pdf)
     
-    if os.path.exists(PROCESSED_DATA_FILE):
+    should_reprocess = True
+    
+    # Check if we already processed this exact file
+    if os.path.exists(PROCESSED_DATA_FILE) and os.path.exists(METADATA_FILE):
         try:
-            # Check if PDF is newer than JSON
-            json_mtime = os.path.getmtime(PROCESSED_DATA_FILE)
-            if latest_pdf and os.path.getmtime(latest_pdf) > json_mtime:
-                print(f"Detectado PDF más reciente: {latest_pdf}. Re-procesando...")
-                return await process_inventory_pdf(latest_pdf)
-                
-            return pd.read_json(PROCESSED_DATA_FILE)
-        except Exception as e:
-            print(f"Error cargando JSON, intentando re-procesar: {e}")
+            with open(METADATA_FILE, "r", encoding="utf-8") as f:
+                metadata = json.load(f)
+                if metadata.get("last_processed_file") == latest_pdf_name:
+                    should_reprocess = False
+        except:
+            pass
 
-    if latest_pdf:
-        print(f"No se encontró data procesada. Procesando PDF: {latest_pdf}")
+    if should_reprocess:
+        print(f"Detectado cambio o nuevo archivo: {latest_pdf_name}. Re-procesando...")
         return await process_inventory_pdf(latest_pdf)
     
-    return None
+    try:
+        return pd.read_json(PROCESSED_DATA_FILE)
+    except:
+        return await process_inventory_pdf(latest_pdf)
