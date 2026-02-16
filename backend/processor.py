@@ -193,15 +193,24 @@ async def process_inventory_pdf(file_path):
         to_normalize = [p for p in unique_products if p not in normalization_cache]
         
         if to_normalize:
-            print(f"Normalizando {len(to_normalize)} nuevos productos únicos...")
-            for i in range(0, len(to_normalize), 5):
-                batch = to_normalize[i:i+5]
+            # Incremental Normalization: Only process a few batches per request to avoid Timeouts
+            max_batches = 3 # Max 15 items per call
+            to_process = to_normalize[:max_batches * 5]
+            
+            print(f"Normalizando {len(to_process)} de {len(to_normalize)} nuevos productos (Incremental)...")
+            for i in range(0, len(to_process), 5):
+                batch = to_process[i:i+5]
                 # AWAIT the async normalization
-                normalized_batch = await normalize_products_batch(batch)
-                if normalized_batch:
-                    normalization_cache.update(normalized_batch)
-                    with open(NORMALIZATION_CACHE_FILE, "w", encoding="utf-8") as f:
-                        json.dump(normalization_cache, f, indent=4)
+                try:
+                    normalized_batch = await normalize_products_batch(batch)
+                    if normalized_batch:
+                        normalization_cache.update(normalized_batch)
+                        # Save progress immediately
+                        with open(NORMALIZATION_CACHE_FILE, "w", encoding="utf-8") as f:
+                            json.dump(normalization_cache, f, indent=4)
+                except Exception as e:
+                    print(f"Error en batch de normalización: {e}")
+                    break
                     
         # Final mapping
         df["categoria"] = df["Subproducto"].apply(lambda x: get_attr(x, "categoria"))
