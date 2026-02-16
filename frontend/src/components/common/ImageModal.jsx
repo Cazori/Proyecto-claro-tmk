@@ -5,23 +5,39 @@ const ImageModal = ({ imageUrl, onClose }) => {
 
     const handleShare = async (e) => {
         e.stopPropagation();
-        if (navigator.share) {
-            try {
+
+        try {
+            // 1. Fetch the image and convert to blob
+            const response = await fetch(imageUrl);
+            const blob = await response.blob();
+
+            // 2. Create the file object
+            const filename = imageUrl.split('/').pop() || 'ficha-tecnica.jpg';
+            const file = new File([blob], filename, { type: blob.type });
+
+            // 3. Check if sharing files is supported
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
                 await navigator.share({
-                    title: 'Ficha Técnica - Claro TMK',
-                    text: 'Mira esta ficha técnica que encontré en Cleo AI.',
+                    files: [file]
+                });
+            } else if (navigator.share) {
+                // Fallback to sharing URL if file sharing is not supported
+                await navigator.share({
                     url: imageUrl
                 });
-            } catch (err) {
-                console.error('Error al compartir:', err);
+            } else {
+                // PC Fallback
+                await navigator.clipboard.writeText(imageUrl);
+                alert('Enlace de la imagen copiado al portapapeles');
             }
-        } else {
-            // Fallback for PC: Copy to clipboard
+        } catch (err) {
+            console.error('Error al compartir:', err);
+            // Final fallback: copy link
             try {
                 await navigator.clipboard.writeText(imageUrl);
-                alert('Enlace copiado al portapapeles');
-            } catch (err) {
-                console.error('Error al copiar:', err);
+                alert('No se pudo compartir el archivo, link copiado al portapapeles');
+            } catch (copyErr) {
+                console.error('Error final:', copyErr);
             }
         }
     };
