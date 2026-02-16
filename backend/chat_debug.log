@@ -1,0 +1,635 @@
+[2026-02-14 02:47:13.437857] QUERY RECIBIDA: TV 50
+[2026-02-14 02:47:13.438294] Keywords válidas: ['tv', '50']
+[2026-02-14 02:47:13.440507] FAST PATH: Found 16 matches
+[2026-02-14 02:47:13.440824] FAST PATH: EXECUTED
+[2026-02-14 02:47:42.345415] QUERY RECIBIDA: Tvs de 50 pulgadas
+[2026-02-14 02:47:42.345769] Keywords válidas: ['tvs', '50', '"']
+[2026-02-14 02:47:42.348311] FAST PATH: Found 0 matches
+[2026-02-14 02:47:46.080163] AI PATH: After Categoria: 54
+[2026-02-14 02:47:46.081240] AI PATH: After Modelo: 0
+[2026-02-14 02:47:46.081475] AI PATH empty, falling back to keywords
+[2026-02-14 02:47:46.082107] Fallback results: 0
+[2026-02-14 02:48:19.891964] QUERY RECIBIDA: Tvs de 50 pulgadas
+[2026-02-14 02:48:19.892312] Keywords válidas: ['tvs', 'de', '50"']
+[2026-02-14 02:48:19.895365] FAST PATH: Found 0 matches
+[2026-02-14 02:48:21.709853] AI PATH: After Categoria: 54
+[2026-02-14 02:48:21.710921] AI PATH: After Modelo (['50']): 16
+[2026-02-14 13:52:04.620818] QUERY RECIBIDA: tvs de 50 pulgadas
+[2026-02-14 13:52:04.621359] Keywords válidas: ['tvs', 'de', '50"']
+[2026-02-14 13:52:04.628369] FAST PATH: Found 0 matches
+[2026-02-14 13:53:33.790418] QUERY RECIBIDA: tvs de 50 pulgadas
+[2026-02-14 13:53:33.790721] Keywords válidas final: ['tv', '50"']
+[2026-02-14 13:53:33.793636] FAST PATH: Found 15 matches
+[2026-02-14 13:53:33.793889] FAST PATH: EXECUTED
+[2026-02-14 13:54:23.314588] QUERY RECIBIDA: Televisor de 43
+[2026-02-14 13:54:23.314888] Keywords válidas final: ['televisor', '43']
+[2026-02-14 13:54:23.317377] FAST PATH: Found 0 matches
+[2026-02-14 13:54:35.984254] AI PATH: After Categoria: 54
+[2026-02-14 13:54:35.985514] AI PATH: After Modelo (['43"']): 10
+[2026-02-14 13:55:58.330225] QUERY RECIBIDA: TV de 50
+[2026-02-14 13:55:58.330638] Keywords válidas final: ['tv', '50']
+[2026-02-14 13:55:58.334086] FAST PATH: Found 16 matches
+[2026-02-14 13:55:58.334406] FAST PATH: EXECUTED
+[2026-02-14 13:58:12.661560] QUERY RECIBIDA: y tvs de 55?
+[2026-02-14 13:58:12.661951] Keywords válidas final: ['tv', '55?']
+[2026-02-14 13:58:12.664694] FAST PATH: Found 0 matches
+[2026-02-14 13:58:24.025194] AI PATH: After Categoria: 54
+[2026-02-14 13:58:24.027121] AI PATH: After Modelo (['55"']): 23
+[2026-02-14 14:01:25.746565] QUERY RECIBIDA: patinetas tenemos?
+[2026-02-14 14:01:25.746989] Keywords válidas final: ['patineta', 'tenemos?']
+[2026-02-14 14:01:25.749455] FAST PATH: Found 0 matches
+[2026-02-14 14:01:29.284803] AI PATH: After Categoria: 7
+[2026-02-14 14:02:11.891187] QUERY RECIBIDA: Y que computadores?
+[2026-02-14 14:02:11.891584] Keywords válidas final: ['que', 'computadores?']
+[2026-02-14 14:02:11.894427] FAST PATH: Found 0 matches
+[2026-02-14 14:02:40.269581] AI PATH: After Categoria: 23
+[2026-02-14 14:05:00.877381] QUERY RECIBIDA: televisores de 43 pulgadas
+[2026-02-14 14:05:00.877732] Keywords válidas final: ['televisore', '43"']
+[2026-02-14 14:05:00.881873] FAST PATH: Found 0 matches
+[2026-02-14 14:05:04.921707] AI PATH: After Categoria: 54
+[2026-02-14 14:05:04.922965] AI PATH: After Modelo (['43"']): 10
+[2026-02-14 14:05:42.381584] QUERY RECIBIDA: laptops que tenemos disponibles
+[2026-02-14 14:05:42.381955] Keywords válidas final: ['laptop', 'que', 'tenemo', 'disponible']
+[2026-02-14 14:05:42.384618] FAST PATH: Found 0 matches
+[2026-02-14 14:05:45.656798] AI PATH: After Categoria: 23
+[2026-02-14 15:09:55.202494] QUERY RECIBIDA: Busca televisores
+[2026-02-14 15:09:55.202896] Keywords válidas final: ['busca', 'televisore']
+[2026-02-14 15:09:55.207482] FAST PATH: Found 0 matches
+[2026-02-14 15:09:58.573031] AI PATH: After Categoria: 54
+[2026-02-14 15:11:45.326058] QUERY RECIBIDA: Galaxy A54
+[2026-02-14 15:11:45.326541] Keywords válidas final: ['galaxy', 'a54']
+[2026-02-14 15:11:45.329143] FAST PATH: Found 0 matches
+[2026-02-14 15:11:48.237378] AI PATH: After Categoria: 4
+[2026-02-14 15:11:48.238159] AI PATH: After Marca: 0
+[2026-02-14 15:11:48.238429] AI PATH empty for intent {'categoria': 'Celular', 'marca': 'Samsung', 'modelo': 'Galaxy A54', 'intencion_general': 'Búsqueda de smartphone Samsung Galaxy A54'}, falling back to keywords ['galaxy', 'a54']
+[2026-02-14 15:11:48.240709] Fallback results: 5
+[2026-02-14 15:12:33.670321] QUERY RECIBIDA: Busca samsung
+[2026-02-14 15:12:33.670727] Keywords válidas final: ['busca', 'samsung']
+[2026-02-14 15:12:33.674483] FAST PATH: Found 0 matches
+[2026-02-14 15:12:59.335256] AI PATH: After Marca: 9
+[2026-02-14 15:13:44.698666] QUERY RECIBIDA: Huawei Fit 4
+[2026-02-14 15:13:44.699037] Keywords válidas final: ['huawei', 'fit', '4']
+[2026-02-14 15:13:44.702079] FAST PATH: Found 0 matches
+[2026-02-14 15:13:46.374327] AI PATH: After Categoria: 50
+[2026-02-14 15:13:46.375069] AI PATH: After Marca: 30
+[2026-02-14 15:13:46.376165] AI PATH: After Modelo (['fit']): 5
+[2026-02-14 15:14:24.419532] QUERY RECIBIDA: Huawei Fit 4
+[2026-02-14 15:14:24.419955] Keywords válidas final: ['huawei', 'fit', '4']
+[2026-02-14 15:14:24.424279] FAST PATH: Found 0 matches
+[2026-02-14 15:14:25.153238] AI PATH: After Categoria: 50
+[2026-02-14 15:14:25.153955] AI PATH: After Marca: 30
+[2026-02-14 15:14:25.154933] AI PATH: After Modelo (['huawei', 'fit']): 0
+[2026-02-14 15:14:25.155205] AI PATH empty for intent {'categoria': 'Reloj', 'marca': 'Huawei', 'modelo': 'Huawei Fit 4', 'intencion_general': 'Buscar reloj Huawei Fit 4'}, falling back to keywords ['huawei', 'fit', '4']
+[2026-02-14 15:14:25.157072] Fallback results: 7
+[2026-02-14 15:14:34.440493] QUERY RECIBIDA: Huawei Fit 4 Pro
+[2026-02-14 15:14:34.440948] Keywords válidas final: ['huawei', 'fit', '4', 'pro']
+[2026-02-14 15:14:34.444927] FAST PATH: Found 0 matches
+[2026-02-14 15:14:35.138864] AI PATH: After Categoria: 50
+[2026-02-14 15:14:35.139551] AI PATH: After Marca: 30
+[2026-02-14 15:14:35.140514] AI PATH: After Modelo (['huawei', 'fit', 'pro']): 0
+[2026-02-14 15:14:35.140782] AI PATH empty for intent {'categoria': 'Reloj', 'marca': 'Huawei', 'modelo': 'Huawei Fit 4 Pro', 'intencion_general': 'Buscar reloj inteligente Huawei Fit 4 Pro'}, falling back to keywords ['huawei', 'fit', '4', 'pro']
+[2026-02-14 15:14:35.142674] Fallback results: 21
+[2026-02-14 15:15:01.879429] QUERY RECIBIDA: TIA-B09
+[2026-02-14 15:15:01.879906] Keywords válidas final: ['tia-b09']
+[2026-02-14 15:15:01.882690] FAST PATH: Found 1 matches
+[2026-02-14 15:15:01.882985] FAST PATH: EXECUTED
+[2026-02-14 15:16:05.599196] QUERY RECIBIDA: Huawei Fit 4
+[2026-02-14 15:16:05.599644] Keywords válidas final: ['huawei', 'fit', '4']
+[2026-02-14 15:16:05.603022] FAST PATH: Found 0 matches
+[2026-02-14 15:16:06.315131] AI PATH: After Categoria: 50
+[2026-02-14 15:16:06.315858] AI PATH: After Marca: 30
+[2026-02-14 15:16:06.317292] AI PATH: After Modelo (['fit']): 5
+[2026-02-14 15:17:16.109073] QUERY RECIBIDA: Huawei Fit 4
+[2026-02-14 15:17:16.109648] Keywords válidas final: ['huawei', 'fit', '4']
+[2026-02-14 15:17:16.113294] FAST PATH: Found 0 matches
+[2026-02-14 15:17:16.879073] AI PATH: After Categoria: 50
+[2026-02-14 15:17:16.879842] AI PATH: After Marca: 30
+[2026-02-14 15:17:16.880890] AI PATH: After Modelo (['huawei', 'fit']): 0
+[2026-02-14 15:17:16.881171] AI PATH empty for intent {'categoria': 'Reloj', 'marca': 'Huawei', 'modelo': 'Huawei Fit 4', 'intencion_general': 'Busca un reloj inteligente Huawei Fit 4'}, falling back to keywords ['huawei', 'fit', '4']
+[2026-02-14 15:17:16.882974] Fallback results: 7
+[2026-02-14 15:18:34.392460] QUERY RECIBIDA: ficha
+[2026-02-14 15:18:34.392856] Keywords válidas final: ['ficha']
+[2026-02-14 15:18:34.396734] FAST PATH: Found 0 matches
+[2026-02-14 15:28:29.233836] QUERY RECIBIDA: Hola
+[2026-02-14 15:28:29.234245] Keywords válidas final: ['hola']
+[2026-02-14 15:28:29.237800] FAST PATH: Found 0 matches
+[2026-02-14 15:28:41.640045] QUERY RECIBIDA: Televisores 43 
+[2026-02-14 15:28:41.640445] Keywords válidas final: ['televisore', '43']
+[2026-02-14 15:28:41.643373] FAST PATH: Found 0 matches
+[2026-02-14 15:28:42.282172] AI PATH: After Categoria: 54
+[2026-02-14 15:28:42.283906] AI PATH: After Modelo (['43"']): 10
+[2026-02-14 15:41:21.370303] QUERY RECIBIDA: laptop
+[2026-02-14 15:41:21.370708] Keywords válidas final: ['laptop']
+[2026-02-14 15:41:21.373518] FAST PATH: Found 0 matches
+[2026-02-14 15:41:22.031355] AI PATH: After Categoria: 23
+[2026-02-14 15:41:29.119129] QUERY RECIBIDA: relojes
+[2026-02-14 15:41:29.119490] Keywords válidas final: ['reloje']
+[2026-02-14 15:41:29.122331] FAST PATH: Found 0 matches
+[2026-02-14 15:41:29.775977] AI PATH: After Categoria: 50
+[2026-02-14 15:46:08.731439] QUERY RECIBIDA: tv 65 pulgadas
+[2026-02-14 15:46:08.731828] Keywords válidas final: ['tv', '65"']
+[2026-02-14 15:46:08.735235] FAST PATH: Found 3 matches
+[2026-02-14 15:46:08.735501] FAST PATH: EXECUTED
+[2026-02-14 15:50:48.199186] QUERY RECIBIDA: smartwahtc
+[2026-02-14 15:50:48.199527] Keywords válidas final: ['smartwahtc']
+[2026-02-14 15:50:48.202129] FAST PATH: Found 0 matches
+[2026-02-14 15:50:48.901291] AI PATH: After Categoria: 50
+[2026-02-14 15:50:48.902334] AI PATH: After Modelo (['smartwatch']): 0
+[2026-02-14 15:50:48.902559] AI PATH empty for intent {'categoria': 'Reloj', 'marca': None, 'modelo': 'smartwatch', 'intencion_general': 'Busca un smartwatch'}, falling back to keywords ['smartwahtc']
+[2026-02-14 15:50:48.903883] Fallback results: 0
+[2026-02-14 15:50:54.077471] QUERY RECIBIDA: relojes
+[2026-02-14 15:50:54.077802] Keywords válidas final: ['reloje']
+[2026-02-14 15:50:54.080337] FAST PATH: Found 0 matches
+[2026-02-14 15:50:54.615120] AI PATH: After Categoria: 50
+[2026-02-14 16:36:36.630414] QUERY RECIBIDA: portalites
+[2026-02-14 16:36:36.630859] Keywords válidas final: ['portalite']
+[2026-02-14 16:36:36.634183] FAST PATH: Found 0 matches
+[2026-02-14 17:31:42.579993] QUERY RECIBIDA: tvs samsun de 50
+[2026-02-14 17:31:42.580352] Keywords válidas final: ['tv', 'samsun', '50']
+[2026-02-14 17:31:42.583524] FAST PATH: Found 0 matches
+[2026-02-14 17:32:01.231637] AI PATH: After Categoria: 54
+[2026-02-14 17:32:01.232290] AI PATH: After Marca: 1
+[2026-02-14 17:32:01.233967] AI PATH: After Modelo (['50"']): 0
+[2026-02-14 17:32:01.234323] AI PATH empty for intent {'categoria': 'TV', 'marca': 'Samsung', 'modelo': '50"', 'intencion_general': 'Búsqueda de televisores de marca Samsung con un tamaño de 50 pulgadas'}, falling back to keywords ['tv', 'samsun', '50']
+[2026-02-14 17:32:01.236313] Fallback results: 129
+[2026-02-14 17:36:41.539402] QUERY RECIBIDA (Original): tvs samsun de 50
+[2026-02-14 17:36:41.540349] VOCAB SIZE: 37
+[2026-02-14 17:36:41.540630] FUZZY: No corrections made for 'tvs samsun de 50'
+[2026-02-14 17:36:41.540865] Keywords válidas final: ['tv', 'samsun', '50']
+[2026-02-14 17:36:41.543519] FAST PATH: Found 0 matches
+[2026-02-14 17:36:46.119930] AI PATH: After Categoria: 54
+[2026-02-14 17:36:46.120541] AI PATH: After Marca: 1
+[2026-02-14 17:36:46.121254] AI PATH: After Modelo (['50"']): 0
+[2026-02-14 17:36:46.121479] AI PATH empty for intent {'categoria': 'TV', 'marca': 'Samsung', 'modelo': '50"', 'intencion_general': 'Búsqueda de televisores marca Samsung de 50 pulgadas'}, falling back to keywords ['tv', 'samsun', '50']
+[2026-02-14 17:36:46.123354] Fallback results: 129
+[2026-02-14 17:38:42.533835] QUERY RECIBIDA (Original): tvs samsun de 50
+[2026-02-14 17:38:42.535403] VOCAB SIZE: 42
+[2026-02-14 17:38:42.535738] FUZZY CORRECTION: 'tvs samsun de 50' -> 'tvs samsung de 50'
+[2026-02-14 17:38:42.536054] Keywords válidas final: ['tv', 'samsung', '50']
+[2026-02-14 17:38:42.539916] FAST PATH: Found 0 matches
+[2026-02-14 17:38:44.484508] AI PATH: After Categoria: 54
+[2026-02-14 17:38:44.485268] AI PATH: After Marca: 1
+[2026-02-14 17:38:44.486102] AI PATH: After Modelo (['50"']): 0
+[2026-02-14 17:38:44.486352] AI PATH empty for intent {'categoria': 'TV', 'marca': 'Samsung', 'modelo': '50"', 'intencion_general': 'TV Samsung de 50 pulgadas'}, falling back to keywords ['tv', 'samsung', '50']
+[2026-02-14 17:38:44.488328] Fallback results: 129
+[2026-02-14 17:40:16.048285] QUERY RECIBIDA (Original): que protatiles tenemos?
+[2026-02-14 17:40:16.049810] VOCAB SIZE: 42
+[2026-02-14 17:40:16.050135] FUZZY: No corrections made for 'que protatiles tenemos?'
+[2026-02-14 17:40:16.050489] Keywords válidas final: ['que', 'protatile', 'tenemos?']
+[2026-02-14 17:40:16.054399] FAST PATH: Found 0 matches
+[2026-02-14 17:40:18.220552] AI PATH: After Categoria: 2
+[2026-02-14 17:40:28.631071] QUERY RECIBIDA (Original): portatiles
+[2026-02-14 17:40:28.632088] VOCAB SIZE: 42
+[2026-02-14 17:40:28.632415] FUZZY: No corrections made for 'portatiles'
+[2026-02-14 17:40:28.632711] Keywords válidas final: ['portatile']
+[2026-02-14 17:40:28.635003] FAST PATH: Found 0 matches
+[2026-02-14 17:40:29.239823] AI PATH: After Categoria: 23
+[2026-02-14 17:40:44.776746] QUERY RECIBIDA (Original): que portatiles tenemos?
+[2026-02-14 17:40:44.777885] VOCAB SIZE: 42
+[2026-02-14 17:40:44.778210] FUZZY: No corrections made for 'que portatiles tenemos?'
+[2026-02-14 17:40:44.778512] Keywords válidas final: ['que', 'portatile', 'tenemos?']
+[2026-02-14 17:40:44.782478] FAST PATH: Found 0 matches
+[2026-02-14 17:40:45.439036] AI PATH: After Categoria: 23
+[2026-02-14 17:40:59.008842] QUERY RECIBIDA (Original): portalites
+[2026-02-14 17:40:59.009681] VOCAB SIZE: 42
+[2026-02-14 17:40:59.009941] FUZZY: No corrections made for 'portalites'
+[2026-02-14 17:40:59.010199] Keywords válidas final: ['portalite']
+[2026-02-14 17:40:59.012444] FAST PATH: Found 0 matches
+[2026-02-14 17:41:10.736531] QUERY RECIBIDA (Original): Tablet 
+[2026-02-14 17:41:10.737620] VOCAB SIZE: 42
+[2026-02-14 17:41:10.737930] FUZZY CORRECTION: 'Tablet ' -> 'Tablet'
+[2026-02-14 17:41:10.738231] Keywords válidas final: ['tablet']
+[2026-02-14 17:41:10.741888] FAST PATH: Found 2 matches
+[2026-02-14 17:41:10.742177] FAST PATH: EXECUTED
+[2026-02-14 17:41:23.828816] QUERY RECIBIDA (Original): patinetas
+[2026-02-14 17:41:23.829676] VOCAB SIZE: 42
+[2026-02-14 17:41:23.829943] FUZZY CORRECTION: 'patinetas' -> 'patineta'
+[2026-02-14 17:41:23.830196] Keywords válidas final: ['patineta']
+[2026-02-14 17:41:23.832438] FAST PATH: Found 4 matches
+[2026-02-14 17:41:23.832697] FAST PATH: EXECUTED
+[2026-02-14 17:43:41.109403] QUERY RECIBIDA (Original): que patinetas tenemos?
+[2026-02-14 17:43:41.109767] Keywords válidas final: ['que', 'patineta', 'tenemos?']
+[2026-02-14 17:43:41.113665] FAST PATH: Found 0 matches
+[2026-02-14 17:43:43.054119] AI PATH: After Categoria: 7
+[2026-02-14 17:50:26.911362] QUERY RECIBIDA (Original): que relojes tenemos?
+[2026-02-14 17:50:26.911741] Keywords válidas final: ['que', 'reloje', 'tenemos?']
+[2026-02-14 17:50:26.914564] FAST PATH: Found 0 matches
+[2026-02-14 17:50:27.754811] AI PATH: After Categoria: 50
+[2026-02-14 17:50:46.111943] QUERY RECIBIDA (Original): computadores?
+[2026-02-14 17:50:46.112278] Keywords válidas final: ['computadores?']
+[2026-02-14 17:50:46.114698] FAST PATH: Found 0 matches
+[2026-02-14 17:50:46.696603] AI PATH: After Categoria: 23
+[2026-02-14 17:52:37.189239] QUERY RECIBIDA (Original): Tablets?
+[2026-02-14 17:52:37.189551] Keywords válidas final: ['tablets?']
+[2026-02-14 17:52:37.191890] FAST PATH: Found 0 matches
+[2026-02-14 17:52:37.866824] AI PATH: After Categoria: 2
+[2026-02-14 18:02:43.155935] QUERY RECIBIDA (Original): tabletas
+[2026-02-14 18:02:43.156231] Keywords válidas final: ['tablet']
+[2026-02-14 18:02:43.158934] FAST PATH: Found 2 matches
+[2026-02-14 18:02:43.159167] FAST PATH: EXECUTED
+[2026-02-14 18:09:10.363057] QUERY RECIBIDA (Original): tabletas
+[2026-02-14 18:09:10.363391] Keywords válidas final: ['tab']
+[2026-02-14 18:09:10.366301] FAST PATH: Found 16 matches
+[2026-02-14 18:09:10.366564] FAST PATH: EXECUTED
+[2026-02-14 18:09:27.575056] QUERY RECIBIDA (Original): ipads
+[2026-02-14 18:09:27.575345] Keywords válidas final: ['ipad']
+[2026-02-14 18:09:27.579450] FAST PATH: Found 0 matches
+[2026-02-14 18:09:29.760187] AI PATH: After Categoria: 16
+[2026-02-14 18:09:29.761273] AI PATH: After Marca: 0
+[2026-02-14 18:09:29.761657] AI PATH empty for intent {'categoria': 'Tablet', 'marca': 'Apple', 'modelo': 'ipad', 'intencion_general': 'Buscar iPad'}, falling back to keywords ['ipad']
+[2026-02-14 18:09:29.763954] Fallback results: 0
+[2026-02-14 18:11:26.924337] QUERY RECIBIDA (Original): que Tablets tenemos? 
+[2026-02-14 18:11:26.924846] Keywords válidas final: ['que', 'tab', 'tenemos?']
+[2026-02-14 18:11:26.927485] FAST PATH: Found 0 matches
+[2026-02-14 18:11:28.809281] AI PATH: After Categoria: 16
+[2026-02-14 18:13:45.317329] QUERY RECIBIDA (Original): tenemos hp ryzen 3? 
+[2026-02-14 18:13:45.317738] Keywords válidas final: ['tenemo', 'hp', 'ryzen', '3?']
+[2026-02-14 18:13:45.320493] FAST PATH: Found 0 matches
+[2026-02-14 18:13:46.078777] AI PATH: After Categoria: 23
+[2026-02-14 18:13:46.079434] AI PATH: After Marca: 7
+[2026-02-14 18:13:46.080250] AI PATH: After Modelo (['ryzen']): 0
+[2026-02-14 18:13:46.080507] AI PATH empty for intent {'categoria': 'Laptop', 'marca': 'HP', 'modelo': 'Ryzen 3', 'intencion_general': 'Buscar laptop HP con procesador Ryzen 3'}, falling back to keywords ['tenemo', 'hp', 'ryzen', '3?']
+[2026-02-14 18:13:46.082105] Fallback results: 0
+[2026-02-14 18:13:59.982714] QUERY RECIBIDA (Original): tenemos  Hp Ryzen 5  16ram ?
+[2026-02-14 18:13:59.983176] Keywords válidas final: ['tenemo', 'hp', 'ryzen', '5', '16ram']
+[2026-02-14 18:13:59.986370] FAST PATH: Found 0 matches
+[2026-02-14 18:14:00.911385] AI PATH: After Categoria: 23
+[2026-02-14 18:14:00.912103] AI PATH: After Marca: 7
+[2026-02-14 18:14:00.912932] AI PATH: After Modelo (['ryzen', '16ram']): 0
+[2026-02-14 18:14:00.913200] AI PATH empty for intent {'categoria': 'Laptop', 'marca': 'HP', 'modelo': 'Ryzen 5 16ram', 'intencion_general': 'Buscar laptop HP con Ryzen 5 y 16 GB de RAM'}, falling back to keywords ['tenemo', 'hp', 'ryzen', '5', '16ram']
+[2026-02-14 18:14:00.915106] Fallback results: 0
+[2026-02-14 18:15:56.718314] QUERY RECIBIDA (Original): Hp Ryzen 3
+[2026-02-14 18:15:56.718683] Keywords válidas final: ['hp', 'ryzen', '3']
+[2026-02-14 18:15:56.721728] FAST PATH: Found 0 matches
+[2026-02-14 18:15:58.808416] AI PATH: After Categoria: 23
+[2026-02-14 18:15:58.809251] AI PATH: After Marca: 7
+[2026-02-14 18:15:58.810160] AI PATH: After Modelo (['ryzen']): 0
+[2026-02-14 18:15:58.810416] AI PATH empty for intent {'categoria': 'Laptop', 'marca': 'HP', 'modelo': 'Ryzen 3', 'intencion_general': 'Busca un laptop HP con procesador Ryzen 3'}, falling back to keywords ['hp', 'ryzen', '3']
+[2026-02-14 18:15:58.811855] Fallback results: 0
+[2026-02-14 18:18:29.835325] QUERY RECIBIDA (Original): Hp Ryzen 3
+[2026-02-14 18:18:29.835889] Keywords válidas final: ['hp', 'ryzen', '3']
+[2026-02-14 18:18:29.840190] FAST PATH: Found 1 matches
+[2026-02-14 18:18:29.840483] FAST PATH: EXECUTED
+[2026-02-14 18:18:45.346933] QUERY RECIBIDA (Original): Hp Ryzen 5 16ram
+[2026-02-14 18:18:45.347250] Keywords válidas final: ['hp', 'ryzen', '5', '16g']
+[2026-02-14 18:18:45.349861] FAST PATH: Found 0 matches
+[2026-02-14 18:18:47.431334] AI PATH: After Categoria: 23
+[2026-02-14 18:18:47.432078] AI PATH: After Marca: 7
+[2026-02-14 18:18:47.433220] AI PATH: After Modelo (['ryzen', '16ram']): 0
+[2026-02-14 18:18:47.433530] AI PATH empty for intent {'categoria': 'Laptop', 'marca': 'HP', 'modelo': 'Ryzen 5 16ram', 'intencion_general': 'Busca un laptop HP con procesador Ryzen 5 y 16 GB de RAM'}, falling back to keywords ['hp', 'ryzen', '5', '16g']
+[2026-02-14 18:18:47.436488] Fallback results: 139
+[2026-02-14 18:19:26.998256] QUERY RECIBIDA (Original): Hp Ryzen 3
+[2026-02-14 18:19:26.998629] Keywords válidas final: ['hp', 'ryzen', '3']
+[2026-02-14 18:19:27.005638] FAST PATH: Found 1 matches
+[2026-02-14 18:19:27.006032] FAST PATH: EXECUTED
+[2026-02-14 18:21:48.217971] QUERY RECIBIDA (Original): tvs de samsung tenemos?
+[2026-02-14 18:21:48.218488] Keywords válidas final: ['tv', 'samsung', 'tenemos?']
+[2026-02-14 18:21:48.221685] FAST PATH: Found 0 matches
+[2026-02-14 18:21:50.469738] AI PATH: After Categoria: 54
+[2026-02-14 18:21:50.470588] AI PATH: After Marca: 1
+[2026-02-14 18:22:01.334015] QUERY RECIBIDA (Original): tenemos hp ryzen 3?
+[2026-02-14 18:22:01.334485] Keywords válidas final: ['tenemo', 'hp', 'ryzen', '3?']
+[2026-02-14 18:22:01.337946] FAST PATH: Found 0 matches
+[2026-02-14 18:22:02.110159] AI PATH: After Categoria: 23
+[2026-02-14 18:22:02.110904] AI PATH: After Marca: 7
+[2026-02-14 18:22:02.111764] AI PATH: After Modelo (['ryzen']): 7
+[2026-02-14 18:22:16.365712] QUERY RECIBIDA (Original): tenemos computador lenovo?
+[2026-02-14 18:22:16.366110] Keywords válidas final: ['tenemo', 'computador', 'lenovo?']
+[2026-02-14 18:22:16.369429] FAST PATH: Found 0 matches
+[2026-02-14 18:22:16.982822] AI PATH: After Categoria: 23
+[2026-02-14 18:22:16.983688] AI PATH: After Marca: 6
+[2026-02-14 18:22:43.687784] QUERY RECIBIDA (Original): tenemos televisores samsung de 50 pulgadas?
+[2026-02-14 18:22:43.688173] Keywords válidas final: ['tenemo', 'televisore', 'samsung', '50"?']
+[2026-02-14 18:22:43.691731] FAST PATH: Found 0 matches
+[2026-02-14 18:22:44.450088] AI PATH: After Categoria: 54
+[2026-02-14 18:22:44.451166] AI PATH: After Marca: 1
+[2026-02-14 18:22:44.452224] AI PATH: After Modelo (['50"']): 0
+[2026-02-14 18:22:44.452549] AI PATH empty for intent {'categoria': 'TV', 'marca': 'Samsung', 'modelo': '50"', 'intencion_general': 'Televisores Samsung de 50 pulgadas'}, falling back to keywords ['tenemo', 'televisore', 'samsung', '50"?']
+[2026-02-14 18:22:44.455453] Fallback results: 0
+[2026-02-14 18:22:54.726520] QUERY RECIBIDA (Original): TV 50
+[2026-02-14 18:22:54.726963] Keywords válidas final: ['tv', '50']
+[2026-02-14 18:22:54.731139] FAST PATH: Found 16 matches
+[2026-02-14 18:22:54.731541] FAST PATH: EXECUTED
+[2026-02-14 18:24:17.700193] QUERY RECIBIDA (Original): tenemos patinetas?
+[2026-02-14 18:24:17.700504] Keywords válidas final: ['tenemo', 'patinetas?']
+[2026-02-14 18:24:17.702728] FAST PATH: Found 0 matches
+[2026-02-14 18:24:18.381167] AI PATH: After Categoria: 7
+[2026-02-14 18:27:35.421531] QUERY RECIBIDA (Original): TV 50
+[2026-02-14 18:27:35.421901] Keywords válidas final: ['tv', '50']
+[2026-02-14 18:27:35.425872] FAST PATH: Found 16 matches
+[2026-02-14 18:27:35.426222] FAST PATH: EXECUTED
+[2026-02-14 18:28:53.087744] QUERY RECIBIDA (Original): TV Samsung 50
+[2026-02-14 18:28:53.088080] Keywords válidas final: ['tv', 'samsung', '50']
+[2026-02-14 18:28:53.091164] FAST PATH: Found 0 matches
+[2026-02-14 18:28:55.035482] AI PATH: After Categoria: 54
+[2026-02-14 18:28:55.036314] AI PATH: After Marca: 24
+[2026-02-14 18:28:55.037304] AI PATH: After Modelo (['50"']): 6
+[2026-02-14 18:31:42.928761] QUERY RECIBIDA (Original): TV 50
+[2026-02-14 18:31:42.929071] Keywords válidas final: ['tv', '50']
+[2026-02-14 18:31:42.931749] FAST PATH: Found 16 matches
+[2026-02-14 18:31:42.931986] FAST PATH: EXECUTED
+[2026-02-14 18:34:16.780546] QUERY RECIBIDA (Original): TV 50
+[2026-02-14 18:34:16.781140] Keywords válidas final: ['tv', '50']
+[2026-02-14 18:34:16.785602] FAST PATH: Found 16 matches
+[2026-02-14 18:34:16.786120] FAST PATH: EXECUTED
+[2026-02-14 18:39:30.725072] QUERY RECIBIDA (Original): tv 50 
+[2026-02-14 18:39:30.725518] Keywords válidas final: ['tv', '50']
+[2026-02-14 18:39:30.728137] FAST PATH: Found 16 matches
+[2026-02-14 18:39:30.728409] FAST PATH: EXECUTED
+[2026-02-14 18:42:46.482940] QUERY RECIBIDA (Original): TV 50
+[2026-02-14 18:42:46.483307] Keywords válidas final: ['tv', '50']
+[2026-02-14 18:42:46.485974] FAST PATH: Found 16 matches
+[2026-02-14 18:42:46.486240] FAST PATH: EXECUTED
+[2026-02-14 18:53:21.707978] QUERY RECIBIDA (Original): tv de 50
+[2026-02-14 18:53:21.708414] Keywords válidas final: ['tv', '50']
+[2026-02-14 18:53:21.710938] FAST PATH: Found 16 matches
+[2026-02-14 18:53:21.711204] FAST PATH: EXECUTED
+[2026-02-14 18:56:52.202662] QUERY RECIBIDA (Original): TV Samsung 50Q6NTV Samsung 50Q6N
+[2026-02-14 18:56:52.203142] Keywords válidas final: ['tv', 'samsung', '50q6ntv', 'samsung', '50q6n']
+[2026-02-14 18:56:52.207039] FAST PATH: Found 0 matches
+[2026-02-14 18:56:52.875641] AI PATH: After Categoria: 54
+[2026-02-14 18:56:52.876408] AI PATH: After Marca: 24
+[2026-02-14 18:56:52.877306] AI PATH: After Modelo (['50"']): 6
+[2026-02-14 18:57:08.726372] QUERY RECIBIDA (Original): TV Samsung 50Q6N
+[2026-02-14 18:57:08.726783] Keywords válidas final: ['tv', 'samsung', '50q6n']
+[2026-02-14 18:57:08.729620] FAST PATH: Found 0 matches
+[2026-02-14 18:57:09.385691] AI PATH: After Categoria: 54
+[2026-02-14 18:57:09.386385] AI PATH: After Marca: 24
+[2026-02-14 18:57:09.387345] AI PATH: After Modelo (['50"']): 6
+[2026-02-14 18:57:25.221856] QUERY RECIBIDA (Original): TV 50Q6N
+[2026-02-14 18:57:25.222211] Keywords válidas final: ['tv', '50q6n']
+[2026-02-14 18:57:25.224731] FAST PATH: Found 5 matches
+[2026-02-14 18:57:25.225014] FAST PATH: EXECUTED
+[2026-02-14 18:57:43.510139] QUERY RECIBIDA (Original): Samsung Home Theater
+[2026-02-14 18:57:43.510446] Keywords válidas final: ['samsung', 'home', 'theater']
+[2026-02-14 18:57:43.512776] FAST PATH: Found 0 matches
+[2026-02-14 18:57:44.219988] AI PATH: After Categoria: 0
+[2026-02-14 18:57:44.220314] AI PATH empty for intent {'categoria': 'Parlante', 'marca': 'Samsung', 'modelo': 'Home Theater', 'intencion_general': 'Sistema de sonido para hogar de Samsung'}, falling back to keywords ['samsung', 'home', 'theater']
+[2026-02-14 18:57:44.222627] Fallback results: 0
+[2026-02-14 18:57:53.961245] QUERY RECIBIDA (Original): tv 50
+[2026-02-14 18:57:53.961523] Keywords válidas final: ['tv', '50']
+[2026-02-14 18:57:53.963975] FAST PATH: Found 16 matches
+[2026-02-14 18:57:53.964226] FAST PATH: EXECUTED
+[2026-02-14 19:02:10.611116] QUERY RECIBIDA (Original): TV U8200
+[2026-02-14 19:02:10.611466] Keywords válidas final: ['tv', 'u8200']
+[2026-02-14 19:02:10.614741] FAST PATH: Found 13 matches
+[2026-02-14 19:02:10.615103] FAST PATH: EXECUTED
+[2026-02-14 19:05:41.650736] QUERY RECIBIDA (Original): Tv 50
+[2026-02-14 19:05:41.651120] Keywords válidas final: ['tv', '50']
+[2026-02-14 19:05:41.654359] FAST PATH: Found 16 matches
+[2026-02-14 19:05:41.654655] FAST PATH: EXECUTED
+[2026-02-14 19:07:19.884020] QUERY RECIBIDA (Original): tv 50
+[2026-02-14 19:07:19.884394] Keywords válidas final: ['tv', '50']
+[2026-02-14 19:07:19.888406] FAST PATH: Found 16 matches
+[2026-02-14 19:07:19.888779] FAST PATH: EXECUTED
+[2026-02-14 19:09:09.621272] QUERY RECIBIDA (Original): relojes
+[2026-02-14 19:09:09.621651] Keywords válidas final: ['reloje']
+[2026-02-14 19:09:09.625076] FAST PATH: Found 0 matches
+[2026-02-14 19:09:10.307019] AI PATH: After Categoria: 63
+[2026-02-15 17:20:36.597135] QUERY RECIBIDA (Original): Patinetas
+[2026-02-15 17:20:36.597999] Keywords válidas final: ['patineta']
+[2026-02-15 17:20:36.603234] FAST PATH: Found 4 matches
+[2026-02-15 17:20:36.603588] FAST PATH: EXECUTED
+[2026-02-15 17:23:28.581352] QUERY RECIBIDA (Original): tv 50
+[2026-02-15 17:23:28.581682] Keywords válidas final: ['tv', '50']
+[2026-02-15 17:23:28.584103] FAST PATH: Found 16 matches
+[2026-02-15 17:23:28.584383] FAST PATH: EXECUTED
+[2026-02-15 17:28:40.070389] QUERY RECIBIDA (Original): TV U8200
+[2026-02-15 17:28:40.070875] Keywords válidas final: ['tv', 'u8200']
+[2026-02-15 17:28:40.074274] FAST PATH: Found 13 matches
+[2026-02-15 17:28:40.074852] FAST PATH: EXECUTED
+[2026-02-15 17:29:18.879185] QUERY RECIBIDA (Original): TV Samsung Home Theater
+[2026-02-15 17:29:18.879525] Keywords válidas final: ['tv', 'samsung', 'home', 'theater']
+[2026-02-15 17:29:18.881840] FAST PATH: Found 0 matches
+[2026-02-15 17:29:23.288225] AI PATH: After Categoria: 54
+[2026-02-15 17:29:23.289182] AI PATH: After Marca: 24
+[2026-02-15 17:29:23.290242] AI PATH: After Modelo (['home', 'theater']): 2
+[2026-02-15 17:30:18.866213] QUERY RECIBIDA (Original): patinetas 
+[2026-02-15 17:30:18.866654] Keywords válidas final: ['patineta']
+[2026-02-15 17:30:18.869056] FAST PATH: Found 4 matches
+[2026-02-15 17:30:18.869319] FAST PATH: EXECUTED
+[2026-02-15 17:34:41.519003] QUERY RECIBIDA (Original): patinetas
+[2026-02-15 17:34:41.519499] Keywords válidas final: ['patineta']
+[2026-02-15 17:34:41.525111] FAST PATH: Found 4 matches
+[2026-02-15 17:34:41.525601] FAST PATH: EXECUTED
+[2026-02-15 17:37:43.741907] QUERY RECIBIDA (Original): patinetas
+[2026-02-15 17:37:43.742422] Keywords válidas final: ['patineta']
+[2026-02-15 17:37:43.748297] FAST PATH: Found 4 matches
+[2026-02-15 17:37:43.748818] FAST PATH: EXECUTED
+[2026-02-15 17:38:36.408038] QUERY RECIBIDA (Original): patineta 6
+[2026-02-15 17:38:36.408508] Keywords válidas final: ['patineta', '6']
+[2026-02-15 17:38:36.411325] FAST PATH: Found 2 matches
+[2026-02-15 17:38:36.411647] FAST PATH: EXECUTED
+[2026-02-15 17:39:23.885468] QUERY RECIBIDA (Original): patinetas
+[2026-02-15 17:39:23.886132] Keywords válidas final: ['patineta']
+[2026-02-15 17:39:23.889387] FAST PATH: Found 4 matches
+[2026-02-15 17:39:23.889732] FAST PATH: EXECUTED
+[2026-02-15 17:49:15.343998] QUERY RECIBIDA (Original): dame informacion de las patinetas
+[2026-02-15 17:49:15.344352] Keywords válidas final: ['dame', 'informacion', 'ptn']
+[2026-02-15 17:49:15.346815] FAST PATH: Found 0 matches
+[2026-02-15 17:49:19.334675] AI PATH: After Categoria: 7
+[2026-02-15 17:50:14.972522] QUERY RECIBIDA (Original): dame informacion de las patinetas
+[2026-02-15 17:50:14.972979] Keywords válidas final: ['dame', 'informacion', 'ptn']
+[2026-02-15 17:50:14.975906] FAST PATH: Found 0 matches
+[2026-02-15 17:50:18.298293] AI PATH: After Categoria: 7
+[2026-02-15 17:59:44.311273] QUERY RECIBIDA (Original): patinetas
+[2026-02-15 17:59:44.311650] Keywords válidas final: ['ptn']
+[2026-02-15 17:59:44.315523] FAST PATH: Found 7 matches
+[2026-02-15 17:59:44.315784] FAST PATH: EXECUTED
+[2026-02-15 18:24:39.193855] QUERY RECIBIDA (Original): tv de 65
+[2026-02-15 18:24:39.194230] Keywords válidas final: ['tv', '65']
+[2026-02-15 18:24:39.197044] FAST PATH: Found 7 matches
+[2026-02-15 18:24:39.197356] FAST PATH: EXECUTED
+[2026-02-15 18:25:29.783603] QUERY RECIBIDA (Original): tv de 43
+[2026-02-15 18:25:29.783989] Keywords válidas final: ['tv', '43']
+[2026-02-15 18:25:29.786495] FAST PATH: Found 10 matches
+[2026-02-15 18:25:29.786755] FAST PATH: EXECUTED
+[2026-02-15 18:25:55.244461] QUERY RECIBIDA (Original): tv de 60 
+[2026-02-15 18:25:55.244785] Keywords válidas final: ['tv', '60']
+[2026-02-15 18:25:55.247140] FAST PATH: Found 4 matches
+[2026-02-15 18:25:55.247414] FAST PATH: EXECUTED
+[2026-02-15 18:38:03.872751] QUERY RECIBIDA (Original): televisores de 65 pulgadas
+[2026-02-15 18:38:03.873195] Keywords válidas final: ['televisore', '65"']
+[2026-02-15 18:38:03.876097] FAST PATH: Found 0 matches
+[2026-02-15 18:38:10.301388] AI PATH: After Categoria: 54
+[2026-02-15 18:38:10.302869] AI PATH: After Modelo (['65"']): 3
+[2026-02-15 19:46:16.474519] QUERY RECIBIDA (Original): tv 65
+[2026-02-15 19:46:16.475091] Keywords válidas final: ['tv', '65']
+[2026-02-15 19:46:16.480485] FAST PATH: Found 7 matches
+[2026-02-15 19:46:16.480999] FAST PATH: EXECUTED
+[2026-02-15 19:46:56.523437] QUERY RECIBIDA (Original): tv 60 
+[2026-02-15 19:46:56.524005] Keywords válidas final: ['tv', '60']
+[2026-02-15 19:46:56.528531] FAST PATH: Found 4 matches
+[2026-02-15 19:46:56.529040] FAST PATH: EXECUTED
+[2026-02-15 19:50:28.463732] QUERY RECIBIDA (Original): tv 65
+[2026-02-15 19:50:28.464214] Keywords válidas final: ['tv', '65"']
+[2026-02-15 19:50:28.467023] FAST PATH: Found 3 matches
+[2026-02-15 19:50:28.467321] FAST PATH: EXECUTED
+[2026-02-15 19:50:56.313433] QUERY RECIBIDA (Original): tv 60
+[2026-02-15 19:50:56.313814] Keywords válidas final: ['tv', '60"']
+[2026-02-15 19:50:56.317238] FAST PATH: Found 0 matches
+[2026-02-15 19:50:59.437664] AI PATH: After Categoria: 54
+[2026-02-15 19:50:59.438816] AI PATH: After Modelo (['60"']): 0
+[2026-02-15 19:50:59.439075] AI PATH empty for intent {'categoria': 'TV', 'marca': None, 'modelo': '60"', 'intencion_general': 'Búsqueda de televisor de 60 pulgadas'}, falling back to keywords ['tv', '60"']
+[2026-02-15 19:50:59.440705] Fallback results: 0
+[2026-02-15 19:53:36.289890] QUERY RECIBIDA (Original): tv 60
+[2026-02-15 19:53:36.290411] Keywords válidas final: ['tv', '60"']
+[2026-02-15 19:53:36.294631] FAST PATH: Found 0 matches
+[2026-02-15 19:53:38.513773] AI PATH: After Categoria: 54
+[2026-02-15 19:53:38.515869] AI PATH: After Modelo (['60"']): 0
+[2026-02-15 19:53:38.516245] AI PATH empty for intent {'categoria': 'TV', 'marca': None, 'modelo': '60"', 'intencion_general': 'TV de 60 pulgadas'}, falling back to keywords ['tv', '60"']
+[2026-02-15 19:53:38.518926] Fallback results: 0
+[2026-02-15 19:53:43.806156] QUERY RECIBIDA (Original): tv 65
+[2026-02-15 19:53:43.806940] Keywords válidas final: ['tv', '65"']
+[2026-02-15 19:53:43.810965] FAST PATH: Found 3 matches
+[2026-02-15 19:53:43.811358] FAST PATH: EXECUTED
+[2026-02-15 19:53:54.770558] QUERY RECIBIDA (Original): patinetas
+[2026-02-15 19:53:54.771034] Keywords válidas final: ['ptn']
+[2026-02-15 19:53:54.776035] FAST PATH: Found 7 matches
+[2026-02-15 19:53:54.776479] FAST PATH: EXECUTED
+[2026-02-15 19:54:08.622041] QUERY RECIBIDA (Original): tablets
+[2026-02-15 19:54:08.622513] Keywords válidas final: ['tablet']
+[2026-02-15 19:54:08.625228] FAST PATH: Found 2 matches
+[2026-02-15 19:54:08.625556] FAST PATH: EXECUTED
+[2026-02-15 19:54:15.017658] QUERY RECIBIDA (Original): tabletas
+[2026-02-15 19:54:15.018105] Keywords válidas final: ['tab']
+[2026-02-15 19:54:15.020889] FAST PATH: Found 16 matches
+[2026-02-15 19:54:15.021219] FAST PATH: EXECUTED
+[2026-02-15 19:54:28.158845] QUERY RECIBIDA (Original): laptops
+[2026-02-15 19:54:28.159278] Keywords válidas final: ['laptop']
+[2026-02-15 19:54:28.162420] FAST PATH: Found 0 matches
+[2026-02-15 19:54:28.957310] AI PATH: After Categoria: 23
+[2026-02-15 20:07:58.763994] QUERY RECIBIDA (Original): tablets
+[2026-02-15 20:07:58.764352] Keywords válidas final: ['tab']
+[2026-02-15 20:07:58.766839] FAST PATH: Found 16 matches
+[2026-02-15 20:07:58.767098] FAST PATH: EXECUTED
+[2026-02-15 20:09:47.995736] QUERY RECIBIDA (Original): tablets
+[2026-02-15 20:09:47.996278] Keywords válidas final: ['tab']
+[2026-02-15 20:09:47.999538] FAST PATH: Found 16 matches
+[2026-02-15 20:09:47.999887] FAST PATH: EXECUTED
+[2026-02-15 20:18:47.658644] QUERY RECIBIDA (Original): laptops
+[2026-02-15 20:18:47.659120] Keywords válidas final: ['laptop']
+[2026-02-15 20:18:47.663110] FAST PATH: Found 0 matches
+[2026-02-15 20:18:48.438955] AI PATH: After Categoria: 21
+[2026-02-15 20:27:22.539391] QUERY RECIBIDA (Original): laptops
+[2026-02-15 20:27:22.539829] Keywords válidas final: ['laptop']
+[2026-02-15 20:27:22.542799] FAST PATH: Found 0 matches
+[2026-02-15 20:27:25.704607] AI PATH: After Categoria: 18
+[2026-02-15 20:27:25.705725] After deduplication: 15 unique materials
+[2026-02-15 20:28:07.568386] QUERY RECIBIDA (Original): Laptops
+[2026-02-15 20:28:07.568815] Keywords válidas final: ['laptop']
+[2026-02-15 20:28:07.571718] FAST PATH: Found 0 matches
+[2026-02-15 20:28:09.611627] AI PATH: After Categoria: 18
+[2026-02-15 20:28:09.613108] After deduplication: 15 unique materials
+[2026-02-15 20:39:51.989352] QUERY RECIBIDA (Original): laptops
+[2026-02-15 20:39:51.989822] Keywords válidas final: ['laptop']
+[2026-02-15 20:39:51.992959] FAST PATH: Found 0 matches
+[2026-02-15 20:39:53.605358] AI PATH: After Categoria: 18
+[2026-02-15 20:39:53.606638] After deduplication: 15 unique materials
+[2026-02-15 20:46:36.907186] QUERY RECIBIDA (Original): televisores
+[2026-02-15 20:46:36.907623] Keywords válidas final: ['tv']
+[2026-02-15 20:46:36.911121] FAST PATH: Found 54 matches
+[2026-02-15 20:46:36.911457] FAST PATH: EXECUTED
+[2026-02-15 20:46:36.912760] After deduplication: 36 unique materials
+[2026-02-15 20:49:42.398052] QUERY RECIBIDA (Original): laptops
+[2026-02-15 20:49:42.398489] Keywords válidas final: ['laptop']
+[2026-02-15 20:49:42.401673] FAST PATH: Found 0 matches
+[2026-02-15 20:49:44.343513] AI PATH: After Categoria: 18
+[2026-02-15 20:49:44.344849] After deduplication: 15 unique materials
+[2026-02-15 21:07:29.562957] QUERY RECIBIDA (Original): tv 50
+[2026-02-15 21:07:29.563341] Keywords válidas final: ['tv', '50"']
+[2026-02-15 21:07:29.566172] FAST PATH: Found 15 matches
+[2026-02-15 21:07:29.566481] FAST PATH: EXECUTED
+[2026-02-15 21:07:29.568019] After deduplication: 9 unique materials
+[2026-02-15 21:10:03.384792] QUERY RECIBIDA (Original): tablets
+[2026-02-15 21:10:03.385138] Keywords válidas final: ['tab']
+[2026-02-15 21:10:03.387385] FAST PATH: Found 16 matches
+[2026-02-15 21:10:03.387635] FAST PATH: EXECUTED
+[2026-02-15 21:10:03.388597] After deduplication: 14 unique materials
+[2026-02-15 21:25:38.743639] QUERY RECIBIDA (Original): tablets
+[2026-02-15 21:25:38.744091] Keywords válidas final: ['tab']
+[2026-02-15 21:25:38.746980] FAST PATH: Found 16 matches
+[2026-02-15 21:25:38.747273] FAST PATH: EXECUTED
+[2026-02-15 21:25:38.748787] After deduplication: 14 unique materials
+[2026-02-15 21:26:00.118201] QUERY RECIBIDA (Original): tv 50
+[2026-02-15 21:26:00.118653] Keywords válidas final: ['tv', '50"']
+[2026-02-15 21:26:00.122002] FAST PATH: Found 15 matches
+[2026-02-15 21:26:00.122331] FAST PATH: EXECUTED
+[2026-02-15 21:26:00.123937] After deduplication: 9 unique materials
+[2026-02-15 21:26:34.386731] QUERY RECIBIDA (Original): tv 50
+[2026-02-15 21:26:34.387094] Keywords válidas final: ['tv', '50"']
+[2026-02-15 21:26:34.389697] FAST PATH: Found 15 matches
+[2026-02-15 21:26:34.389989] FAST PATH: EXECUTED
+[2026-02-15 21:26:34.391292] After deduplication: 9 unique materials
+[2026-02-15 21:35:42.040603] QUERY RECIBIDA (Original): Samsung Galaxy S10Lite
+[2026-02-15 21:35:42.041032] Keywords válidas final: ['samsung', 'galaxy', 's10lite']
+[2026-02-15 21:35:42.046184] FAST PATH: Found 0 matches
+[2026-02-15 21:35:44.052418] AI PATH: After Categoria: 0
+[2026-02-15 21:35:44.052790] AI PATH empty for intent {'categoria': 'Celular', 'marca': 'Samsung', 'modelo': 'Galaxy S10 Lite', 'intencion_general': 'Buscar teléfono Samsung Galaxy S10 Lite'}, falling back to keywords ['samsung', 'galaxy', 's10lite']
+[2026-02-15 21:35:44.054745] Fallback results: 0
+[2026-02-15 21:35:58.582627] QUERY RECIBIDA (Original): TV 50U8200
+[2026-02-15 21:35:58.583413] Keywords válidas final: ['tv', '50u8200']
+[2026-02-15 21:35:58.586525] FAST PATH: Found 2 matches
+[2026-02-15 21:35:58.586872] FAST PATH: EXECUTED
+[2026-02-15 21:35:58.588159] After deduplication: 2 unique materials
+[2026-02-15 21:36:33.784377] QUERY RECIBIDA (Original): S10Lite
+[2026-02-15 21:36:33.784864] Keywords válidas final: ['s10lite']
+[2026-02-15 21:36:33.787535] FAST PATH: Found 2 matches
+[2026-02-15 21:36:33.787895] FAST PATH: EXECUTED
+[2026-02-15 21:36:33.788973] After deduplication: 2 unique materials
+[2026-02-15 21:37:17.872303] QUERY RECIBIDA (Original): Samsung Galaxy S10Lite
+[2026-02-15 21:37:17.872649] Keywords válidas final: ['samsung', 'galaxy', 's10lite']
+[2026-02-15 21:37:17.874908] FAST PATH: Found 0 matches
+[2026-02-15 21:37:18.576336] AI PATH: After Categoria: 0
+[2026-02-15 21:37:18.576957] AI PATH empty for intent {'categoria': 'Celular', 'marca': 'Samsung', 'modelo': 'Galaxy S10 Lite', 'intencion_general': 'Buscar un teléfono Samsung Galaxy S10 Lite'}, falling back to keywords ['samsung', 'galaxy', 's10lite']
+[2026-02-15 21:37:18.579945] Fallback results: 0
+[2026-02-15 21:37:40.196266] QUERY RECIBIDA (Original): U8200
+[2026-02-15 21:37:40.196812] Keywords válidas final: ['u8200']
+[2026-02-15 21:37:40.200924] FAST PATH: Found 13 matches
+[2026-02-15 21:37:40.201506] FAST PATH: EXECUTED
+[2026-02-15 21:37:40.203331] After deduplication: 9 unique materials
+[2026-02-15 21:39:28.913132] QUERY RECIBIDA (Original): S10Lite
+[2026-02-15 21:39:28.913715] Keywords válidas final: ['s10lite']
+[2026-02-15 21:39:28.916193] FAST PATH: Found 2 matches
+[2026-02-15 21:39:28.916533] FAST PATH: EXECUTED
+[2026-02-15 21:39:28.917642] After deduplication: 2 unique materials
+[2026-02-15 21:40:00.065674] QUERY RECIBIDA (Original): U8200
+[2026-02-15 21:40:00.066191] Keywords válidas final: ['u8200']
+[2026-02-15 21:40:00.070569] FAST PATH: Found 13 matches
+[2026-02-15 21:40:00.071072] FAST PATH: EXECUTED
+[2026-02-15 21:40:00.072937] After deduplication: 9 unique materials
+[2026-02-15 21:41:38.223359] QUERY RECIBIDA (Original): tv 50
+[2026-02-15 21:41:38.223737] Keywords válidas final: ['tv', '50"']
+[2026-02-15 21:41:38.225938] FAST PATH: Found 15 matches
+[2026-02-15 21:41:38.226206] FAST PATH: EXECUTED
+[2026-02-15 21:41:38.227279] After deduplication: 9 unique materials
+[2026-02-15 21:48:08.694609] QUERY RECIBIDA (Original): UN50U8200
+[2026-02-15 21:48:08.695307] Keywords válidas final: ['un50u8200']
+[2026-02-15 21:48:08.698514] FAST PATH: Found 2 matches
+[2026-02-15 21:48:08.698877] FAST PATH: EXECUTED
+[2026-02-15 21:48:08.700341] After deduplication: 2 unique materials
+[2026-02-15 21:48:18.093182] QUERY RECIBIDA (Original): PORT B1503CVA
+[2026-02-15 21:48:18.093570] Keywords válidas final: ['port', 'b1503cva']
+[2026-02-15 21:48:18.096130] FAST PATH: Found 1 matches
+[2026-02-15 21:48:18.096462] FAST PATH: EXECUTED
+[2026-02-15 21:48:18.097520] After deduplication: 1 unique materials
+[2026-02-15 21:48:44.357527] QUERY RECIBIDA (Original): UN50U8200
+[2026-02-15 21:48:44.358029] Keywords válidas final: ['un50u8200']
+[2026-02-15 21:48:44.362003] FAST PATH: Found 2 matches
+[2026-02-15 21:48:44.362420] FAST PATH: EXECUTED
+[2026-02-15 21:48:44.363961] After deduplication: 2 unique materials
+[2026-02-15 21:50:36.329915] QUERY RECIBIDA (Original): tv 50
+[2026-02-15 21:50:36.330312] Keywords válidas final: ['tv', '50"']
+[2026-02-15 21:50:36.332465] FAST PATH: Found 15 matches
+[2026-02-15 21:50:36.332723] FAST PATH: EXECUTED
+[2026-02-15 21:50:36.333805] After deduplication: 9 unique materials
+[2026-02-15 21:52:31.519699] QUERY RECIBIDA (Original): tablets
+[2026-02-15 21:52:31.520046] Keywords válidas final: ['tab']
+[2026-02-15 21:52:31.522318] FAST PATH: Found 16 matches
+[2026-02-15 21:52:31.522610] FAST PATH: EXECUTED
+[2026-02-15 21:52:31.523872] After deduplication: 14 unique materials
+[2026-02-15 21:52:40.731620] QUERY RECIBIDA (Original): relojes
+[2026-02-15 21:52:40.732039] Keywords válidas final: ['reloje']
+[2026-02-15 21:52:40.734398] FAST PATH: Found 0 matches
+[2026-02-15 21:52:41.382100] AI PATH: After Categoria: 63
+[2026-02-15 21:52:41.383505] After deduplication: 61 unique materials

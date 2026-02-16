@@ -1,0 +1,109 @@
+[
+    {
+        "sku": "B8PH7LA",
+        "model": "HP 255 G10 Notebook PC (R3)",
+        "specs": "AMD Ryzen 3 7330U, 16GB RAM, 512GB SSD, 15.6\" HD, Windows 11 Home",
+        "image": "Ficha (1).jpeg"
+    },
+    {
+        "sku": "B8PH9LA",
+        "model": "HP 255 G10 Notebook PC (R5)",
+        "specs": "AMD Ryzen 5 7530U, 16GB RAM, 512GB SSD, 15.6\" HD, Windows 11 Home",
+        "image": "Ficha (2).jpeg"
+    },
+    {
+        "sku": "ASUS EXPERTBOOK B1",
+        "model": "Asus Expertbook B1 (B1502)",
+        "specs": "Intel Core i3-1315U, Pantalla 15.6\" NanoEdge, Teclado resistente, Grado Militar MIL-STD 810H, Windows 11"
+    },
+    {
+        "sku": "HUAWEI WATCH FIT 4",
+        "model": "Huawei Watch Fit 4",
+        "specs": "Pantalla AMOLED 1.82\", Batería hasta 10 días, GPS, Modos deportivos"
+    },
+    {
+        "sku": "HUAWEI WATCH FIT 4 PRO",
+        "model": "Huawei Watch Fit 4 Pro",
+        "specs": "Cuerpo Titanio, Cristal Zafiro, ECG, AMOLED 1.82\" 3000 nits, Buceo 40m"
+    },
+    {
+        "sku": "HUAWEI WATCH GT 6 PRO",
+        "model": "Huawei Watch GT 6 Pro",
+        "specs": "Titanio y Zafiro, Batería 21 días, Potenciómetro ciclismo, NFC, ECG, SpO2"
+    },
+    {
+        "sku": "HUAWEI WATCH GT 6",
+        "model": "Huawei Watch GT 6",
+        "specs": "Acero Inoxidable, Batería hasta 21 días (46mm) / 14 días (41mm), GPS, NFC"
+    },
+    {
+        "sku": "HUAWEI MATEPAD 11.5",
+        "model": "Huawei MatePad 11.5",
+        "specs": "11.5\" 120Hz, 8GB RAM, 128/256GB, Batería 10100mAh, HarmonyOS 4.3"
+    },
+    {
+        "sku": "HUAWEI MATEPAD SE 11",
+        "model": "Huawei MatePad SE 11\"",
+        "specs": "Diseño metálico, Pantalla FullView 11\", Batería 7700mAh, 8GB RAM + 128GB ROM, Huawei Histen 9.0"
+    },
+    {
+        "sku": "HONOR PAD X8A",
+        "model": "Honor Pad X8a",
+        "specs": "Snapdragon 680, 8GB (4+4) RAM, 128GB, Pantalla 11\" 90Hz FHD, Batería 8300mAh"
+    },
+    {
+        "sku": "7021104",
+        "model": "OPPO PAD NEO",
+        "specs": "Helio G99, 6GB+6GB RAM, 128GB, Pantalla 11.4\" 2.4K 90Hz, Batería 8000mAh"
+    },
+    {
+        "sku": "TECNO PAD",
+        "model": "Tecno Pad",
+        "specs": "Helio G80, 4GB RAM, 128/256GB, 10.1\" IPS, Batería 7000mAh"
+    },
+    {
+        "sku": "TECNO MEGAPAD 10",
+        "model": "Tecno Megapad 10",
+        "specs": "MT8786, 4GB RAM, 10.1\" LCD Proteccion Visual, Android 14"
+    },
+    {
+        "sku": "MEGAPAD 10",
+        "model": "Megapad 10 (Tablet)",
+        "specs": "Pantalla 10.1\" con protección visual, Batería larga duración, Gran capacidad de almacenamiento"
+    },
+    {
+        "sku": "ZAEH0127CO",
+        "model": "Lenovo Tab M11",
+        "specs": "Helio G85, 4GB RAM, 128GB, 10.1\" WUXGA, Batería 5100mAh"
+    },
+    {
+        "sku": "7019280",
+        "model": "Barra de Sonido AIWA AWSBH1W-W",
+        "specs": "Potencia 100 Watts, Woofer inalámbrico, BT 5.0, MP3, USB, Optico, HDMI"
+    },
+    {
+        "sku": "7021234",
+        "model": "Xiaomi 4 lite Gen 2 (Scooter)",
+        "specs": "350W-390W, 25KM Distancia, 25K/h, IPX4, Llantas Aire"
+    },
+    {
+        "sku": "7022233",
+        "model": "Xiaomi 5 Electric PRO (Scooter)",
+        "specs": "400W-1000W, 60KM Distancia, 25K/h, IPX5, Amortiguadores"
+    },
+    {
+        "sku": "7022235",
+        "model": "Xiaomi 5 Electric (Scooter)",
+        "specs": "350W-700W, 60KM Distancia, 25K/h, IPX5, Amortiguadores"
+    },
+    {
+        "sku": "7019323",
+        "model": "Xiaomi Scooter 4 lite",
+        "specs": "300W Max, 20KM Distancia, 25K/h, IPX4, Llantas Macizas"
+    },
+    {
+        "sku": "7021356",
+        "model": "Xiaomi 4 Electric (Scooter)",
+        "specs": "350W-600W, 35KM Distancia, 25K/h, IP54, Llantas 10\" sin cámara"
+    }
+]

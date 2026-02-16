@@ -1,0 +1,926 @@
+{
+    "AUD CHOICE EARDBUDS CLIP BLT5.3 NGR HONR": {
+        "categoria": "Aud\u00edfonos",
+        "marca": "Honor",
+        "modelo_limpio": "Choice Earbuds Clip",
+        "especificaciones": "Bluetooth 5.3, Color Negro"
+    },
+    "AUDF OPENWEARPRO BLTTH5.4 700MH NGR XIAO": {
+        "categoria": "Aud\u00edfonos",
+        "marca": "Xiaomi",
+        "modelo_limpio": "OpenWear Pro",
+        "especificaciones": "Bluetooth 5.4, Bater\u00eda 700mAh, Color Negro"
+    },
+    "AUDF FREEBUDS PRO2 AZL+ KIT SPEAKER HUAW": {
+        "categoria": "Aud\u00edfonos",
+        "marca": "Huawei",
+        "modelo_limpio": "FreeBuds Pro 2",
+        "especificaciones": "Color Azul, Incluye Kit de Parlante"
+    },
+    "AUD GALAXY BDS3FE BLTH5.4 515MH NGR SAMS": {
+        "categoria": "Aud\u00edfonos",
+        "marca": "Samsung",
+        "modelo_limpio": "Galaxy Buds 3 FE",
+        "especificaciones": "Bluetooth 5.4, Bater\u00eda 515mAh, Color Negro"
+    },
+    "AUDF FREECLIP 20W BLTTH5.2 510MH NG HUAW": {
+        "categoria": "Aud\u00edfonos",
+        "marca": "Huawei",
+        "modelo_limpio": "FreeClip",
+        "especificaciones": "Potencia 20W, Bluetooth 5.2, Bater\u00eda 510mAh, Color Negro"
+    },
+    "AUDIFNS BUDS5PRO BLTH5.4 570MAH NGR XIAO": {
+        "categoria": "Aud\u00edfonos",
+        "marca": "Xiaomi",
+        "modelo_limpio": "Buds 5 Pro",
+        "especificaciones": "Bluetooth 5.4, Bater\u00eda 570mAh, Color Negro"
+    },
+    "AUD FREEBUDS PR4 BLTTH5.2 510MAH NG HUAW": {
+        "categoria": "Aud\u00edfonos",
+        "marca": "Huawei",
+        "modelo_limpio": "Freebuds Pro 4",
+        "especificaciones": "Bluetooth 5.2, Bater\u00eda 510mAh, Color Negro"
+    },
+    "AUDIFONS OWS LOKY BLTTH5.2 IP54 NGR HONR": {
+        "categoria": "Aud\u00edfonos",
+        "marca": "Honor",
+        "modelo_limpio": "OWS Loky",
+        "especificaciones": "Bluetooth 5.2, Certificaci\u00f3n IP54, Color Negro"
+    },
+    "AUDF FREEBUDS PRO2 BLN+ KIT SPEAKER HUAW": {
+        "categoria": "Aud\u00edfonos",
+        "marca": "Huawei",
+        "modelo_limpio": "Freebuds Pro 2",
+        "especificaciones": "Color Blanco, Incluye Kit Speaker"
+    },
+    "AUDIFONS OWS LOKY BLTTH5.2 IP54 DRD HONR": {
+        "categoria": "Aud\u00edfonos",
+        "marca": "Honor",
+        "modelo_limpio": "OWS Loky",
+        "especificaciones": "Bluetooth 5.2, Certificaci\u00f3n IP54, Color Dorado"
+    },
+    "AUDF GALAXY BUDS3 PRO 8GB BT5.4 PLT SAMS": {
+        "categoria": "Aud\u00edfonos",
+        "marca": "Samsung",
+        "modelo_limpio": "Galaxy Buds3 Pro",
+        "especificaciones": "8GB, Bluetooth 5.4, Plateado"
+    },
+    "AUD FREEBUDS PRO4 BLTTH5.2 IP54 VRD HUAW": {
+        "categoria": "Aud\u00edfonos",
+        "marca": "Huawei",
+        "modelo_limpio": "FreeBuds Pro 4",
+        "especificaciones": "Bluetooth 5.2, IP54, Verde"
+    },
+    "AUD FREEBUDS PR4 BLTTH5.2 510MAH BL HUAW": {
+        "categoria": "Aud\u00edfonos",
+        "marca": "Huawei",
+        "modelo_limpio": "FreeBuds Pro 4",
+        "especificaciones": "Bluetooth 5.2, 510mAh, Blanco"
+    },
+    "TV UN55DU7000 55\"+TV UN32H5000 32\" SAMS": {
+        "categoria": "TV",
+        "marca": "Samsung",
+        "modelo_limpio": "UN55DU7000 / UN32H5000",
+        "especificaciones": "Combo de televisores 55 pulgadas y 32 pulgadas"
+    },
+    "PRT V14G5IRL IC_5 14\"+MOUSE ESSENTL LENO": {
+        "categoria": "Laptop",
+        "marca": "Lenovo",
+        "modelo_limpio": "V14 G5 IRL",
+        "especificaciones": "Procesador Intel Core i5, Pantalla 14 pulgadas, Incluye Mouse Essential"
+    },
+    "PRT TMP214 55G231T6 ICI3 8G 14\" GR ACER": {
+        "categoria": "Laptop",
+        "marca": "Acer",
+        "modelo_limpio": "TravelMate P214",
+        "especificaciones": "Procesador Intel Core i3, 8GB RAM, Pantalla 14\", Color Gris"
+    },
+    "PRT TMP214-55-586G ICI5 16G 14\" GR ACER": {
+        "categoria": "Laptop",
+        "marca": "Acer",
+        "modelo_limpio": "TravelMate P214-55",
+        "especificaciones": "Procesador Intel Core i5, 16GB RAM, Pantalla 14\", Color Gris"
+    },
+    "PRT P8RM7LA RZN3 512G W11 SLVR+MLTA HEWP": {
+        "categoria": "Laptop",
+        "marca": "HP",
+        "modelo_limpio": "P8RM7LA",
+        "especificaciones": "Procesador Ryzen 3, 512GB SSD, Windows 11, Color Plateado, Incluye Maleta"
+    },
+    "CNS XBOX S/S 512G+2CNTRLS+GIFT CARD MSFT": {
+        "categoria": "Otro",
+        "marca": "Microsoft",
+        "modelo_limpio": "Xbox Series S",
+        "especificaciones": "512GB de almacenamiento, 2 Controles, Incluye Gift Card"
+    },
+    "CS PS5 SLM_DGT 825G+VJ ASTRB+VJ GT7 SONY": {
+        "categoria": "Otro",
+        "marca": "Sony",
+        "modelo_limpio": "PlayStation 5 Slim Digital",
+        "especificaciones": "825GB de almacenamiento, Incluye juegos Astro's Playroom y Gran Turismo 7"
+    },
+    "CS PS5 SLM_DG 825GB+ASTRBT+GT7+CTRL SONY": {
+        "categoria": "Otro",
+        "marca": "Sony",
+        "modelo_limpio": "PlayStation 5 Slim Digital",
+        "especificaciones": "Almacenamiento 825GB, incluye Astro's Playroom, Gran Turismo 7 y control adicional"
+    },
+    "PTNTA LITE ELECTR 400W 25KM/H NEGRO XIAO": {
+        "categoria": "Patineta",
+        "marca": "Xiaomi",
+        "modelo_limpio": "Electric Scooter Lite",
+        "especificaciones": "Motor de 400W, velocidad m\u00e1xima 25km/h, color negro"
+    },
+    "PATINETA ELECT C2 160W 16KMH GRIS SEGWAY": {
+        "categoria": "Patineta",
+        "marca": "Segway",
+        "modelo_limpio": "Ninebot Kids C2",
+        "especificaciones": "Motor de 160W, velocidad m\u00e1xima 16km/h, color gris"
+    },
+    "PATINETA 6LITE 500WTS 25KM BT4.1 NG XIAO": {
+        "categoria": "Patineta",
+        "marca": "Xiaomi",
+        "modelo_limpio": "Electric Scooter 4 Lite",
+        "especificaciones": "Motor de 500W, velocidad m\u00e1xima 25km/h, Bluetooth 4.1, color negro"
+    },
+    "KCK SCTER E2PLUS NINEBOT 500WH GRIS SGWY": {
+        "categoria": "Patineta",
+        "marca": "Segway Ninebot",
+        "modelo_limpio": "KickScooter E2 Plus",
+        "especificaciones": "Potencia 500W, color gris"
+    },
+    "PTNETA 6 800WTTS 25KM BT4.1 IPX5 NG XIAO": {
+        "categoria": "Patineta",
+        "marca": "Xiaomi",
+        "modelo_limpio": "Electric Scooter 6",
+        "especificaciones": "800W, 25KM/H, Bluetooth 4.1, IPX5, Color Negro"
+    },
+    "PATINETA 5PLUS BLTTH4.1 10200MH NGR XIAO": {
+        "categoria": "Patineta",
+        "marca": "Xiaomi",
+        "modelo_limpio": "5Plus",
+        "especificaciones": "Bluetooth 4.1, 10200mAh, Color Negro"
+    },
+    "PATINETA 5 ELECTR 350W 25KM/H NEGRO XIAO": {
+        "categoria": "Patineta",
+        "marca": "Xiaomi",
+        "modelo_limpio": "Mi Electric Scooter 5",
+        "especificaciones": "Motor 350W, Velocidad m\u00e1xima 25km/h, Color Negro"
+    },
+    "PORT B1503CVA-S75191W ICI3 15.6\" NG ASUS": {
+        "categoria": "Laptop",
+        "marca": "ASUS",
+        "modelo_limpio": "ExpertBook B1 B1503CVA",
+        "especificaciones": "Procesador Intel Core i3, Pantalla 15.6 pulgadas, Color Negro"
+    },
+    "PRT V14G5IRL IC_I3 256G 14\" W11 GRS LENO": {
+        "categoria": "Laptop",
+        "marca": "Lenovo",
+        "modelo_limpio": "V14 G5 IRL",
+        "especificaciones": "Intel Core i3, 256GB SSD, Pantalla 14 pulgadas, Windows 11, Color Gris"
+    },
+    "PRT B8PH7LA RZN3 512G W11 SLVR+MLTA HEWP": {
+        "categoria": "Laptop",
+        "marca": "HP",
+        "modelo_limpio": "B8PH7LA",
+        "especificaciones": "Procesador Ryzen 3, 512GB SSD, Windows 11, Color Silver"
+    },
+    "PRT E1504FA-NJ424W RYZ3 8G 15.6\" NG ASUS": {
+        "categoria": "Laptop",
+        "marca": "ASUS",
+        "modelo_limpio": "Vivobook E1504FA-NJ424W",
+        "especificaciones": "Procesador Ryzen 3, 8GB RAM, Pantalla 15.6\", Color Negro"
+    },
+    "PRT B8PH9LA RZN5 512G W11 15.6\" SLV HEWP": {
+        "categoria": "Laptop",
+        "marca": "HP",
+        "modelo_limpio": "B8PH9LA",
+        "especificaciones": "Procesador Ryzen 5, 512GB SSD, Windows 11, Pantalla 15.6\", Color Silver"
+    },
+    "PRT V14G5IRL IC_5 256GB 14\" W11 GRS LENO": {
+        "categoria": "Laptop",
+        "marca": "Lenovo",
+        "modelo_limpio": "V14 G5 IRL",
+        "especificaciones": "Procesador Intel Core i5, 256GB SSD, Pantalla 14\", Windows 11, Color Gris"
+    },
+    "PRT TMP216-51-36ED ICI3 8G 16\" GRS ACER": {
+        "categoria": "Laptop",
+        "marca": "Acer",
+        "modelo_limpio": "TravelMate P216-51-36ED",
+        "especificaciones": "Procesador Intel Core i3, 8GB RAM, Pantalla 16\", Color Gris"
+    },
+    "PRTL MTEBKD14 IC_I3 14\" 8G/256G SLV HUAW": {
+        "categoria": "Laptop",
+        "marca": "Huawei",
+        "modelo_limpio": "Matebook D14",
+        "especificaciones": "Procesador Intel Core i3, Pantalla 14\", 8GB RAM, 256GB SSD, Color Silver"
+    },
+    "PRT B8PH9LA RZN5+DDM PLY BLCKW 3220 HEWP": {
+        "categoria": "Laptop",
+        "marca": "HP",
+        "modelo_limpio": "B8PH9LA",
+        "especificaciones": "Procesador Ryzen 5, Color Black/White"
+    },
+    "PRT HP225G10 NOTBKPC RZN5 15.6\" SLV HEWP": {
+        "categoria": "Laptop",
+        "marca": "HP",
+        "modelo_limpio": "225 G10",
+        "especificaciones": "Notebook PC, Procesador Ryzen 5, Pantalla 15.6\", Color Silver"
+    },
+    "PORTL TMP214-55-38LV CI3 8G 14\" GRS ACER": {
+        "categoria": "Laptop",
+        "marca": "Acer",
+        "modelo_limpio": "TravelMate P214",
+        "especificaciones": "Procesador Intel Core i3, 8GB RAM, Pantalla 14\", Color Gris"
+    },
+    "SMRTWTCH GT5PRO 1.43\" B5.2 323M PLT HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT 5 Pro",
+        "especificaciones": "Pantalla 1.43\", Bluetooth 5.2, Color Plata"
+    },
+    "SMRTW GLX WATCH7 44MM 2GB 1.47\" PLT SAMS": {
+        "categoria": "Reloj",
+        "marca": "Samsung",
+        "modelo_limpio": "Galaxy Watch 7 44mm",
+        "especificaciones": "Pantalla 1.47 pulgadas, 2GB RAM, Color Plata"
+    },
+    "SMARTWTCH AURA PRO 1.43\" BTT5.0 NGR CBTT": {
+        "categoria": "Reloj",
+        "marca": "CBTT",
+        "modelo_limpio": "Aura Pro",
+        "especificaciones": "Pantalla 1.43 pulgadas, Bluetooth 5.0, Color Negro"
+    },
+    "SMRTWTCH GT5PRO 1.43\" B5.2 NG CONSG HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT 5 Pro",
+        "especificaciones": "Pantalla 1.43 pulgadas, Bluetooth 5.2, Color Negro"
+    },
+    "SMRTWTCH GT5 1.32\" BT5.2 AZL CONSIG HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT 5",
+        "especificaciones": "Pantalla 1.32 pulgadas, Bluetooth 5.2, Color Azul"
+    },
+    "SMRTWATCH GT5 1.43\" BT5.2 AZL CONSG HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT 5",
+        "especificaciones": "Pantalla 1.43 pulgadas, Bluetooth 5.2, Color Azul"
+    },
+    "SMRTWTCH GT5 1.32\" BT5.2 BLN CONSIG HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT 5",
+        "especificaciones": "Pantalla 1.32\", Bluetooth 5.2, Color Blanco"
+    },
+    "SMRTWTCH GT5PRO 1.43\" B5.2 323M NGR HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT 5 Pro",
+        "especificaciones": "Pantalla 1.43\", Bluetooth 5.2, Bater\u00eda 323mAh, Color Negro"
+    },
+    "SMRT WTCH FIT4PRO 1.8\" BLTTH5.2 NG HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch Fit 4 Pro",
+        "especificaciones": "Pantalla 1.8\", Bluetooth 5.2, Color Negro"
+    },
+    "SMRT WTCH FIT4 1.8\" BLTH5.2 IP54 MR HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch Fit 4",
+        "especificaciones": "Pantalla 1.8\", Bluetooth 5.2, Certificaci\u00f3n IP54"
+    },
+    "SMRTWTCH WGT6 41MM BLT6.0 540MH PRP HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT 6",
+        "especificaciones": "Tama\u00f1o 41mm, Bluetooth 6.0, Bater\u00eda 540mAh, Color P\u00farpura"
+    },
+    "WATCH FIT TIA-B09 4GB 1,64\" NEGRO HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch Fit (TIA-B09)",
+        "especificaciones": "4GB de almacenamiento, Pantalla de 1.64 pulgadas, Color Negro"
+    },
+    "RJ GT4 41 BL+KIT BLSA+BT VDR+ C_DTS HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT4 41mm",
+        "especificaciones": "Color Blanco, Incluye Kit, Bluetooth, Tecnolog\u00eda DTS"
+    },
+    "SMRT WTCH FIT4PRO 1.8\" BLTTH5.2 VR HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch Fit 4 Pro",
+        "especificaciones": "Pantalla de 1.8 pulgadas, Bluetooth 5.2, Color Verde"
+    },
+    "RELOJ SW GT3 JUPITER-B19 46MM 4G CF HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT3 (Jupiter-B19)",
+        "especificaciones": "Tama\u00f1o 46mm, Conectividad 4G, Color Caf\u00e9"
+    },
+    "RELOJ SW GT3 SE 1.43\" BLTH5.2 NEGRO HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT3 SE",
+        "especificaciones": "Pantalla de 1.43 pulgadas, Bluetooth 5.2, Color Negro"
+    },
+    "SMRTWT WATCHX 1.43\" IP68 500MAH NGR OPPO": {
+        "categoria": "Reloj",
+        "marca": "Oppo",
+        "modelo_limpio": "Watch X",
+        "especificaciones": "Pantalla 1.43 pulgadas, certificaci\u00f3n IP68, bater\u00eda de 500mAh, color negro"
+    },
+    "SMRTWTCH WGT6 41MM BLTH6.0 540MH NG HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT 6",
+        "especificaciones": "Tama\u00f1o 41mm, Bluetooth 6.0, bater\u00eda de 540mAh, color negro"
+    },
+    "RELOJ SW GT3 MILO-B19 42MM 4GB NGRO HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT3 (Milo-B19)",
+        "especificaciones": "Tama\u00f1o 42mm, almacenamiento 4GB, color negro"
+    },
+    "RLJ WTCHGT4 41MM BL+KIT SELFIE STCK HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT4",
+        "especificaciones": "Tama\u00f1o 41mm, color blanco, incluye kit selfie stick"
+    },
+    "SMRTWTCH S4 41MM BLTTH5.4 320MH NGR XIAO": {
+        "categoria": "Reloj",
+        "marca": "Xiaomi",
+        "modelo_limpio": "Watch S4",
+        "especificaciones": "Tama\u00f1o 41mm, Bluetooth 5.4, bater\u00eda de 320mAh, color negro"
+    },
+    "SMRTWTCH WGT6 PRO 46MM BLTH6.0 CAFE HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT6 Pro",
+        "especificaciones": "46mm, Bluetooth 6.0, color caf\u00e9"
+    },
+    "SMRTWTCH WGT6 41MM BLT6.0 540MH BLN HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT6",
+        "especificaciones": "41mm, Bluetooth 6.0, 540mAh, color blanco"
+    },
+    "SMRTWTCH C30BG+C30RG 33MM BT5.3 BGE ARGM": {
+        "categoria": "Reloj",
+        "marca": "Argom",
+        "modelo_limpio": "C30",
+        "especificaciones": "Set C30BG+C30RG, 33mm, Bluetooth 5.3, color beige"
+    },
+    "SMRTWTCH WATCH5 1.85\" BLTTH5.2 NEGR HONR": {
+        "categoria": "Reloj",
+        "marca": "Honor",
+        "modelo_limpio": "Watch 5",
+        "especificaciones": "Pantalla 1.85\", Bluetooth 5.2, color negro"
+    },
+    "SMRT WATCH8 1.46\" 32GB BLTTH5.3 SLV SAMS": {
+        "categoria": "Reloj",
+        "marca": "Samsung",
+        "modelo_limpio": "Watch 8",
+        "especificaciones": "Pantalla 1.46\", 32GB de almacenamiento, Bluetooth 5.3, color silver"
+    },
+    "RELOJ SW GT RUNNER-B19 46MM 4G NGRO HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT Runner (B19)",
+        "especificaciones": "46mm, Conectividad 4G, Color Negro"
+    },
+    "SMRTWTCH WGT6PRO 46MM BLTH6.0 NEGRO HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT 6 Pro",
+        "especificaciones": "46mm, Bluetooth 6.0, Color Negro"
+    },
+    "SMTWTCH WGT01 1.51\" BT5.3 480MAH NG TCMB": {
+        "categoria": "Reloj",
+        "marca": "Tecno",
+        "modelo_limpio": "WGT01",
+        "especificaciones": "Pantalla 1.51 pulgadas, Bluetooth 5.3, Bater\u00eda 480mAh, Color Negro"
+    },
+    "SMRTWTCH S4 41MM LT BLT5.4 320M BLN XIAO": {
+        "categoria": "Reloj",
+        "marca": "Xiaomi",
+        "modelo_limpio": "Watch S4",
+        "especificaciones": "41mm, LTE, Bluetooth 5.4, Bater\u00eda 320mAh, Color Blanco"
+    },
+    "RELOJ WATCH GT4 46MM 1.43\" BT5.2 VD HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT4",
+        "especificaciones": "46mm, Pantalla 1.43 pulgadas, Bluetooth 5.2, Color Verde"
+    },
+    "RELOJ WATCH GT4 41MM 1.32\" BT5.2 BL HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT4 41mm",
+        "especificaciones": "Pantalla 1.32 pulgadas, Bluetooth 5.2, Color Blanco"
+    },
+    "RLJ WTCHGT4 41MM ML+BLTTH SPKEAR NG HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT4 41mm",
+        "especificaciones": "Bluetooth, Altavoz integrado, Color Negro"
+    },
+    "SMRTWTCH WATCH5 1.85\" BLTTH5.2 VERD NONR": {
+        "categoria": "Reloj",
+        "marca": "Honor",
+        "modelo_limpio": "Watch 5",
+        "especificaciones": "Pantalla 1.85 pulgadas, Bluetooth 5.2, Color Verde"
+    },
+    "SMRTW VILI-B19F 1.43\" NG+WT GT546MM HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT5 46mm (VILI-B19F)",
+        "especificaciones": "Pantalla 1.43 pulgadas, Color Negro"
+    },
+    "SMARTWTCH C80 1.43\" BLTTH 5.3 NEGRO ARGM": {
+        "categoria": "Reloj",
+        "marca": "Argom",
+        "modelo_limpio": "C80",
+        "especificaciones": "Pantalla 1.43 pulgadas, Bluetooth 5.3, Color Negro"
+    },
+    "SMRTWTCH WATCH4PRO 1.5\" BTTH5.2 NGR HONR": {
+        "categoria": "Reloj",
+        "marca": "Honor",
+        "modelo_limpio": "Watch 4 Pro",
+        "especificaciones": "Pantalla 1.5 pulgadas, Bluetooth 5.2, Color Negro"
+    },
+    "SMRTWTCH C70BK 1.39\" NG+DIAD HS2682 ARGM": {
+        "categoria": "Reloj",
+        "marca": "Argom",
+        "modelo_limpio": "C70BK",
+        "especificaciones": "Pantalla 1.39 pulgadas, Color Negro, Incluye Diadema, Procesador HS2682"
+    },
+    "SMRTWTCH WGT6PRO 46MM TN BLT6.0 SLV HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT 6 Pro",
+        "especificaciones": "Tama\u00f1o 46mm, Bluetooth 6.0, Color Silver (Plateado)"
+    },
+    "RELOJ SW GT3 MILO-B19 42MM 4GB BLNC HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT 3 (MILO-B19)",
+        "especificaciones": "Tama\u00f1o 42mm, Almacenamiento 4GB, Color Blanco"
+    },
+    "REL SW GTRNNR-B19 NG+FBDS4I+FRLC RJ HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT Runner (GTRNNR-B19)",
+        "especificaciones": "Color Negro y Rojo, Incluye Freebuds 4i de regalo"
+    },
+    "SMRTWTCH WGT6 41MM MS BLTH6.0 DORAD HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT 6",
+        "especificaciones": "41mm, Bluetooth 6.0, Color Dorado"
+    },
+    "SMRTW GLX WATCH7 44MM 2GB 1.47\" VRD SAMS": {
+        "categoria": "Reloj",
+        "marca": "Samsung",
+        "modelo_limpio": "Galaxy Watch 7",
+        "especificaciones": "44mm, 2GB RAM, Pantalla 1.47\", Color Verde"
+    },
+    "SMRT WATCH8 CLSSIC 1.32\" BTH5.3 NGR SAMS": {
+        "categoria": "Reloj",
+        "marca": "Samsung",
+        "modelo_limpio": "Watch 8 Classic",
+        "especificaciones": "Pantalla 1.32\", Bluetooth 5.3, Color Negro"
+    },
+    "SMRTWT WATCHX 1.43\" IP68 500MAH CAF OPPO": {
+        "categoria": "Reloj",
+        "marca": "Oppo",
+        "modelo_limpio": "Watch X",
+        "especificaciones": "Pantalla 1.43\", Protecci\u00f3n IP68, Bater\u00eda 500mAh, Color Caf\u00e9"
+    },
+    "SMRTW GLX WATCH7 40MM 2GB BT5.3 VRD SAMS": {
+        "categoria": "Reloj",
+        "marca": "Samsung",
+        "modelo_limpio": "Galaxy Watch 7",
+        "especificaciones": "40mm, 2GB RAM, Bluetooth 5.3, Color Verde"
+    },
+    "SMRTWT WATCHS4 1.43\" BT5.3 486MH PL XIAO": {
+        "categoria": "Reloj",
+        "marca": "Xiaomi",
+        "modelo_limpio": "WATCH S4",
+        "especificaciones": "1.43\", BT5.3, 486MH"
+    },
+    "SMRT WTCH FIT4 1.8\" BLTH5.2 IP54 GR HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "FIT 4",
+        "especificaciones": "1.8\", BLTH5.2, IP54"
+    },
+    "SMRTWTCH WGT6 46MM BLTH6.0 867M GRS HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "WGT6",
+        "especificaciones": "46MM, BLTH6.0, 867M"
+    },
+    "SMRTWTCH C62B 36MM NG+AUDF E86BK NG ARGM": {
+        "categoria": "Reloj",
+        "marca": "Argenmax",
+        "modelo_limpio": "C62B",
+        "especificaciones": "36MM, NG+AUDF, E86BK"
+    },
+    "RELOJ SW GT3 JUPITER-B19 46MM 4G NG HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "GT3 JUPITER-B19",
+        "especificaciones": "46MM, 4G, NG"
+    },
+    "RLJ SW GT3SE 1.43\" B5.2 VRD+ARM BND HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "GT3SE",
+        "especificaciones": "1.43\", B5.2, VRD+ARM, BND"
+    },
+    "SMRTWT WATCHS4 1.43\" BT5.3 486MH NG XIAO": {
+        "categoria": "Reloj",
+        "marca": "Xiao",
+        "modelo_limpio": "WATCHS4",
+        "especificaciones": "1.43\", BT5.3, 486MH, NG"
+    },
+    "SMRT WATCH8 1.46\" 32GB BLTTH5.3 GRS SAMS": {
+        "categoria": "Reloj",
+        "marca": "Samsung",
+        "modelo_limpio": "WATCH8",
+        "especificaciones": "1.46\", 32GB, BLTTH5.3, GRS"
+    },
+    "SMRTWTCH S4 41MM BLTTH5.4 320MH VRD XIAO": {
+        "categoria": "Reloj",
+        "marca": "Xiao",
+        "modelo_limpio": "S4",
+        "especificaciones": "41MM, BLTTH5.4, 320MH, VRD"
+    },
+    "SMTWTCH JW-30 46MM BLT5.3 450MAH NG JNCS": {
+        "categoria": "Reloj",
+        "marca": "JNCS",
+        "modelo_limpio": "JW-30",
+        "especificaciones": "46MM, BLT5.3, 450MAH, NG"
+    },
+    "RLJ WTCHGT4 41MM ML+AUDF FREEBDS 5I HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT4",
+        "especificaciones": "41mm, BT5.2, pantalla de 1.32\", audio"
+    },
+    "SMRT WTCH FIT4 1.8\" BLTH5.2 IP54 NG HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch Fit4",
+        "especificaciones": "1.8\", BT5.2, IP54, pantalla t\u00e1ctil"
+    },
+    "SMRTWTCH WGT6 46MM BLTH6.0 867M VRD HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT6",
+        "especificaciones": "46mm, BT6.0, 867M, resistente al agua"
+    },
+    "SMRTWTCH WGT6 46MM BLTH6.0 867M NGR HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT6",
+        "especificaciones": "46mm, BT6.0, 867M, resistente al agua"
+    },
+    "RELOJ WATCH GT4 41MM 1.32\" BT5.2 ML HUAW": {
+        "categoria": "Reloj",
+        "marca": "Huawei",
+        "modelo_limpio": "Watch GT4",
+        "especificaciones": "41mm, BT5.2, pantalla de 1.32\", audio"
+    },
+    "TABLET MATEPAD SE 11\" KIDS 128G GRS HUAW": {
+        "categoria": "Tablet",
+        "marca": "Huawei",
+        "modelo_limpio": "MatePad SE",
+        "especificaciones": "11\", 128G, Kids"
+    },
+    "TABL PAD X8A 128GB 11 BLTTH5.1 GRS HONR": {
+        "categoria": "Tablet",
+        "marca": "Honor",
+        "modelo_limpio": "Pad X8A",
+        "especificaciones": "11\", 128GB, Bluetooth 5.1"
+    },
+    "TBLT GALAXY TAB A9 PLUS 11\" 8GB PLT SAMS": {
+        "categoria": "Tablet",
+        "marca": "Samsung",
+        "modelo_limpio": "Galaxy Tab A9 Plus",
+        "especificaciones": "11\", 8GB"
+    },
+    "TBL TB311FU 128G 10.1\"+FLIO CSE+AUD LENO": {
+        "categoria": "Tablet",
+        "marca": "Lenovo",
+        "modelo_limpio": "TB311FU",
+        "especificaciones": "10.1\", 128G, FLIO CSE, AUD"
+    },
+    "TBLT MATPD11.5\" 128_8G BLTTH5.2 GRS HUAW": {
+        "categoria": "Tablet",
+        "marca": "Huawei",
+        "modelo_limpio": "MatePad",
+        "especificaciones": "11.5\", 128G, 8G, Bluetooth 5.2"
+    },
+    "TBL IDEATB MTD6300 128G+LAPZ+TCLDO LENO": {
+        "categoria": "Tablet",
+        "marca": "Lenovo",
+        "modelo_limpio": "MTD6300",
+        "especificaciones": "128G"
+    },
+    "TABLT A11+ 256G 8GB 10.9\" BT5.3 GRS SAMS": {
+        "categoria": "Tablet",
+        "marca": "Samsung",
+        "modelo_limpio": "A11+",
+        "especificaciones": "256G, 8GB, 10.9\", BT5.3"
+    },
+    "TBLT MATEPAD SE 128G 10.4\" WIFI NGR HUAW": {
+        "categoria": "Tablet",
+        "marca": "Huawei",
+        "modelo_limpio": "MatePad SE",
+        "especificaciones": "128G, 10.4\", WIFI"
+    },
+    "TABLT A11+ 256G 8GB 10.9\" BT5.3 PLT SAMS": {
+        "categoria": "Tablet",
+        "marca": "Samsung",
+        "modelo_limpio": "A11+",
+        "especificaciones": "256G, 8GB, 10.9\", BT5.3"
+    },
+    "TAB A11 128G 8.7\" BLTH5.3 5100MH PL SAMS": {
+        "categoria": "Tablet",
+        "marca": "Samsung",
+        "modelo_limpio": "A11",
+        "especificaciones": "128G, 8.7\", BLTH5.3, 5100MH"
+    },
+    "TAB OPD2419 10.5\" 128G BLTTH5.3 AZL OPPO": {
+        "categoria": "Tablet",
+        "marca": "Oppo",
+        "modelo_limpio": "OPD2419",
+        "especificaciones": "10.5\", 128G, BLTTH5.3, AZL"
+    },
+    "TAB GALAXY TABS10LITE 11\" 128GB SLV SAMS": {
+        "categoria": "Tablet",
+        "marca": "Samsung",
+        "modelo_limpio": "GALAXY TABS10LITE",
+        "especificaciones": "11\", 128GB, SLV"
+    },
+    "TAB S10FE 128G 10.9\" GR+BDS3FE+SPEN SAMS": {
+        "categoria": "Tablet",
+        "marca": "Samsung",
+        "modelo_limpio": "S10FE",
+        "especificaciones": "10.9\", 128G, GR, BDS3FE, SPEN"
+    },
+    "TAB GALAXY TABS10LITE 11\" 128GB GRS SAMS": {
+        "categoria": "Tablet",
+        "marca": "Samsung",
+        "modelo_limpio": "GALAXY TABS10LITE",
+        "especificaciones": "11\", 128GB, GRS"
+    },
+    "TAB S10FE 128G 10.9\" AZ+BDS3FE+SPEN SAMS": {
+        "categoria": "Tablet",
+        "marca": "Samsung",
+        "modelo_limpio": "S10FE",
+        "especificaciones": "10.9\", 128G, AZ, BDS3FE, SPEN"
+    },
+    "TBLT MTPD 64G 10.4\"+MLTA+MCR SD 16G HUAW": {
+        "categoria": "Tablet",
+        "marca": "Huawei",
+        "modelo_limpio": "MTPD",
+        "especificaciones": "64G, 10.4\", MLTA, MCR SD 16G"
+    },
+    "TABLET MATEPAD 11.5\" S 256G 8GB PLT HUAW": {
+        "categoria": "Tablet",
+        "marca": "Huawei",
+        "modelo_limpio": "Matepad",
+        "especificaciones": "11.5\", 256G, 8GB, PLT"
+    },
+    "TABLT MTPD SE11 AGS6-W09 11\" 8G AZL HUAW": {
+        "categoria": "Tablet",
+        "marca": "Huawei",
+        "modelo_limpio": "MTPD SE11",
+        "especificaciones": "11\", 8G, AGS6-W09, AZL"
+    },
+    "TAB A11 128G 8.7\" BLTH5.3 5100MH GR SAMS": {
+        "categoria": "Tablet",
+        "marca": "Samsung",
+        "modelo_limpio": "Tab A11",
+        "especificaciones": "128G, 8.7\", BLTH5.3, 5100MH, GR"
+    },
+    "TV 50C69B 50\" QLED 4K GOOGLE_TV NGRO TCL": {
+        "categoria": "TV",
+        "marca": "TCL",
+        "modelo_limpio": "50C69B",
+        "especificaciones": "50\", QLED, 4K, GOOGLE_TV, NGRO"
+    },
+    "TV UN50DU8000 50\" UHD 4K SMRT_TV NG SAMS": {
+        "categoria": "TV",
+        "marca": "Samsung",
+        "modelo_limpio": "UN50DU8000",
+        "especificaciones": "50\" UHD 4K, Smart TV"
+    },
+    "TV 55P655 55\" LED 4K+BARRA SNDO S45H TCL": {
+        "categoria": "TV",
+        "marca": "TCL",
+        "modelo_limpio": "55P655",
+        "especificaciones": "55\" LED 4K, Barra de sonido"
+    },
+    "TV UN55U8000 55\"+BRRA SND HWB400FZL SAMS": {
+        "categoria": "TV",
+        "marca": "Samsung",
+        "modelo_limpio": "UN55U8000",
+        "especificaciones": "55\" UHD, Barra de sonido"
+    },
+    "TV UN50DU8200 50\" UHD LED CRYSTL 4K SAMS": {
+        "categoria": "TV",
+        "marca": "Samsung",
+        "modelo_limpio": "UN50DU8200",
+        "especificaciones": "50\" UHD LED, Crystal 4K"
+    },
+    "TV 50Q6N 50\" QLED 4K GOOGLE_TV NGRO HSSN": {
+        "categoria": "TV",
+        "marca": "HSSN",
+        "modelo_limpio": "50Q6N",
+        "especificaciones": "50\" QLED 4K, Google TV"
+    },
+    "TV 55Q6N 55\" QLED 4K GOOGLE_TV NGRO HSSN": {
+        "categoria": "TV",
+        "marca": "HSSN",
+        "modelo_limpio": "55Q6N",
+        "especificaciones": "55\", QLED, 4K, GOOGLE_TV, NGRO"
+    },
+    "TV UN55U8200 55\"+BRRA SND HWB400FZL SAMS": {
+        "categoria": "TV",
+        "marca": "SAMS",
+        "modelo_limpio": "UN55U8200",
+        "especificaciones": "55\", BRRA, SND, HWB400FZL"
+    },
+    "TV 55C69B 55\" QLED 4K GOOGLE_TV NGRO TCL": {
+        "categoria": "TV",
+        "marca": "TCL",
+        "modelo_limpio": "55C69B",
+        "especificaciones": "55\", QLED, 4K, GOOGLE_TV, NGRO"
+    },
+    "TV 55P655 55\" LED 4K GOOGLE_TV GRIS TCL": {
+        "categoria": "TV",
+        "marca": "TCL",
+        "modelo_limpio": "55P655",
+        "especificaciones": "55\", LED, 4K, GOOGLE_TV, GRIS"
+    },
+    "TV UN43DU7000 43\" UHD LED CRYSTL 4K SAMS": {
+        "categoria": "TV",
+        "marca": "SAMS",
+        "modelo_limpio": "UN43DU7000",
+        "especificaciones": "43\", UHD, LED, CRYSTL, 4K"
+    },
+    "TV UN55DU8200 55\"+BRRA SND HWC400ZL SAMS": {
+        "categoria": "TV",
+        "marca": "Samsung",
+        "modelo_limpio": "UN55DU8200",
+        "especificaciones": "55\", BRRA SND, HWC400ZL"
+    },
+    "TV UN55DU8200 55\" UHD LED CRYSTL 4K SAMS": {
+        "categoria": "TV",
+        "marca": "Samsung",
+        "modelo_limpio": "UN55DU8200",
+        "especificaciones": "55\", UHD, LED, CRYSTL, 4K"
+    },
+    "TV UN50U8200 50\" LED 4K SMRT_TV NGR SAMS": {
+        "categoria": "TV",
+        "marca": "Samsung",
+        "modelo_limpio": "UN50U8200",
+        "especificaciones": "50\", LED, 4K, SMRT_TV, NGR"
+    },
+    "TV UN50DU8200 50\"+BRR SND HW C400ZL SAMS": {
+        "categoria": "TV",
+        "marca": "Samsung",
+        "modelo_limpio": "UN50DU8200",
+        "especificaciones": "50\", BRR SND, HW, C400ZL"
+    },
+    "TV 58P635 58\" 4K+CEL ONETCH 4041 AZL TCL": {
+        "categoria": "TV",
+        "marca": "TCL",
+        "modelo_limpio": "58P635",
+        "especificaciones": "58\", 4K, CEL, ONETCH, 4041, AZL"
+    },
+    "TV TC43NX700H 43\" 4K LED GGL_TV NGR PNSC": {
+        "categoria": "TV",
+        "marca": "Panasonic",
+        "modelo_limpio": "TC43NX700H",
+        "especificaciones": "43\", 4K, LED"
+    },
+    "TV U8200 65\" LED CRSTL4K SMRT_TV NG SAMS": {
+        "categoria": "TV",
+        "marca": "Samsung",
+        "modelo_limpio": "U8200",
+        "especificaciones": "65\", LED, 4K, Smart TV"
+    },
+    "TV 55P635 55\" UHD 4K D-LED GOOGLE TV TCL": {
+        "categoria": "TV",
+        "marca": "TCL",
+        "modelo_limpio": "55P635",
+        "especificaciones": "55\", UHD, 4K, D-LED, Google TV"
+    },
+    "TV TC32NS600H 32\" HD LED GGL_TV NGR PNSC": {
+        "categoria": "TV",
+        "marca": "Panasonic",
+        "modelo_limpio": "TC32NS600H",
+        "especificaciones": "32\", HD, LED"
+    },
+    "TV 43C69B 43\" QLED 4K GOOGLE_TV NEGR TCL": {
+        "categoria": "TV",
+        "marca": "TCL",
+        "modelo_limpio": "43C69B",
+        "especificaciones": "43\", QLED, 4K, Google TV"
+    },
+    "TV 43QD6N 43\" 4K QLED GOOGLE_TV NGR HSSN": {
+        "categoria": "TV",
+        "marca": "HSSN",
+        "modelo_limpio": "43QD6N",
+        "especificaciones": "43\", 4K, QLED, GOOGLE_TV"
+    },
+    "TV UN65U8000 65\" LED 4K SMRT_TV NGR SAMS": {
+        "categoria": "TV",
+        "marca": "SAMS",
+        "modelo_limpio": "UN65U8000",
+        "especificaciones": "65\", LED, 4K, SMRT_TV"
+    },
+    "TV TC43NS600H 43\" FHD LED GL_TV NGR PNSC": {
+        "categoria": "TV",
+        "marca": "PNSC",
+        "modelo_limpio": "TC43NS600H",
+        "especificaciones": "43\", FHD, LED, GL_TV"
+    },
+    "TV 65Q6N 65\" 4K QLED GOOGLE_TV NEGR HSSN": {
+        "categoria": "TV",
+        "marca": "HSSN",
+        "modelo_limpio": "65Q6N",
+        "especificaciones": "65\", 4K, QLED, GOOGLE_TV"
+    },
+    "TV 43C69B 43\" QLED TCL+SOPORT PARED KLLY": {
+        "categoria": "TV",
+        "marca": "TCL",
+        "modelo_limpio": "43C69B",
+        "especificaciones": "43\", QLED, SOPORT PARED"
+    },
+    "TV U8000 43\" SAMS+SPRT HD602B+R C30 ARG": {
+        "categoria": "TV",
+        "marca": "Samsung",
+        "modelo_limpio": "U8000",
+        "especificaciones": "43\", HD, Smart TV"
+    },
+    "TV UN55DU8000 55\" LED 4K SMRT_TV GR SAMS": {
+        "categoria": "TV",
+        "marca": "Samsung",
+        "modelo_limpio": "UN55DU8000",
+        "especificaciones": "55\", LED, 4K, Smart TV"
+    },
+    "TV U8200 50\"+BRRA HWB400+AUD SMR410 SAMS": {
+        "categoria": "TV",
+        "marca": "Samsung",
+        "modelo_limpio": "U8200",
+        "especificaciones": "50\", Smart TV, Home Theater"
+    },
+    "TV UN50U8200 50\"+BRRA SND HWB400FZL SAMS": {
+        "categoria": "TV",
+        "marca": "Samsung",
+        "modelo_limpio": "UN50U8200",
+        "especificaciones": "50\", Smart TV, Home Theater"
+    },
+    "TV TC-43NX700H 43\"+MINCMP SC-TMAX15 PNSC": {
+        "categoria": "TV",
+        "marca": "Panasonic",
+        "modelo_limpio": "TC-43NX700H",
+        "especificaciones": "43\", Smart TV, Minicomponente"
+    },
+    "TV UN58U8000 58\" LED 4K SMART_TV NG SAMS": {
+        "categoria": "TV",
+        "marca": "Samsung",
+        "modelo_limpio": "UN58U8000",
+        "especificaciones": "58\" LED 4K SMART_TV"
+    },
+    "TV 50Q6N 50\" 4K QLED NG+BARR HS1000 HSSN": {
+        "categoria": "TV",
+        "marca": "HSSN",
+        "modelo_limpio": "50Q6N",
+        "especificaciones": "50\" 4K QLED NG+BARR HS1000 HSSN"
+    },
+    "TV UN43U8000 43\" SAMS+SOPORTE HD602B GNR": {
+        "categoria": "TV",
+        "marca": "Samsung",
+        "modelo_limpio": "UN43U8000",
+        "especificaciones": "43\" SAMS+SOPORTE HD602B GNR"
+    },
+    "TV UN43U8000 43\" LED 4K SMART_TV NG SAMS": {
+        "categoria": "TV",
+        "marca": "Samsung",
+        "modelo_limpio": "UN43U8000",
+        "especificaciones": "43\" LED 4K SMART_TV NG"
+    }
+}
