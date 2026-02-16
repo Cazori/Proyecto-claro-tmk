@@ -10,20 +10,29 @@ html {
   margin: 0;
   padding: 0;
   height: 100%;
+  min-height: -webkit-fill-available;
+  /* Fix for Safari iOS */
   font-family: 'Inter', sans-serif;
   background-color: #0B0F19;
   color: #F3F4F6;
   overflow: hidden;
+  position: fixed;
+  /* Prevent pull-to-refresh on iOS */
+  width: 100%;
 }
 
 /* LAYOUT CONTAINERS */
 .app-container {
   display: flex;
   height: 100vh;
+  height: 100dvh;
+  /* Dynamic viewport height for modern browsers */
   width: 100vw;
   overflow: hidden;
   background-color: #0B0F19;
   position: relative;
+  padding-bottom: env(safe-area-inset-bottom);
+  /* Fix for iPhone Notch/Home Bar */
 }
 
 .sidebar {
@@ -303,6 +312,7 @@ html {
 /* FOOTER */
 .chat-footer {
   padding: 24px 32px;
+  padding-bottom: calc(24px + env(safe-area-inset-bottom));
   background: rgba(11, 15, 25, 0.9);
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -353,6 +363,12 @@ html {
 .send-btn:hover {
   background: #6D28D9;
   transform: scale(1.05);
+}
+
+.mobile-close-btn:hover {
+  color: white !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-radius: 8px;
 }
 
 /* CARD MOBILE OPTIMIZATIONS */
