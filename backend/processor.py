@@ -238,20 +238,25 @@ def rotate_inventories():
 async def get_latest_inventory():
     """
     Returns the most recent processed DataFrame. 
-    If PROCESSED_DATA_FILE exists, it loads it; otherwise, it processes the latest PDF.
+    Smart logical: If the latest PDF is newer than the processed JSON, it re-processes.
     """
+    pdf_files = glob.glob(os.path.join(STORAGE_DIR, "*.pdf"))
+    latest_pdf = max(pdf_files, key=os.path.getmtime) if pdf_files else None
+    
     if os.path.exists(PROCESSED_DATA_FILE):
         try:
+            # Check if PDF is newer than JSON
+            json_mtime = os.path.getmtime(PROCESSED_DATA_FILE)
+            if latest_pdf and os.path.getmtime(latest_pdf) > json_mtime:
+                print(f"Detectado PDF más reciente: {latest_pdf}. Re-procesando...")
+                return await process_inventory_pdf(latest_pdf)
+                
             return pd.read_json(PROCESSED_DATA_FILE)
-        except: pass
+        except Exception as e:
+            print(f"Error cargando JSON, intentando re-procesar: {e}")
 
-    if os.path.exists(STORAGE_DIR):
-        files = glob.glob(os.path.join(STORAGE_DIR, "*.pdf"))
-        if files:
-            latest_file = max(files, key=os.path.getmtime)
-    if not files:
-        return None
+    if latest_pdf:
+        print(f"No se encontró data procesada. Procesando PDF: {latest_pdf}")
+        return await process_inventory_pdf(latest_pdf)
     
-    latest_file = max(files, key=os.path.getmtime)
-    print(f"No se encontró data procesada. Procesando PDF: {latest_file}")
-    return await process_inventory_pdf(latest_file)
+    return None
