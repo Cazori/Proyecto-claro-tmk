@@ -152,8 +152,9 @@ async def process_inventory_pdf(file_path):
                             "Precio Contado": float(precio_clean) if precio_clean else 0
                         })
         
-        print(f"DEBUG: Total items pre-filter: {len(data)}")
+        print(f"DEBUG: Total items extraídos del PDF: {len(data)}")
         if not data:
+            print("ERROR: No se extrajeron datos. El patrón de búsqueda no coincidió con ninguna línea.")
             return None
 
         df = pd.DataFrame(data)
@@ -252,8 +253,12 @@ async def get_latest_inventory():
     if not pdf_files:
         return None
         
-    # Sort by mtime then name to find the "newest"
-    pdf_files.sort(key=lambda x: (os.path.getmtime(x), x), reverse=True)
+    # Smart sort: Prioritize filenames starting with "Inventario" and sort by natural name
+    pdf_files.sort(key=lambda x: (
+        1 if "inventario" in os.path.basename(x).lower() else 0,
+        os.path.basename(x)
+    ), reverse=True)
+    
     latest_pdf = pdf_files[0]
     latest_pdf_name = os.path.basename(latest_pdf)
     
