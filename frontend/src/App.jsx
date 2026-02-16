@@ -27,6 +27,10 @@ const ChatApp = () => {
   const [input, setInput] = useState('');
   const [isSidebarOpen, setSidebarOpen] = useState(window.innerWidth > 768);
   const [activeTab, setActiveTab] = useState('chat');
+  const [file, setFile] = useState(null);
+  const [specFile, setSpecFile] = useState(null);
+  const [uploadStatus, setUploadStatus] = useState('');
+  const [specUploadStatus, setSpecUploadStatus] = useState('');
   const [knowledge, setKnowledge] = useState([]);
   const [dashboardStats, setDashboardStats] = useState({
     lastUpdate: 'Hoy',
@@ -107,11 +111,44 @@ const ChatApp = () => {
     }
   };
 
+  const handleFileUpload = async () => {
+    if (!file) return;
+    setUploadStatus('Subiendo...');
+
+    try {
+      const response = await chatService.uploadInventory(file);
+      if (response.ok) {
+        setUploadStatus('¡Archivo cargado con éxito! Cleo ya tiene los nuevos datos.');
+        setFile(null);
+        fetchStats();
+      } else {
+        setUploadStatus('Error en la carga. Asegúrate de que es un PDF.');
+      }
+    } catch (error) {
+      setUploadStatus('Error de conexión.');
+    }
+  };
+
+  const handleSpecUpload = async () => {
+    if (!specFile) return;
+    setSpecUploadStatus('Subiendo ficha...');
+
+    try {
+      const data = await chatService.uploadSpec(specFile);
+      setSpecUploadStatus(data.message);
+      setSpecFile(null);
+      const knowledgeData = await chatService.getKnowledge();
+      setKnowledge(knowledgeData);
+    } catch (error) {
+      setSpecUploadStatus('Error de conexión.');
+    }
+  };
+
   const fetchStats = () => {
     setDashboardStats({
       lastUpdate: new Date().toLocaleTimeString(),
-      totalItems: 0, // Will be updated by dashboard logic
-      criticalStock: 0
+      totalItems: 182,
+      criticalStock: 12
     });
   };
 
@@ -191,12 +228,31 @@ const ChatApp = () => {
             <Dashboard stats={dashboardStats} />
           )}
 
+          {activeTab === 'upload' && (
+            <InventoryUpload
+              file={file}
+              setFile={setFile}
+              handleFileUpload={handleFileUpload}
+              uploadStatus={uploadStatus}
+            />
+          )}
+
           {activeTab === 'fichas' && (
             <FichasGrid
               fichasSearch={fichasSearch}
               setFichasSearch={setFichasSearch}
               specsList={specsList}
               setSelectedImage={setSelectedImage}
+            />
+          )}
+
+          {activeTab === 'expert' && (
+            <ExpertKnowledge
+              specFile={specFile}
+              setSpecFile={setSpecFile}
+              handleSpecUpload={handleSpecUpload}
+              specUploadStatus={specUploadStatus}
+              knowledge={knowledge}
             />
           )}
         </div>

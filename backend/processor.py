@@ -22,7 +22,6 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STORAGE_DIR = os.path.join(BASE_DIR, "storage")
 PROCESSED_DATA_FILE = os.path.join(STORAGE_DIR, "processed_inventory.json")
 NORMALIZATION_CACHE_FILE = os.path.join(STORAGE_DIR, "normalization_cache.json")
-METADATA_FILE = os.path.join(STORAGE_DIR, "processing_metadata.json")
 MAX_FILES = 5
 
 async def normalize_products_batch(descriptions):
@@ -152,9 +151,8 @@ async def process_inventory_pdf(file_path):
                             "Precio Contado": float(precio_clean) if precio_clean else 0
                         })
         
-        print(f"DEBUG: Total items extraídos del PDF: {len(data)}")
+        print(f"DEBUG: Total items pre-filter: {len(data)}")
         if not data:
-            print("ERROR: No se extrajeron datos. El patrón de búsqueda no coincidió con ninguna línea.")
             return None
 
         df = pd.DataFrame(data)
@@ -193,24 +191,15 @@ async def process_inventory_pdf(file_path):
         to_normalize = [p for p in unique_products if p not in normalization_cache]
         
         if to_normalize:
-            # Incremental Normalization: Only process a few batches per request to avoid Timeouts
-            max_batches = 3 # Max 15 items per call
-            to_process = to_normalize[:max_batches * 5]
-            
-            print(f"Normalizando {len(to_process)} de {len(to_normalize)} nuevos productos (Incremental)...")
-            for i in range(0, len(to_process), 5):
-                batch = to_process[i:i+5]
+            print(f"Normalizando {len(to_normalize)} nuevos productos únicos...")
+            for i in range(0, len(to_normalize), 5):
+                batch = to_normalize[i:i+5]
                 # AWAIT the async normalization
-                try:
-                    normalized_batch = await normalize_products_batch(batch)
-                    if normalized_batch:
-                        normalization_cache.update(normalized_batch)
-                        # Save progress immediately
-                        with open(NORMALIZATION_CACHE_FILE, "w", encoding="utf-8") as f:
-                            json.dump(normalization_cache, f, indent=4)
-                except Exception as e:
-                    print(f"Error en batch de normalización: {e}")
-                    break
+                normalized_batch = await normalize_products_batch(batch)
+                if normalized_batch:
+                    normalization_cache.update(normalized_batch)
+                    with open(NORMALIZATION_CACHE_FILE, "w", encoding="utf-8") as f:
+                        json.dump(normalization_cache, f, indent=4)
                     
         # Final mapping
         df["categoria"] = df["Subproducto"].apply(lambda x: get_attr(x, "categoria"))
@@ -219,13 +208,6 @@ async def process_inventory_pdf(file_path):
         df["especificaciones"] = df["Subproducto"].apply(lambda x: get_attr(x, "especificaciones"))
 
         df.to_json(PROCESSED_DATA_FILE, orient="records", force_ascii=False, indent=4)
-        
-        # Save metadata to track which file was processed
-        try:
-            with open(METADATA_FILE, "w", encoding="utf-8") as f:
-                json.dump({"last_processed_file": os.path.basename(file_path)}, f)
-        except: pass
-        
         print(f"Éxito: {len(df)} ítems procesados.")
         return df
 
@@ -256,38 +238,20 @@ def rotate_inventories():
 async def get_latest_inventory():
     """
     Returns the most recent processed DataFrame. 
-    Uses metadata to detect if the latest PDF has changed.
+    If PROCESSED_DATA_FILE exists, it loads it; otherwise, it processes the latest PDF.
     """
-    pdf_files = glob.glob(os.path.join(STORAGE_DIR, "*.pdf"))
-    if not pdf_files:
-        return None
-        
-    # Smart sort: Prioritize filenames starting with "Inventario" and sort by natural name
-    pdf_files.sort(key=lambda x: (
-        1 if "inventario" in os.path.basename(x).lower() else 0,
-        os.path.basename(x)
-    ), reverse=True)
-    
-    latest_pdf = pdf_files[0]
-    latest_pdf_name = os.path.basename(latest_pdf)
-    
-    should_reprocess = True
-    
-    # Check if we already processed this exact file
-    if os.path.exists(PROCESSED_DATA_FILE) and os.path.exists(METADATA_FILE):
+    if os.path.exists(PROCESSED_DATA_FILE):
         try:
-            with open(METADATA_FILE, "r", encoding="utf-8") as f:
-                metadata = json.load(f)
-                if metadata.get("last_processed_file") == latest_pdf_name:
-                    should_reprocess = False
-        except:
-            pass
+            return pd.read_json(PROCESSED_DATA_FILE)
+        except: pass
 
-    if should_reprocess:
-        print(f"Detectado cambio o nuevo archivo: {latest_pdf_name}. Re-procesando...")
-        return await process_inventory_pdf(latest_pdf)
+    if os.path.exists(STORAGE_DIR):
+        files = glob.glob(os.path.join(STORAGE_DIR, "*.pdf"))
+        if files:
+            latest_file = max(files, key=os.path.getmtime)
+    if not files:
+        return None
     
-    try:
-        return pd.read_json(PROCESSED_DATA_FILE)
-    except:
-        return await process_inventory_pdf(latest_pdf)
+    latest_file = max(files, key=os.path.getmtime)
+    print(f"No se encontró data procesada. Procesando PDF: {latest_file}")
+    return await process_inventory_pdf(latest_file)

@@ -217,13 +217,7 @@ async def get_specs_mapping():
 async def chat(query: str):
     df = await get_latest_inventory()
     if df is None:
-        # Check if there are ANY pdfs in storage to give a better message
-        import glob
-        pdf_count = len(glob.glob(os.path.join(STORAGE_DIR, "*.pdf")))
-        if pdf_count == 0:
-            return {"response": "No encontré archivos de inventario en mi carpeta de almacenamiento. Por favor, asegúrate de haber subido el PDF a `backend/storage` en GitHub."}
-        else:
-            return {"response": "Encontré el archivo de inventario pero tuve un problema procesándolo. Por favor, verifica que el PDF tenga el formato correcto o intenta subirlo de nuevo."}
+        return {"response": "Sube un inventario PDF para comenzar."}
 
     # Logging helper first!
     def log_debug(msg):
