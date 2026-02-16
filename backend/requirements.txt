@@ -8,3 +8,5 @@ sqlalchemy
 python-dotenv
 google-generativeai
 httpx
+gunicorn
+groq

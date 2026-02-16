@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import useFuzzySearch from '../../hooks/useFuzzySearch';
+import { chatService } from '../../services/api';
 
 const FichasGrid = ({ fichasSearch, setFichasSearch, specsList = [], setSelectedImage }) => {
     const searchData = useMemo(() =>
@@ -48,7 +49,7 @@ const FichasGrid = ({ fichasSearch, setFichasSearch, specsList = [], setSelected
                         <div
                             key={filename}
                             className="ficha-card"
-                            onClick={() => setSelectedImage(`http://localhost:8000/specs/${filename}`)}
+                            onClick={() => setSelectedImage(chatService.getSpecImageUrl(filename))}
                             style={{
                                 background: '#111827',
                                 borderRadius: '16px',
@@ -60,7 +61,7 @@ const FichasGrid = ({ fichasSearch, setFichasSearch, specsList = [], setSelected
                         >
                             <div style={{ height: '240px', overflow: 'hidden', background: '#0B0F19', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 <img
-                                    src={`http://localhost:8000/specs/${filename}`}
+                                    src={chatService.getSpecImageUrl(filename)}
                                     alt={filename}
                                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                     loading="lazy"

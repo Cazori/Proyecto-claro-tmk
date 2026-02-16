@@ -172,7 +172,7 @@ const ChatApp = () => {
     }
 
     if (found) {
-      setSelectedImage(`http://localhost:8000/specs/${found}`);
+      setSelectedImage(chatService.getSpecImageUrl(found));
     } else if (modelName) {
       const search = modelName.toLowerCase().replace(/[\s-]/g, '');
       const keywords = search.split(/\s+/).filter(k => k.length > 2);
@@ -181,7 +181,7 @@ const ChatApp = () => {
           const f = filename.toLowerCase();
           return keywords.every(k => f.includes(k));
         });
-        if (partialMatch) setSelectedImage(`http://localhost:8000/specs/${partialMatch}`);
+        if (partialMatch) setSelectedImage(chatService.getSpecImageUrl(partialMatch));
       }
     }
   };

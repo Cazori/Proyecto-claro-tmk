@@ -633,3 +633,8 @@
 [2026-02-15 21:52:40.734398] FAST PATH: Found 0 matches
 [2026-02-15 21:52:41.382100] AI PATH: After Categoria: 63
 [2026-02-15 21:52:41.383505] After deduplication: 61 unique materials
+[2026-02-15 22:10:05.267820] QUERY RECIBIDA (Original): tablets
+[2026-02-15 22:10:05.268225] Keywords válidas final: ['tab']
+[2026-02-15 22:10:05.270652] FAST PATH: Found 16 matches
+[2026-02-15 22:10:05.270912] FAST PATH: EXECUTED
+[2026-02-15 22:10:05.271991] After deduplication: 14 unique materials

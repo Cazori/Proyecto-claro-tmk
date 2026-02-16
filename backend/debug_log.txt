@@ -989,3 +989,8 @@ DEBUG PROMPT START:
     
 Eres Cleo, la asistente ejecutiva de Claro Tecnología TMK. 
 TU REGLA ABSOLUTA: Solo puedes inf...
+DEBUG PROMPT LEN: 4104
+DEBUG PROMPT START: 
+    
+Eres Cleo, la asistente ejecutiva de Claro Tecnología TMK. 
+TU REGLA ABSOLUTA: Solo puedes inf...
