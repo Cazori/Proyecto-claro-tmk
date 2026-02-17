@@ -9,7 +9,8 @@ from datetime import datetime
 import json
 from dotenv import load_dotenv
 import pandas as pd
-from processor import process_inventory_pdf, rotate_inventories, get_latest_inventory, STORAGE_DIR
+from processor import process_inventory_pdf, rotate_inventories, get_latest_inventory, set_ai_pool
+from supabase_db import get_metadata_db, upload_spec_to_supabase, get_spec_url_supabase, list_specs_supabase
 from ai_pool import AIPool, RotationStrategy
 
 # Load environment variables
@@ -71,8 +72,24 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount specs folder to serve images
-app.mount("/specs", StaticFiles(directory=SPECS_DIR), name="specs")
+# Mount specs folder but with a fallback logic
+# app.mount("/specs", StaticFiles(directory=SPECS_DIR), name="specs") 
+# We'll use a manual route instead of mounting to allow Supabase fallback
+
+from fastapi.responses import FileResponse, RedirectResponse
+
+@app.get("/specs/{filename}")
+async def get_spec_image(filename: str):
+    local_path = os.path.join(SPECS_DIR, filename)
+    if os.path.exists(local_path):
+        return FileResponse(local_path)
+    
+    # Try cloud
+    cloud_url = get_spec_url_supabase(filename)
+    if cloud_url:
+        return RedirectResponse(cloud_url)
+    
+    raise HTTPException(status_code=404, detail="Imagen no encontrada local ni en la nube.")
 
 @app.get("/")
 async def root():
@@ -80,14 +97,20 @@ async def root():
 
 @app.get("/specs-list")
 async def list_specs():
-    """List all available technical sheet images"""
-    if not os.path.exists(SPECS_DIR):
-        return []
-    files = os.listdir(SPECS_DIR)
-    # Only images
-    valid_exts = {".jpg", ".jpeg", ".png", ".webp"}
-    images = [f for f in files if os.path.splitext(f)[1].lower() in valid_exts]
-    return images
+    """List all available technical sheet images (Local + Cloud)"""
+    # 1. Local
+    local_files = []
+    if os.path.exists(SPECS_DIR):
+        local_files = [f for f in os.listdir(SPECS_DIR) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.pdf'))]
+    
+    # 2. Supabase
+    try:
+        cloud_files = await list_specs_supabase()
+    except:
+        cloud_files = []
+        
+    # Combine (unique)
+    return list(set(local_files + cloud_files))
 
 @app.post("/upload-inventory")
 async def upload_inventory(file: UploadFile = File(...)):
@@ -107,6 +130,12 @@ async def upload_inventory(file: UploadFile = File(...)):
 @app.get("/inventory-metadata")
 async def get_inventory_metadata():
     """Returns information about the last inventory update."""
+    # 1. Try Supabase first
+    db_meta = await get_metadata_db()
+    if db_meta:
+        return db_meta
+        
+    # 2. Local fallback
     from processor import PROCESSED_DATA_FILE
     if os.path.exists(PROCESSED_DATA_FILE):
         mtime = os.path.getmtime(PROCESSED_DATA_FILE)
@@ -121,10 +150,16 @@ async def upload_spec(file: UploadFile = File(...)):
     ext = file.filename.split(".")[-1].lower()
     if ext not in ["pdf", "jpg", "jpeg", "png"]:
         raise HTTPException(status_code=400, detail="Formato no soportado.")
+    
     file_path = os.path.join(SPECS_DIR, file.filename)
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
-    return {"message": "Ficha técnica recibida."}
+    
+    # Cloud Storage Upload
+    import asyncio
+    asyncio.create_task(upload_spec_to_supabase(file_path, file.filename))
+    
+    return {"message": "Ficha técnica recibida y sincronizada con la nube."}
 
 @app.get("/knowledge")
 async def get_knowledge():

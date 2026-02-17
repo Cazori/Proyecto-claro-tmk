@@ -13,6 +13,9 @@ load_dotenv()
 # AI Pool will be injected from main.py
 _ai_pool = None
 
+# Import Supabase logic
+from supabase_db import save_inventory_to_db, get_inventory_from_db
+
 def set_ai_pool(pool):
     """Set the AI pool instance for normalization"""
     global _ai_pool
@@ -208,6 +211,11 @@ async def process_inventory_pdf(file_path):
         df["especificaciones"] = df["Subproducto"].apply(lambda x: get_attr(x, "especificaciones"))
 
         df.to_json(PROCESSED_DATA_FILE, orient="records", force_ascii=False, indent=4)
+        
+        # PERSISTENCE: Save to Supabase
+        import asyncio
+        asyncio.create_task(save_inventory_to_db(df))
+        
         print(f"Éxito: {len(df)} ítems procesados.")
         return df
 
@@ -238,20 +246,34 @@ def rotate_inventories():
 async def get_latest_inventory():
     """
     Returns the most recent processed DataFrame. 
-    If PROCESSED_DATA_FILE exists, it loads it; otherwise, it processes the latest PDF.
+    Priority: 1. Supabase (Cloud Memory) -> 2. Local JSON -> 3. Local PDF processing
     """
+    # 1. TRY SUPABASE FIRST (Cloud Memory)
+    try:
+        cloud_df = await get_inventory_from_db()
+        if cloud_df is not None and not cloud_df.empty:
+            print("✓ Cargando inventario desde Supabase (Memoria en la nube).")
+            # Cache locally for faster subsequent access
+            cloud_df.to_json(PROCESSED_DATA_FILE, orient="records", force_ascii=False, indent=4)
+            return cloud_df
+    except Exception as e:
+        print(f"! Error consultando Supabase, reintentando local: {e}")
+
+    # 2. LOCAL JSON FALLBACK
     if os.path.exists(PROCESSED_DATA_FILE):
         try:
             return pd.read_json(PROCESSED_DATA_FILE)
         except: pass
 
+    # 3. LOCAL PDF PROCESSING FALLBACK
     if os.path.exists(STORAGE_DIR):
         files = glob.glob(os.path.join(STORAGE_DIR, "*.pdf"))
-        if files:
-            latest_file = max(files, key=os.path.getmtime)
+    else:
+        files = []
+        
     if not files:
         return None
     
     latest_file = max(files, key=os.path.getmtime)
-    print(f"No se encontró data procesada. Procesando PDF: {latest_file}")
+    print(f"No se encontró data procesada. Procesando PDF local: {latest_file}")
     return await process_inventory_pdf(latest_file)
