@@ -9,7 +9,7 @@ from datetime import datetime
 import json
 from dotenv import load_dotenv
 import pandas as pd
-from processor import process_inventory_pdf, rotate_inventories, get_latest_inventory, set_ai_pool
+from processor import process_inventory_pdf, rotate_inventories, get_latest_inventory, set_ai_pool, STORAGE_DIR
 from supabase_db import get_metadata_db, upload_spec_to_supabase, get_spec_url_supabase, list_specs_supabase
 from ai_pool import AIPool, RotationStrategy
 
