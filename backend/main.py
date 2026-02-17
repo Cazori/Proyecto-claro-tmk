@@ -98,8 +98,23 @@ async def upload_inventory(file: UploadFile = File(...)):
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
     
+    # Process immediately
     rotate_inventories()
-    return {"message": "Inventario cargado con éxito.", "filename": file.filename}
+    await process_inventory_pdf(file_path)
+    
+    return {"message": "Inventario cargado y procesado con éxito.", "filename": file.filename}
+
+@app.get("/inventory-metadata")
+async def get_inventory_metadata():
+    """Returns information about the last inventory update."""
+    from processor import PROCESSED_DATA_FILE
+    if os.path.exists(PROCESSED_DATA_FILE):
+        mtime = os.path.getmtime(PROCESSED_DATA_FILE)
+        return {
+            "last_update": datetime.fromtimestamp(mtime).isoformat(),
+            "status": "ready"
+        }
+    return {"last_update": None, "status": "no_inventory"}
 
 @app.post("/upload-spec")
 async def upload_spec(file: UploadFile = File(...)):

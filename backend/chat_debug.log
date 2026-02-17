@@ -638,3 +638,13 @@
 [2026-02-15 22:10:05.270652] FAST PATH: Found 16 matches
 [2026-02-15 22:10:05.270912] FAST PATH: EXECUTED
 [2026-02-15 22:10:05.271991] After deduplication: 14 unique materials
+[2026-02-16 23:01:39.840857] QUERY RECIBIDA (Original): Patinetas
+[2026-02-16 23:01:39.841376] Keywords válidas final: ['ptn']
+[2026-02-16 23:01:39.850701] FAST PATH: Found 5 matches
+[2026-02-16 23:01:39.851110] FAST PATH: EXECUTED
+[2026-02-16 23:01:39.852682] After deduplication: 5 unique materials
+[2026-02-16 23:02:01.399867] QUERY RECIBIDA (Original): relojes 
+[2026-02-16 23:02:01.400278] Keywords válidas final: ['reloje']
+[2026-02-16 23:02:01.402625] FAST PATH: Found 0 matches
+[2026-02-16 23:02:02.343028] AI PATH: After Categoria: 60
+[2026-02-16 23:02:02.344682] After deduplication: 59 unique materials

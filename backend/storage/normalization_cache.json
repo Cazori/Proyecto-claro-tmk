@@ -922,5 +922,95 @@
         "marca": "Samsung",
         "modelo_limpio": "UN43U8000",
         "especificaciones": "43\" LED 4K SMART_TV NG"
+    },
+    "ASPIRADORA S40C BLTTH4.2 2600MH BLN XIAO": {
+        "categoria": "Otro",
+        "marca": "Xiaomi",
+        "modelo_limpio": "S40C",
+        "especificaciones": "Bluetooth 4.2, Bater\u00eda 2600mAh, Color Blanco"
+    },
+    "ASPIRADORA G20 MAX 180AW 0.6LT BLNC XIAO": {
+        "categoria": "Otro",
+        "marca": "Xiaomi",
+        "modelo_limpio": "G20 MAX",
+        "especificaciones": "Succi\u00f3n 180AW, Capacidad 0.6L, Color Blanco"
+    },
+    "BRRA SONIDO AWSBH1W-W LED BT5.0 MP3 AIWA": {
+        "categoria": "Parlante",
+        "marca": "Aiwa",
+        "modelo_limpio": "AWSBH1W-W",
+        "especificaciones": "Barra de sonido, Iluminaci\u00f3n LED, Bluetooth 5.0, Soporte MP3"
+    },
+    "CAMARA EPIC88 4K 24MP 128G IP68 NGR ARGM": {
+        "categoria": "Otro",
+        "marca": "Argom",
+        "modelo_limpio": "EPIC88",
+        "especificaciones": "Resoluci\u00f3n 4K, 24MP, Soporta 128GB, Protecci\u00f3n IP68, Color Negro"
+    },
+    "MINICMPNNT AKX320 450W EFCTSDJ RDFM PNSC": {
+        "categoria": "Parlante",
+        "marca": "Panasonic",
+        "modelo_limpio": "AKX320",
+        "especificaciones": "Minicomponente, Potencia 450W, Efectos DJ, Radio FM"
+    },
+    "ALTVZ PRTTL AWPOK7D LED BLTH5.1 30W AIWA": {
+        "categoria": "Parlante",
+        "marca": "AIWA",
+        "modelo_limpio": "AWPOK7D",
+        "especificaciones": "Port\u00e1til, Iluminaci\u00f3n LED, Bluetooth 5.1, Potencia 30W"
+    },
+    "EQUP ONEBOX AU30 300W SND180\u00b0 4AMPL PNSC": {
+        "categoria": "Parlante",
+        "marca": "Panasonic",
+        "modelo_limpio": "ONEBOX AU30",
+        "especificaciones": "Potencia 300W, Sonido 180 grados, 4 Amplificadores"
+    },
+    "PARLANTE AWS544BT 110W BLTTH5.3 NGR AIWA": {
+        "categoria": "Parlante",
+        "marca": "AIWA",
+        "modelo_limpio": "AWS544BT",
+        "especificaciones": "Potencia 110W, Bluetooth 5.3, Color Negro"
+    },
+    "SMRTWTCH WATCH5 1.85\" BLTTH5.2 DORD HONR": {
+        "categoria": "Reloj",
+        "marca": "Honor",
+        "modelo_limpio": "WATCH5",
+        "especificaciones": "Pantalla 1.85 pulgadas, Bluetooth 5.2, Color Dorado"
+    },
+    "TBLET MATPD11.5\" 128_8G GRS+TECLADO HUAW": {
+        "categoria": "Tablet",
+        "marca": "Huawei",
+        "modelo_limpio": "MatePad 11.5\"",
+        "especificaciones": "128GB Almacenamiento, 8GB RAM, Color Gris, incluye Teclado"
+    },
+    "TV 55Q6N 55\" 4K QLED NG+BARR HS1000 HSSN": {
+        "categoria": "TV",
+        "marca": "Samsung",
+        "modelo_limpio": "Q6N",
+        "especificaciones": "55\", 4K, QLED, NG+BARR, HS1000, HSSN"
+    },
+    "TRRE SND BMAX5 BLTTH5.0 2475MAH NGR PNSC": {
+        "categoria": "Parlante",
+        "marca": "Tronsmart",
+        "modelo_limpio": "BMAX5",
+        "especificaciones": "BLTTH5.0, 2475MAH, NGR, PNSC"
+    },
+    "TORRE SND AWSP15TWL 1000W BT5.0 NGR AIWA": {
+        "categoria": "Parlante",
+        "marca": "AWSP",
+        "modelo_limpio": "AWSP15TWL",
+        "especificaciones": "1000W, BT5.0, NGR, AIWA"
+    },
+    "TRRE SND BMAX10 BLTTH5.0 4950MAH NG PNSC": {
+        "categoria": "Parlante",
+        "marca": "Tronsmart",
+        "modelo_limpio": "BMAX10",
+        "especificaciones": "BLTTH5.0, 4950MAH, NG, PNSC"
+    },
+    "TRRE SND AWPOH5D 800W LED BT5.0 NGR AIWA": {
+        "categoria": "Parlante",
+        "marca": "AWPOH",
+        "modelo_limpio": "AWPOH5D",
+        "especificaciones": "800W, LED, BT5.0, NGR, AIWA"
     }
 }

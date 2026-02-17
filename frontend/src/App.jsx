@@ -63,14 +63,23 @@ const ChatApp = () => {
   useEffect(() => {
     const loadInitialData = async () => {
       try {
-        const [knowledgeData, specsData, mappingData] = await Promise.all([
+        const [knowledgeData, specsData, mappingData, inventoryMeta] = await Promise.all([
           chatService.getKnowledge(),
           chatService.getSpecsList(),
-          chatService.getSpecsMapping()
+          chatService.getSpecsMapping(),
+          chatService.getInventoryMetadata()
         ]);
         setKnowledge(knowledgeData);
         setSpecsList(specsData);
         setSpecsMapping(mappingData);
+
+        if (inventoryMeta && inventoryMeta.last_update) {
+          const date = new Date(inventoryMeta.last_update);
+          const day = date.getDate();
+          const month = date.toLocaleString('es-ES', { month: 'long' });
+          const dynamicText = `Hola. Soy Cleo. Tu sistema de inventario está en línea, inventario actualizado al día ${day} de ${month}.`;
+          setMessages(prev => prev.map(m => m.id === 1 ? { ...m, text: dynamicText } : m));
+        }
       } catch (e) {
         console.error("Error loading initial data", e);
       }
@@ -113,19 +122,28 @@ const ChatApp = () => {
 
   const handleFileUpload = async () => {
     if (!file) return;
-    setUploadStatus('Subiendo...');
+    setUploadStatus('Subiendo y procesando con IA... (Esto puede tardar unos segundos)');
 
     try {
       const response = await chatService.uploadInventory(file);
       if (response.ok) {
-        setUploadStatus('¡Archivo cargado con éxito! Cleo ya tiene los nuevos datos.');
+        setUploadStatus('¡Inventario procesado con éxito! Cleo ya tiene los datos actualizados.');
         setFile(null);
+        // Refresh metadata and stats to show the new date
+        const inventoryMeta = await chatService.getInventoryMetadata();
+        if (inventoryMeta && inventoryMeta.last_update) {
+          const date = new Date(inventoryMeta.last_update);
+          const day = date.getDate();
+          const month = date.toLocaleString('es-ES', { month: 'long' });
+          const dynamicText = `Hola. Soy Cleo. Tu sistema de inventario está en línea, inventario actualizado al día ${day} de ${month}.`;
+          setMessages(prev => prev.map(m => m.id === 1 ? { ...m, text: dynamicText } : m));
+        }
         fetchStats();
       } else {
-        setUploadStatus('Error en la carga. Asegúrate de que es un PDF.');
+        setUploadStatus('Error en la carga. Asegúrate de que es un PDF válido.');
       }
     } catch (error) {
-      setUploadStatus('Error de conexión.');
+      setUploadStatus('Error de conexión o tiempo excedido.');
     }
   };
 

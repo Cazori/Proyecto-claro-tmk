@@ -41,6 +41,11 @@ export const chatService = {
         return response.json();
     },
 
+    async getInventoryMetadata() {
+        const response = await fetch(`${BASE_URL}/inventory-metadata`);
+        return response.json();
+    },
+
     getSpecImageUrl(filename) {
         return `${BASE_URL}/specs/${filename}`;
     }
