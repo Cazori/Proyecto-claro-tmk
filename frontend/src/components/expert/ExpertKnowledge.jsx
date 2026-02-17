@@ -1,15 +1,42 @@
 import React from 'react';
 
-const ExpertKnowledge = ({ specFile, setSpecFile, handleSpecUpload, specUploadStatus, knowledge }) => {
+const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleSpecUpload, specUploadStatus, knowledge }) => {
     return (
         <div style={{ color: 'white', padding: '20px' }}>
             <div style={{ display: 'flex', gap: '20px', marginBottom: '32px' }}>
                 <div style={{ flex: 1, background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
                     <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px' }}>Subir Ficha Técnica</h3>
+
+                    <div style={{ marginBottom: '15px' }}>
+                        <label style={{ display: 'block', fontSize: '13px', color: '#9CA3AF', marginBottom: '8px' }}>Nombre del producto o ID de Material:</label>
+                        <input
+                            type="text"
+                            placeholder="Ej: HP G10 o 100234"
+                            value={specName || ''}
+                            onChange={(e) => setSpecName(e.target.value)}
+                            style={{ width: '100%', background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white', outline: 'none' }}
+                        />
+                    </div>
+
                     <input type="file" accept="image/*,.pdf" onChange={(e) => setSpecFile(e.target.files[0])} />
+
                     {specFile && (
-                        <button onClick={handleSpecUpload} style={{ marginTop: '15px', background: '#7C3AED', border: 'none', padding: '10px 20px', borderRadius: '10px', color: 'white', fontWeight: '600', cursor: 'pointer' }}>
-                            Indexar Ficha
+                        <button
+                            onClick={handleSpecUpload}
+                            disabled={!specName || specName.trim() === ''}
+                            style={{
+                                marginTop: '15px',
+                                background: (!specName || specName.trim() === '') ? '#374151' : '#7C3AED',
+                                border: 'none',
+                                padding: '10px 20px',
+                                borderRadius: '10px',
+                                color: 'white',
+                                fontWeight: '600',
+                                cursor: (!specName || specName.trim() === '') ? 'not-allowed' : 'pointer',
+                                width: '100%'
+                            }}
+                        >
+                            Indexar {specName ? `como "${specName}"` : 'Ficha'}
                         </button>
                     )}
                     {specUploadStatus && <p style={{ marginTop: '10px', fontSize: '13px', color: '#A78BFA' }}>{specUploadStatus}</p>}

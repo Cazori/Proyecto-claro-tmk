@@ -29,6 +29,7 @@ const ChatApp = () => {
   const [activeTab, setActiveTab] = useState('chat');
   const [file, setFile] = useState(null);
   const [specFile, setSpecFile] = useState(null);
+  const [specName, setSpecName] = useState('');
   const [uploadStatus, setUploadStatus] = useState('');
   const [specUploadStatus, setSpecUploadStatus] = useState('');
   const [knowledge, setKnowledge] = useState([]);
@@ -148,15 +149,25 @@ const ChatApp = () => {
   };
 
   const handleSpecUpload = async () => {
-    if (!specFile) return;
+    if (!specFile || !specName) return;
     setSpecUploadStatus('Subiendo ficha...');
 
     try {
-      const data = await chatService.uploadSpec(specFile);
+      // RENAME logic: Create a new file object with the desired name
+      const extension = specFile.name.split('.').pop();
+      const newFileName = `${specName.trim()}.${extension}`;
+      const renamedFile = new File([specFile], newFileName, { type: specFile.type });
+
+      const data = await chatService.uploadSpec(renamedFile);
       setSpecUploadStatus(data.message);
       setSpecFile(null);
+      setSpecName(''); // Clear name
       const knowledgeData = await chatService.getKnowledge();
       setKnowledge(knowledgeData);
+
+      // Refresh specs list to show the new file
+      const specsData = await chatService.getSpecsList();
+      setSpecsList(specsData);
     } catch (error) {
       setSpecUploadStatus('Error de conexión.');
     }
@@ -268,6 +279,8 @@ const ChatApp = () => {
             <ExpertKnowledge
               specFile={specFile}
               setSpecFile={setSpecFile}
+              specName={specName}
+              setSpecName={setSpecName}
               handleSpecUpload={handleSpecUpload}
               specUploadStatus={specUploadStatus}
               knowledge={knowledge}
