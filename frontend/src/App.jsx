@@ -42,6 +42,7 @@ const ChatApp = () => {
   const [specsMapping, setSpecsMapping] = useState({});
   const [fichasSearch, setFichasSearch] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isBotLoading, setIsBotLoading] = useState(false);
 
   const chatEndRef = useRef(null);
 
@@ -97,6 +98,7 @@ const ChatApp = () => {
     setInput('');
 
     const loadingId = Date.now() + 1;
+    setIsBotLoading(true);
     setMessages(prev => [...prev, {
       id: loadingId,
       text: "Procesando consulta...",
@@ -118,6 +120,8 @@ const ChatApp = () => {
           ? { ...msg, text: "Error de conexión con el servidor. Intenta de nuevo.", loading: false }
           : msg
       ));
+    } finally {
+      setIsBotLoading(false);
     }
   };
 
@@ -247,6 +251,7 @@ const ChatApp = () => {
               input={input}
               setInput={setInput}
               handleSend={handleSend}
+              isBotLoading={isBotLoading}
               specsList={specsList}
               specsMapping={specsMapping}
               onViewSpec={handleViewSpec}

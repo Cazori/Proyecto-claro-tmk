@@ -88,12 +88,17 @@ const ChatArea = ({ messages, chatEndRef, input, setInput, handleSend, specsList
                     <input
                         type="text"
                         className="chat-input"
-                        placeholder="Escribe tu consulta..."
+                        placeholder={isBotLoading ? "Cleo está pensando..." : "Escribe tu consulta..."}
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                        onKeyPress={(e) => e.key === 'Enter' && !isBotLoading && handleSend()}
                     />
-                    <button className="send-btn" onClick={handleSend}>
+                    <button
+                        className="send-btn"
+                        onClick={handleSend}
+                        disabled={isBotLoading}
+                        style={{ opacity: isBotLoading ? 0.5 : 1, cursor: isBotLoading ? 'not-allowed' : 'pointer' }}
+                    >
                         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
                         </svg>

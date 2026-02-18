@@ -34,8 +34,8 @@ if not os.path.exists(KNOWLEDGE_FILE):
 
 # Initialize AI Pool (multi-provider support)
 try:
-    ai_pool = AIPool(strategy=RotationStrategy.FALLBACK)
-    print("✓ AI Pool initialized successfully")
+    ai_pool = AIPool(strategy=RotationStrategy.FASTEST_FIRST)
+    print("✓ AI Pool initialized with FASTEST_FIRST strategy")
     
     # Inject AI Pool into processor for normalization
     from processor import set_ai_pool
@@ -479,7 +479,8 @@ async def chat(query: str):
         log_debug(f"After deduplication: {len(results)} unique materials")
         
         # Prioritize by Stock (descending) first, then by Price (descending)
-        results = results.sort_values(by=["CantDisponible", "Precio Contado"], ascending=[False, False]).head(50)
+        # We limit to 20 products for faster AI processing in call center environments
+        results = results.sort_values(by=["CantDisponible", "Precio Contado"], ascending=[False, False]).head(20)
         
         for _, item in results.iterrows():
             # Check if spec exists using robust hybrid logic
