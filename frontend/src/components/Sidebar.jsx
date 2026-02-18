@@ -12,6 +12,7 @@ const Sidebar = ({ isSidebarOpen, activeTab, setActiveTab }) => {
                 <div className="logo-text">
                     <div className="logo-title">CLEO</div>
                     <div className="logo-subtitle">Inventory AI</div>
+                    <div style={{ fontSize: '10px', color: '#6B7280', marginTop: '2px' }}>v1.6.0</div>
                 </div>
             </div>
 
