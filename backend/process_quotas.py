@@ -2,7 +2,8 @@ import pandas as pd
 import json
 import os
 
-STORAGE_DIR = "storage"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STORAGE_DIR = os.path.join(BASE_DIR, "storage")
 INVENTORY_FILE = os.path.join(STORAGE_DIR, "processed_inventory.json")
 QUOTAS_EXCEL = os.path.join(STORAGE_DIR, "cuotas.xlsx")
 OUTPUT_MAPPING = os.path.join(STORAGE_DIR, "quota_mapping.json")

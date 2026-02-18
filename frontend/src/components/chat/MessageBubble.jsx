@@ -49,7 +49,13 @@ const MessageBubble = ({ msg, specsList = [], specsMapping = {}, quotasMapping =
                                                 CantDisponible: parseInt(String(product.CantDisponible || 0).replace(/[^\d]/g, '')),
                                                 "Precio Contado": parseFloat(String(product['Precio Contado'] || 0).replace(/[^\d]/g, '')),
                                                 hasSpec: checkHasSpec(product.Material, product.Subproducto),
-                                                quotas: quotasMapping[String(product.Material || '').trim()]
+                                                quotas: (() => {
+                                                    const rawId = String(product.Material || '');
+                                                    const cleanId = rawId.replace(/[^\d]/g, '');
+                                                    const result = quotasMapping[cleanId] || quotasMapping[rawId.trim()];
+                                                    console.log('[QUOTAS DEBUG]', { rawId, cleanId, found: !!result, totalKeys: Object.keys(quotasMapping).length, firstKey: Object.keys(quotasMapping)[0] });
+                                                    return result;
+                                                })()
                                             }}
                                             onViewSpec={onViewSpec}
                                         />
