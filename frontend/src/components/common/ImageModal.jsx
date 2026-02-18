@@ -45,16 +45,25 @@ const ImageModal = ({ imageUrl, onClose }) => {
     return (
         <div
             style={{
-                position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(0,0,0,0.9)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px',
-                backdropFilter: 'blur(8px)', cursor: 'zoom-out'
+                position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(0,0,0,0.95)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                backdropFilter: 'blur(10px)',
+                overflow: 'auto' // Allow scrolling if zoomed
             }}
             onClick={onClose}
         >
             <img
                 src={imageUrl}
                 alt="Ficha ampliada"
-                style={{ maxWidth: '100%', maxHeight: '100%', borderRadius: '8px', boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }}
+                style={{
+                    maxWidth: '95%',
+                    maxHeight: '95%',
+                    borderRadius: '4px',
+                    boxShadow: '0 20px 50px rgba(0,0,0,0.8)',
+                    transition: 'transform 0.2s ease-out',
+                    touchAction: 'pinch-zoom' // Explicitly allow pinch zoom on mobile
+                }}
+                onClick={(e) => e.stopPropagation()} // Prevent close when clicking image
             />
 
             {/* Close Button */}
