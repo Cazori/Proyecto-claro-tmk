@@ -1,6 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { chatService } from '../../services/api';
 
 const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleSpecUpload, specUploadStatus, knowledge }) => {
+    const [quotasFile, setQuotasFile] = useState(null);
+    const [quotasStatus, setQuotasStatus] = useState('');
+    const [quotasLoading, setQuotasLoading] = useState(false);
+
+    const handleQuotasUpload = async () => {
+        if (!quotasFile) return;
+        setQuotasLoading(true);
+        setQuotasStatus('Subiendo y procesando cuotas...');
+        try {
+            const result = await chatService.uploadQuotas(quotasFile);
+            setQuotasStatus(result.message || 'Proceso completado.');
+            setQuotasFile(null);
+        } catch (e) {
+            setQuotasStatus('Error al subir el archivo.');
+        } finally {
+            setQuotasLoading(false);
+        }
+    };
+
     return (
         <div style={{ color: 'white', padding: '20px' }}>
             <div style={{ display: 'flex', gap: '20px', marginBottom: '32px' }}>
@@ -47,6 +67,39 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
                         Al subir imágenes o PDFs de fichas técnicas, Cleo aprenderá características que no están en el inventario (como el procesador "Ryzen 5" o la "RAM"). Esto permite buscar por características y no solo por nombre.
                     </p>
                 </div>
+            </div>
+
+            {/* Quotas Upload Section */}
+            <div style={{ background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(245, 158, 11, 0.2)', marginBottom: '32px' }}>
+                <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '4px', color: '#FCD34D' }}>💰 Subir Cuotas (cuotas.xlsx)</h3>
+                <p style={{ fontSize: '13px', color: '#9CA3AF', marginBottom: '16px' }}>Sube el archivo Excel de cuotas para activar el botón "Ver Cuotas" en las tarjetas de productos.</p>
+                <input
+                    type="file"
+                    accept=".xlsx"
+                    onChange={(e) => setQuotasFile(e.target.files[0])}
+                    style={{ marginBottom: '12px' }}
+                />
+                {quotasFile && (
+                    <button
+                        onClick={handleQuotasUpload}
+                        disabled={quotasLoading}
+                        style={{
+                            display: 'block',
+                            marginTop: '8px',
+                            background: quotasLoading ? '#374151' : 'rgba(245, 158, 11, 0.2)',
+                            border: '1px solid rgba(245, 158, 11, 0.4)',
+                            padding: '10px 20px',
+                            borderRadius: '10px',
+                            color: '#FCD34D',
+                            fontWeight: '600',
+                            cursor: quotasLoading ? 'not-allowed' : 'pointer',
+                            width: '100%'
+                        }}
+                    >
+                        {quotasLoading ? 'Procesando...' : `Subir y Procesar "${quotasFile.name}"`}
+                    </button>
+                )}
+                {quotasStatus && <p style={{ marginTop: '10px', fontSize: '13px', color: '#FCD34D' }}>{quotasStatus}</p>}
             </div>
 
             <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px' }}>Conocimientos Indexados</h3>

@@ -51,6 +51,16 @@ export const chatService = {
         return response.json();
     },
 
+    async uploadQuotas(file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        const response = await fetch(`${BASE_URL}/upload-quotas`, {
+            method: 'POST',
+            body: formData
+        });
+        return response.json();
+    },
+
     getSpecImageUrl(filename) {
         return `${BASE_URL}/specs/${filename}`;
     }
