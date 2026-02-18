@@ -52,5 +52,7 @@ pylintrc
 backend/storage/*.json
 !backend/storage/processed_inventory.json
 !backend/storage/normalization_cache.json
+!backend/storage/quota_mapping.json
+!backend/storage/specs_mapping.json
 !backend/expert_knowledge.json
 # (Add other specific exclusions if needed)

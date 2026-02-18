@@ -9,6 +9,7 @@ import Dashboard from './components/dashboard/Dashboard';
 import InventoryUpload from './components/upload/InventoryUpload';
 import FichasGrid from './components/fichas/FichasGrid';
 import ExpertKnowledge from './components/expert/ExpertKnowledge';
+import QuotasLookup from './components/quotas/QuotasLookup';
 import ImageModal from './components/common/ImageModal';
 
 // Services
@@ -282,6 +283,10 @@ const ChatApp = () => {
               specsList={specsList}
               setSelectedImage={setSelectedImage}
             />
+          )}
+
+          {activeTab === 'quotas' && (
+            <QuotasLookup />
           )}
 
           {activeTab === 'expert' && (
