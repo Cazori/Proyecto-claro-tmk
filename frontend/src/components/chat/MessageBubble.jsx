@@ -4,7 +4,7 @@ import remarkGfm from 'remark-gfm';
 import ProductCard from './ProductCard';
 import { parseMarkdownTable } from '../../services/parser';
 
-const MessageBubble = ({ msg, specsList = [], specsMapping = {}, onViewSpec }) => {
+const MessageBubble = ({ msg, specsList = [], specsMapping = {}, quotasMapping = {}, onViewSpec }) => {
     const parsedData = msg.sender === 'bot' && !msg.loading ? parseMarkdownTable(msg.text) : null;
 
     const checkHasSpec = (materialId, modelName) => {
