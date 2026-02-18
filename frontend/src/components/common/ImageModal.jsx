@@ -7,37 +7,51 @@ const ImageModal = ({ imageUrl, onClose }) => {
         e.stopPropagation();
 
         try {
-            // 1. Fetch the image and convert to blob
+            // 1. Fetch the image
             const response = await fetch(imageUrl);
             const blob = await response.blob();
 
-            // 2. Create the file object
-            const filename = imageUrl.split('/').pop() || 'ficha-tecnica.jpg';
-            const file = new File([blob], filename, { type: blob.type });
+            // 2. Sane filename and FORCE .jpg extension for compatibility
+            let filename = imageUrl.split('/').pop() || 'ficha-tecnica.jpg';
+            filename = filename.replace(/[^a-zA-Z0-9.-]/g, '_'); // Sanitize chars
+            if (!filename.toLowerCase().endsWith('.jpg') && !filename.toLowerCase().endsWith('.png')) {
+                filename += '.jpg';
+            }
 
-            // 3. Check if sharing files is supported
+            // 3. Create File object
+            const file = new File([blob], filename, { type: blob.type || 'image/jpeg' });
+
+            // 4. Try Sharing File (Primary)
             if (navigator.canShare && navigator.canShare({ files: [file] })) {
                 await navigator.share({
-                    files: [file]
-                });
-            } else if (navigator.share) {
-                // Fallback to sharing URL if file sharing is not supported
-                await navigator.share({
-                    url: imageUrl
+                    files: [file],
+                    title: 'Ficha Técnica',
+                    text: 'Mira esta ficha técnica.'
                 });
             } else {
-                // PC Fallback
-                await navigator.clipboard.writeText(imageUrl);
-                alert('Enlace de la imagen copiado al portapapeles');
+                throw new Error('File sharing not supported');
             }
         } catch (err) {
-            console.error('Error al compartir:', err);
-            // Final fallback: copy link
+            console.warn('Share file failed, trying URL fallback:', err);
+
+            // 5. Fallback: Share URL
             try {
-                await navigator.clipboard.writeText(imageUrl);
-                alert('No se pudo compartir el archivo, link copiado al portapapeles');
-            } catch (copyErr) {
-                console.error('Error final:', copyErr);
+                if (navigator.share) {
+                    await navigator.share({
+                        title: 'Ficha Técnica',
+                        url: imageUrl
+                    });
+                } else {
+                    throw new Error('Web Share API not supported');
+                }
+            } catch (urlErr) {
+                // 6. Final Fallback: Clipboard
+                try {
+                    await navigator.clipboard.writeText(imageUrl);
+                    alert('Enlace copiado al portapapeles (Compartir no disponible en este dispositivo)');
+                } catch (clipErr) {
+                    alert('No se pudo compartir la imagen.');
+                }
             }
         }
     };

@@ -29,11 +29,13 @@ const ProductCard = ({ product, onViewSpec }) => {
             padding: '16px',
             marginBottom: '12px',
             width: '100%',
-            maxWidth: '400px',
+            maxWidth: '100%', /* Ensure it fits in bubble */
             boxShadow: `0 4px 20px ${stockStatus.color}11`,
-            transition: 'transform 0.2s',
+            transition: 'all 0.2s ease-out',
             position: 'relative',
-            overflow: 'hidden'
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column' /* Explicit flex column */
         }}>
             <div style={{
                 position: 'absolute',
@@ -127,22 +129,28 @@ const ProductCard = ({ product, onViewSpec }) => {
             </div>
 
             {showQuotas && quotas && (
-                <div style={{
-                    background: 'rgba(17, 24, 39, 0.5)',
-                    borderTop: '1px solid rgba(75, 85, 99, 0.4)',
-                    paddingTop: '12px',
-                    marginTop: '8px',
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(3, 1fr)',
-                    gap: '8px'
-                }}>
+                <div
+                    className="quotas-container"
+                    style={{
+                        background: 'rgba(17, 24, 39, 0.95)', /* Opaque background to prevent bleed */
+                        borderTop: '1px solid rgba(75, 85, 99, 0.4)',
+                        paddingTop: '12px',
+                        marginTop: '8px',
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(3, 1fr)',
+                        gap: '8px',
+                        position: 'relative', /* Ensure it stays within flow */
+                        zIndex: 10
+                    }}
+                >
                     {[6, 12, 18, 24, 36].map(months => (
                         quotas[months] ? (
                             <div key={months} style={{
                                 background: 'rgba(31, 41, 55, 0.6)',
                                 padding: '8px',
                                 borderRadius: '8px',
-                                textAlign: 'center'
+                                textAlign: 'center',
+                                border: '1px solid rgba(255,255,255,0.05)'
                             }}>
                                 <div style={{ fontSize: '10px', color: '#9CA3AF', marginBottom: '2px' }}>{months} Cuotas</div>
                                 <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#FCD34D' }}>
