@@ -48,7 +48,8 @@ const MessageBubble = ({ msg, specsList = [], specsMapping = {}, onViewSpec }) =
                                                 ...product,
                                                 CantDisponible: parseInt(String(product.CantDisponible || 0).replace(/[^\d]/g, '')),
                                                 "Precio Contado": parseFloat(String(product['Precio Contado'] || 0).replace(/[^\d]/g, '')),
-                                                hasSpec: checkHasSpec(product.Material, product.Subproducto)
+                                                hasSpec: checkHasSpec(product.Material, product.Subproducto),
+                                                quotas: quotasMapping[product.Material]
                                             }}
                                             onViewSpec={onViewSpec}
                                         />

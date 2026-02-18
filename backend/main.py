@@ -129,21 +129,21 @@ async def upload_inventory(file: UploadFile = File(...)):
 
 @app.get("/inventory-metadata")
 async def get_inventory_metadata():
-    """Returns information about the last inventory update."""
-    # 1. Try Supabase first
-    db_meta = await get_metadata_db()
-    if db_meta:
-        return db_meta
-        
-    # 2. Local fallback
-    from processor import PROCESSED_DATA_FILE
-    if os.path.exists(PROCESSED_DATA_FILE):
-        mtime = os.path.getmtime(PROCESSED_DATA_FILE)
-        return {
-            "last_update": datetime.fromtimestamp(mtime).isoformat(),
-            "status": "ready"
-        }
-    return {"last_update": None, "status": "no_inventory"}
+    inv_file = os.path.join(STORAGE_DIR, "processed_inventory.json")
+    if os.path.exists(inv_file):
+        last_mod = os.path.getmtime(inv_file)
+        dt = datetime.fromtimestamp(last_mod)
+        return {"last_update": dt.isoformat(), "status": "active"}
+    return {"last_update": None, "status": "no_data"}
+
+@app.get("/quotas")
+async def get_quotas_mapping():
+    """Returns the mapping of Material ID -> Installment Plans"""
+    mapping_file = os.path.join(STORAGE_DIR, "quota_mapping.json")
+    if os.path.exists(mapping_file):
+        with open(mapping_file, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {}
 
 @app.post("/upload-spec")
 async def upload_spec(file: UploadFile = File(...)):

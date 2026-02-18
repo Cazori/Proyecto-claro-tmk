@@ -40,6 +40,7 @@ const ChatApp = () => {
   });
   const [specsList, setSpecsList] = useState([]);
   const [specsMapping, setSpecsMapping] = useState({});
+  const [quotasMapping, setQuotasMapping] = useState({});
   const [fichasSearch, setFichasSearch] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
   const [isBotLoading, setIsBotLoading] = useState(false);
@@ -65,15 +66,17 @@ const ChatApp = () => {
   useEffect(() => {
     const loadInitialData = async () => {
       try {
-        const [knowledgeData, specsData, mappingData, inventoryMeta] = await Promise.all([
+        const [knowledgeData, specsData, mappingData, inventoryMeta, quotasData] = await Promise.all([
           chatService.getKnowledge(),
           chatService.getSpecsList(),
           chatService.getSpecsMapping(),
-          chatService.getInventoryMetadata()
+          chatService.getInventoryMetadata(),
+          chatService.getQuotas()
         ]);
         setKnowledge(knowledgeData);
         setSpecsList(specsData);
         setSpecsMapping(mappingData);
+        setQuotasMapping(quotasData);
 
         if (inventoryMeta && inventoryMeta.last_update) {
           const date = new Date(inventoryMeta.last_update);
@@ -254,6 +257,7 @@ const ChatApp = () => {
               isBotLoading={isBotLoading}
               specsList={specsList}
               specsMapping={specsMapping}
+              quotasMapping={quotasMapping}
               onViewSpec={handleViewSpec}
             />
           )}

@@ -46,6 +46,11 @@ export const chatService = {
         return response.json();
     },
 
+    async getQuotas() {
+        const response = await fetch(`${BASE_URL}/quotas`);
+        return response.json();
+    },
+
     getSpecImageUrl(filename) {
         return `${BASE_URL}/specs/${filename}`;
     }
