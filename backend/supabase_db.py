@@ -95,3 +95,41 @@ async def list_specs_supabase():
     except Exception as e:
         print(f"✗ Error listando fichas: {e}")
         return []
+
+# --- STORAGE LOGIC (INVENTORY PDF) ---
+
+async def upload_inventory_pdf_to_supabase(file_path: str, filename: str):
+    if supabase is None: return
+    try:
+        with open(file_path, 'rb') as f:
+            supabase.storage.from_('inventories').upload(
+                path=filename,
+                file=f,
+                file_options={"cache-control": "3600", "upsert": "true"}
+            )
+        print(f"✓ PDF {filename} subido a Supabase Storage.")
+    except Exception as e:
+        print(f"✗ Error subiendo PDF a Storage: {e}")
+
+async def download_latest_inventory_pdf_from_supabase(local_dir: str):
+    if supabase is None: return None
+    try:
+        # Get list of files in 'inventories' bucket
+        files = supabase.storage.from_('inventories').list()
+        if not files: return None
+        
+        # Sort by creation date (if metadata available) or just take one for now
+        # Actually Supabase list() returns metadata. Sort by 'created_at'.
+        files.sort(key=lambda x: x.get('created_at', ''), reverse=True)
+        latest_filename = files[0]['name']
+        
+        local_path = os.path.join(local_dir, latest_filename)
+        with open(local_path, 'wb') as f:
+            res = supabase.storage.from_('inventories').download(latest_filename)
+            f.write(res)
+        
+        print(f"✓ PDF {latest_filename} descargado de Supabase Storage.")
+        return local_path
+    except Exception as e:
+        print(f"✗ Error descargando PDF de Supabase: {e}")
+        return None

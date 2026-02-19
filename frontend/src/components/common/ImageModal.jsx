@@ -22,15 +22,9 @@ const ImageModal = ({ imageUrl, onClose }) => {
             const file = new File([blob], filename, { type: blob.type || 'image/jpeg' });
 
             // 4. Try Sharing File (Primary)
-            if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                await navigator.share({
-                    files: [file],
-                    title: 'Ficha Técnica',
-                    text: 'Mira esta ficha técnica.'
-                });
-            } else {
-                throw new Error('File sharing not supported');
-            }
+            await navigator.share({
+                files: [file],
+            });
         } catch (err) {
             console.warn('Share file failed, trying URL fallback:', err);
 

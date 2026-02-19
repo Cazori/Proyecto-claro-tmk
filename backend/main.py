@@ -10,7 +10,11 @@ import json
 from dotenv import load_dotenv
 import pandas as pd
 from processor import process_inventory_pdf, rotate_inventories, get_latest_inventory, set_ai_pool, STORAGE_DIR
-from supabase_db import get_metadata_db, upload_spec_to_supabase, get_spec_url_supabase, list_specs_supabase
+from supabase_db import (
+    get_metadata_db, upload_spec_to_supabase, get_spec_url_supabase, 
+    list_specs_supabase, upload_inventory_pdf_to_supabase, 
+    download_latest_inventory_pdf_from_supabase
+)
 from ai_pool import AIPool, RotationStrategy
 
 # Load environment variables
@@ -125,7 +129,10 @@ async def upload_inventory(file: UploadFile = File(...)):
     rotate_inventories()
     await process_inventory_pdf(file_path)
     
-    return {"message": "Inventario cargado y procesado con éxito.", "filename": file.filename}
+    # Cloud Storage Upload (Raw PDF)
+    await upload_inventory_pdf_to_supabase(file_path, file.filename)
+    
+    return {"message": "Inventario cargado, procesado y sincronizado con la nube.", "filename": file.filename}
 
 @app.get("/inventory-metadata")
 async def get_inventory_metadata():

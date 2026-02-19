@@ -132,9 +132,15 @@ async def process_inventory_pdf(file_path):
                 # Process line by line to allow greedy name capture safely
                 lines = text.split('\n')
                 for line in lines:
-                    # Robust Pattern: ID -> Name -> Number -> Number -> ... -> Aplica
-                    pattern = r"(\d{7})\s*(.+)\s+(\d+)\s+(\d+).*?Aplica\s+\$.*?(\d[\d\.\s-]*(?:\d|$))"
-                    match = re.search(pattern, line)
+                    # Robust Pattern 1 (Strict): ID -> Name -> Total -> Disponible -> ... -> Aplica $
+                    pattern_strict = r"(\d{7})\s*(.+)\s+(\d+)\s+(\d+).*?Aplica\s+\$.*?(\d[\d\.\s-]*(?:\d|$))"
+                    
+                    # Robust Pattern 2 (Flexible): ID -> Name -> Total -> Disponible -> Price (digits only)
+                    pattern_flex = r"(\d{7})\s*(.+)\s+(\d+)\s+(\d+).*?\$?\s?(\d{1,3}(?:\.\d{3})*(?:,\d+)?)"
+
+                    match = re.search(pattern_strict, line)
+                    if not match:
+                        match = re.search(pattern_flex, line)
                     
                     if match:
                         material = match.group(1)
@@ -212,9 +218,8 @@ async def process_inventory_pdf(file_path):
 
         df.to_json(PROCESSED_DATA_FILE, orient="records", force_ascii=False, indent=4)
         
-        # PERSISTENCE: Save to Supabase
-        import asyncio
-        asyncio.create_task(save_inventory_to_db(df))
+        # PERSISTENCE: Save to Supabase (Wait for it)
+        await save_inventory_to_db(df)
         
         print(f"Éxito: {len(df)} ítems procesados.")
         return df
@@ -277,3 +282,11 @@ async def get_latest_inventory():
     latest_file = max(files, key=os.path.getmtime)
     print(f"No se encontró data procesada. Procesando PDF local: {latest_file}")
     return await process_inventory_pdf(latest_file)
+
+    # 4. CLOUD PDF FALLBACK (Last Resort)
+    print("Buscando PDF en la nube como último recurso...")
+    cloud_pdf_path = await download_latest_inventory_pdf_from_supabase(STORAGE_DIR)
+    if cloud_pdf_path:
+        return await process_inventory_pdf(cloud_pdf_path)
+
+    return None
