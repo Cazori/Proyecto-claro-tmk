@@ -53,7 +53,7 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
 
     return (
         <div style={{ color: 'white', padding: '20px' }}>
-            <div style={{ display: 'flex', gap: '20px', marginBottom: '32px' }}>
+            <div style={{ display: 'flex', gap: '20px', marginBottom: '32px', flexWrap: 'wrap' }}>
                 <div style={{ flex: 1, background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
                     <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px' }}>Subir Ficha Técnica</h3>
 
@@ -137,7 +137,7 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
                 <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '4px', color: '#A78BFA' }}>💡 Editor de Tip de Venta</h3>
                 <p style={{ fontSize: '13px', color: '#9CA3AF', marginBottom: '16px' }}>Busca por código de Material para editar el speech de venta personalizado.</p>
 
-                <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
                     <input
                         type="text"
                         placeholder="Pegar Material aquí..."
