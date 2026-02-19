@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { chatService } from '../../services/api';
 
-const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleSpecUpload, specUploadStatus, 知识 }) => {
+const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleSpecUpload, specUploadStatus, knowledge }) => {
     const [quotasFile, setQuotasFile] = useState(null);
     const [quotasStatus, setQuotasStatus] = useState('');
     const [quotasLoading, setQuotasLoading] = useState(false);
@@ -12,7 +12,7 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
 
     const handleSearch = () => {
         if (!searchMaterial) return;
-        const item = 知识.find(k => k.sku.toUpperCase() === searchMaterial.toUpperCase());
+        const item = knowledge.find(k => k.sku.toUpperCase() === searchMaterial.toUpperCase());
         if (item) {
             setFoundItem(item);
             setEditTip(item.tip_venta || '');
