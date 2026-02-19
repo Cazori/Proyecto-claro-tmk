@@ -62,7 +62,7 @@ REGLAS DE RESPUESTA (POLÍTICA CERO RUIDO):
 
 REGLAS CRÍTICAS DE VERACIDAD:
 1. Si el "CONTEXTO DE INVENTARIO" está vacío, responde: "No encontré equipos con esa descripción en Bogotá. ¿Deseas buscar otra categoría?"
-2. TABLA: (Referencia | Ficha | Marca | Modelo | Precio | Unidades | Caracteristicas). La columna "Referencia" DEBE contener el código de "Material" exacto. La columna "Ficha" debe decir "SI" o "NO" según el campo FICHA del inventario. La columna "Modelo" DEBE ser el nombre DESCRIPTIVO COMPLETO (Subproducto) tal como aparece en el contexto, NO lo resumas (Ej: "TV UN50U8200 50+BRRA...").
+2. TABLA: (Referencia | Ficha | Marca | Modelo | Precio | Unidades | Caracteristicas | Tip). La columna "Referencia" DEBE contener el código de "Material" exacto. La columna "Ficha" debe decir "SI" o "NO" según el campo FICHA del inventario. La columna "Modelo" DEBE ser el nombre DESCRIPTIVO COMPLETO (Subproducto) tal como aparece en el contexto, NO lo resumas (Ej: "TV UN50U8200 50+BRRA..."). La columna "Tip" debe contener el texto del campo TIP proporcionado en el contexto.
 3. FUENTES DE DATOS: Usa ÚNICAMENTE la información proporcionada. Prohibido usar Google o conocimiento externo.
 """
 
@@ -517,9 +517,14 @@ async def chat(query: str):
             available_specs = os.listdir(SPECS_DIR)
             with open(SPECS_MAPPING_FILE, "r", encoding="utf-8") as f:
                 manual_map = json.load(f)
+            # Load expert knowledge for manual tips
+            with open(KNOWLEDGE_FILE, "r", encoding="utf-8") as f:
+                expert_data = json.load(f)
+                expert_tips = {item['sku']: item.get('tip_venta') for item in expert_data if item.get('tip_venta')}
         except:
             available_specs = []
             manual_map = {}
+            expert_tips = {}
 
         # DEDUPLICATION: Keep only the entry with highest stock for each Material ID
         results = results.sort_values(by=["CantDisponible"], ascending=False)
@@ -544,8 +549,13 @@ async def chat(query: str):
             specs = item.get('especificaciones', 'N/A')
             if specs == 'N/A': specs = ""
             
-            # Construct readable line with FICHA tag
-            line = f"- [ID: {item['Material']}] MODELO: {item['Subproducto']} | FICHA: {ficha_tag} | CATEGORIA: {item['categoria']} | MARCA: {item['marca']} | DESC: {specs} | STOCK: {int(item['CantDisponible'])} | PRECIO CONTADO: {precio}\n"
+            # Tip Priority: Manual Expert Tip > AI Generated Tip
+            manual_tip = expert_tips.get(item['Material'])
+            final_tip = manual_tip if manual_tip else item.get('tip_venta', 'N/A')
+            if final_tip == 'N/A': final_tip = ""
+
+            # Construct readable line with FICHA tag and TIP
+            line = f"- [ID: {item['Material']}] MODELO: {item['Subproducto']} | FICHA: {ficha_tag} | CATEGORIA: {item['categoria']} | MARCA: {item['marca']} | DESC: {specs} | STOCK: {int(item['CantDisponible'])} | PRECIO CONTADO: {precio} | TIP: {final_tip}\n"
             inventory_context += line
     else:
         inventory_context = "No se encontraron productos que coincidan exactamente con la búsqueda."

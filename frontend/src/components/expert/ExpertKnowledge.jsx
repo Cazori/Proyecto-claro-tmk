@@ -1,10 +1,40 @@
 import React, { useState } from 'react';
 import { chatService } from '../../services/api';
 
-const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleSpecUpload, specUploadStatus, knowledge }) => {
+const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleSpecUpload, specUploadStatus, 知识 }) => {
     const [quotasFile, setQuotasFile] = useState(null);
     const [quotasStatus, setQuotasStatus] = useState('');
     const [quotasLoading, setQuotasLoading] = useState(false);
+    const [searchMaterial, setSearchMaterial] = useState('');
+    const [foundItem, setFoundItem] = useState(null);
+    const [editTip, setEditTip] = useState('');
+    const [saveStatus, setSaveStatus] = useState('');
+
+    const handleSearch = () => {
+        if (!searchMaterial) return;
+        const item = 知识.find(k => k.sku.toUpperCase() === searchMaterial.toUpperCase());
+        if (item) {
+            setFoundItem(item);
+            setEditTip(item.tip_venta || '');
+            setSaveStatus('');
+        } else {
+            setFoundItem(null);
+            setSaveStatus('No se encontró ningún producto con ese Material.');
+        }
+    };
+
+    const handleSaveTip = async () => {
+        if (!foundItem) return;
+        setSaveStatus('Guardando...');
+        try {
+            const entry = { ...foundItem, tip_venta: editTip };
+            await chatService.updateKnowledge(entry);
+            setSaveStatus('✓ Tip guardado correctamente.');
+            // Update local state if needed (optional since parent probably fetches on mount)
+        } catch (e) {
+            setSaveStatus('Error al guardar el tip.');
+        }
+    };
 
     const handleQuotasUpload = async () => {
         if (!quotasFile) return;
@@ -100,6 +130,52 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
                     </button>
                 )}
                 {quotasStatus && <p style={{ marginTop: '10px', fontSize: '13px', color: '#FCD34D' }}>{quotasStatus}</p>}
+            </div>
+
+            {/* Sales Speech Editor Section */}
+            <div style={{ background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(167, 139, 250, 0.2)', marginBottom: '32px' }}>
+                <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '4px', color: '#A78BFA' }}>💡 Editor de Tip de Venta</h3>
+                <p style={{ fontSize: '13px', color: '#9CA3AF', marginBottom: '16px' }}>Busca por código de Material para editar el speech de venta personalizado.</p>
+
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+                    <input
+                        type="text"
+                        placeholder="Pegar Material aquí..."
+                        value={searchMaterial}
+                        onChange={(e) => setSearchMaterial(e.target.value)}
+                        style={{ flex: 1, background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white' }}
+                    />
+                    <button
+                        onClick={handleSearch}
+                        style={{ background: '#7C3AED', border: 'none', padding: '10px 20px', borderRadius: '8px', color: 'white', fontWeight: '600', cursor: 'pointer' }}
+                    >
+                        Buscar
+                    </button>
+                </div>
+
+                {foundItem && (
+                    <div style={{ background: 'rgba(255,255,255,0.03)', padding: '16px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                        <div style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '4px' }}>{foundItem.model}</div>
+                        <div style={{ fontSize: '12px', color: '#9CA3AF', marginBottom: '12px' }}>{foundItem.specs}</div>
+
+                        <label style={{ display: 'block', fontSize: '13px', color: '#A78BFA', marginBottom: '6px' }}>Speech de Venta / Tip:</label>
+                        <textarea
+                            rows="2"
+                            value={editTip}
+                            onChange={(e) => setEditTip(e.target.value)}
+                            placeholder="Escribe aquí el argumento de venta ganador..."
+                            style={{ width: '100%', background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white', outline: 'none', resize: 'none', marginBottom: '12px' }}
+                        />
+
+                        <button
+                            onClick={handleSaveTip}
+                            style={{ background: 'rgba(167, 139, 250, 0.2)', border: '1px solid rgba(167, 139, 250, 0.4)', padding: '8px 16px', borderRadius: '8px', color: '#C4B5FD', fontWeight: '600', cursor: 'pointer', width: '100%' }}
+                        >
+                            Guardar Tip para {foundItem.sku}
+                        </button>
+                    </div>
+                )}
+                {saveStatus && <p style={{ marginTop: '10px', fontSize: '13px', color: saveStatus.includes('✓') ? '#10B981' : '#F87171' }}>{saveStatus}</p>}
             </div>
 
             <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px' }}>Conocimientos Indexados</h3>

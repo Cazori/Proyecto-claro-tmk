@@ -46,6 +46,7 @@ async def normalize_products_batch(descriptions):
     - marca: La marca (Samsung, Huawei, etc.)
     - modelo_limpio: Nombre del modelo
     - especificaciones: Características clave
+    - tip_venta: Un argumento de venta breve (máx 15 palabras) resaltando una ventaja técnica clave.
     Responde ÚNICAMENTE en JSON con las descripciones originales como llaves.
     LISTA: """ + json.dumps(descriptions)
 
@@ -215,6 +216,7 @@ async def process_inventory_pdf(file_path):
         df["marca"] = df["Subproducto"].apply(lambda x: get_attr(x, "marca"))
         df["modelo_limpio"] = df["Subproducto"].apply(lambda x: get_attr(x, "modelo_limpio"))
         df["especificaciones"] = df["Subproducto"].apply(lambda x: get_attr(x, "especificaciones"))
+        df["tip_venta"] = df["Subproducto"].apply(lambda x: get_attr(x, "tip_venta"))
 
         df.to_json(PROCESSED_DATA_FILE, orient="records", force_ascii=False, indent=4)
         
