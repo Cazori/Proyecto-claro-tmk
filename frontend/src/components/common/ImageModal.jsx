@@ -3,46 +3,39 @@ import React from 'react';
 const ImageModal = ({ imageUrl, onClose }) => {
     if (!imageUrl) return null;
 
+    const urls = Array.isArray(imageUrl) ? imageUrl : [imageUrl];
+    const [currentIndex, setCurrentIndex] = React.useState(0);
+    const currentUrl = urls[currentIndex];
+
+    // Reset index if urls change
+    React.useEffect(() => {
+        setCurrentIndex(0);
+    }, [imageUrl]);
+
     const handleShare = async (e) => {
         e.stopPropagation();
-
         try {
-            // 1. Fetch the image
-            const response = await fetch(imageUrl);
+            const response = await fetch(currentUrl);
             const blob = await response.blob();
-
-            // 2. Sane filename and FORCE .jpg extension for compatibility
-            let filename = imageUrl.split('/').pop() || 'ficha-tecnica.jpg';
-            filename = filename.replace(/[^a-zA-Z0-9.-]/g, '_'); // Sanitize chars
+            let filename = currentUrl.split('/').pop() || 'ficha-tecnica.jpg';
+            filename = filename.replace(/[^a-zA-Z0-9.-]/g, '_');
             if (!filename.toLowerCase().endsWith('.jpg') && !filename.toLowerCase().endsWith('.png')) {
                 filename += '.jpg';
             }
-
-            // 3. Create File object
             const file = new File([blob], filename, { type: blob.type || 'image/jpeg' });
-
-            // 4. Try Sharing File (Primary)
-            await navigator.share({
-                files: [file],
-            });
+            await navigator.share({ files: [file] });
         } catch (err) {
             console.warn('Share file failed, trying URL fallback:', err);
-
-            // 5. Fallback: Share URL
             try {
                 if (navigator.share) {
-                    await navigator.share({
-                        title: 'Ficha Técnica',
-                        url: imageUrl
-                    });
+                    await navigator.share({ title: 'Ficha Técnica', url: currentUrl });
                 } else {
                     throw new Error('Web Share API not supported');
                 }
             } catch (urlErr) {
-                // 6. Final Fallback: Clipboard
                 try {
-                    await navigator.clipboard.writeText(imageUrl);
-                    alert('Enlace copiado al portapapeles (Compartir no disponible en este dispositivo)');
+                    await navigator.clipboard.writeText(currentUrl);
+                    alert('Enlace copiado al portapapeles');
                 } catch (clipErr) {
                     alert('No se pudo compartir la imagen.');
                 }
@@ -50,38 +43,67 @@ const ImageModal = ({ imageUrl, onClose }) => {
         }
     };
 
+    const nextImage = (e) => {
+        e.stopPropagation();
+        setCurrentIndex((prev) => (prev + 1) % urls.length);
+    };
+
+    const prevImage = (e) => {
+        e.stopPropagation();
+        setCurrentIndex((prev) => (prev - 1 + urls.length) % urls.length);
+    };
+
     return (
         <div
             style={{
                 position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(0,0,0,0.95)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                backdropFilter: 'blur(10px)',
-                overflow: 'auto' // Allow scrolling if zoomed
+                backdropFilter: 'blur(10px)', overflow: 'auto'
             }}
             onClick={onClose}
         >
-            <img
-                src={imageUrl}
-                alt="Ficha ampliada"
-                style={{
-                    maxWidth: '95%',
-                    maxHeight: '95%',
-                    borderRadius: '4px',
-                    boxShadow: '0 20px 50px rgba(0,0,0,0.8)',
-                    transition: 'transform 0.2s ease-out',
-                    touchAction: 'pinch-zoom' // Explicitly allow pinch zoom on mobile
-                }}
-                onClick={(e) => e.stopPropagation()} // Prevent close when clicking image
-            />
+            <div style={{ position: 'relative', maxWidth: '100%', maxHeight: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                    src={currentUrl}
+                    alt="Ficha ampliada"
+                    style={{
+                        maxWidth: '95vw', maxHeight: '95vh', borderRadius: '4px',
+                        boxShadow: '0 20px 50px rgba(0,0,0,0.8)', transition: 'transform 0.2s ease-out',
+                        touchAction: 'pinch-zoom'
+                    }}
+                    onClick={(e) => e.stopPropagation()}
+                />
 
-            {/* Close Button */}
+                {urls.length > 1 && (
+                    <>
+                        {/* Navigation Arrows */}
+                        <button
+                            onClick={prevImage}
+                            style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: '50%', width: '50px', height: '50px', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 105, backdropFilter: 'blur(5px)' }}
+                        >
+                            <svg style={{ width: '30px', height: '30px' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M15 19l-7-7 7-7" strokeWidth={2} /></svg>
+                        </button>
+                        <button
+                            onClick={nextImage}
+                            style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: '50%', width: '50px', height: '50px', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 105, backdropFilter: 'blur(5px)' }}
+                        >
+                            <svg style={{ width: '30px', height: '30px' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 5l7 7-7 7" strokeWidth={2} /></svg>
+                        </button>
+
+                        {/* Pagination indicator */}
+                        <div style={{ position: 'absolute', bottom: '20px', left: '50%', transform: 'translateX(-50%)', background: 'rgba(0,0,0,0.5)', padding: '5px 15px', borderRadius: '20px', color: 'white', fontSize: '14px', zIndex: 105 }}>
+                            {currentIndex + 1} / {urls.length}
+                        </div>
+                    </>
+                )}
+            </div>
+
+            {/* Top Close Button */}
             <button
                 style={{ position: 'absolute', top: '24px', right: '24px', background: 'white', border: 'none', borderRadius: '50%', width: '40px', height: '40px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 101 }}
                 onClick={onClose}
             >
-                <svg style={{ width: '24px', height: '24px', color: '#111827' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <svg style={{ width: '24px', height: '24px', color: '#111827' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
 
             {/* Share Button */}

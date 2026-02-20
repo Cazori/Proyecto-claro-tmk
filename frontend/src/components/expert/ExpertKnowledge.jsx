@@ -143,7 +143,13 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
                             value={specName || ''}
                             onChange={(e) => setSpecName(e.target.value)}
                             style={{ width: '100%', background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white', outline: 'none' }}
+                            list="material-suggestions"
                         />
+                        <datalist id="material-suggestions">
+                            {knowledge.map((k, i) => (
+                                <option key={i} value={k.sku}>{k.model}</option>
+                            ))}
+                        </datalist>
                     </div>
 
                     <input type="file" accept="image/*,.pdf" onChange={(e) => setSpecFile(e.target.files[0])} />

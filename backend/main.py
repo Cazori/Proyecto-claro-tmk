@@ -62,7 +62,7 @@ REGLAS DE RESPUESTA (POLÍTICA CERO RUIDO):
 
 REGLAS CRÍTICAS DE VERACIDAD:
 1. Si el "CONTEXTO DE INVENTARIO" está vacío, responde: "No encontré equipos con esa descripción en Bogotá. ¿Deseas buscar otra categoría?"
-2. TABLA: (Referencia | Ficha | Marca | Modelo | Precio | Unidades | Caracteristicas | Tip). La columna "Referencia" DEBE contener el código de "Material" exacto. La columna "Ficha" debe decir "SI" o "NO" según el campo FICHA del inventario. La columna "Modelo" DEBE ser el nombre DESCRIPTIVO COMPLETO (Subproducto) tal como aparece en el contexto, NO lo resumas (Ej: "TV UN50U8200 50+BRRA..."). La columna "Tip" debe contener el texto del campo TIP proporcionado en el contexto.
+2. TABLA: (Referencia | Ficha | Imagen | Marca | Modelo | Precio | Unidades | Caracteristicas | Tip). La columna "Referencia" DEBE contener el código de "Material" exacto. La columna "Ficha" debe decir "SI" o "NO" según el campo FICHA del inventario. La columna "Imagen" debe decir "VER" si el campo IMG del inventario es SI, de lo contrario déjala vacía o con "-". La columna "Imagen" debe decir "VER" si el campo IMG del inventario es SI, de lo contrario déjala vacía o con "-". La columna "Modelo" DEBE ser el nombre DESCRIPTIVO COMPLETO (Subproducto) tal como aparece en el contexto, NO lo resumas (Ej: "TV UN50U8200 50+BRRA..."). La columna "Tip" debe contener el texto del campo TIP proporcionado en el contexto.
 3. FUENTES DE DATOS: Usa ÚNICAMENTE la información proporcionada. Prohibido usar Google o conocimiento externo.
 """
 
@@ -536,26 +536,26 @@ async def chat(query: str):
         results = results.sort_values(by=["CantDisponible", "Precio Contado"], ascending=[False, False]).head(20)
         
         for _, item in results.iterrows():
-            # Check if spec exists using robust hybrid logic
+            # Check image existence using robust hybrid logic
             match = resolve_spec_match(item['Material'], item['Subproducto'], available_specs, manual_map)
-            ficha_tag = "SI" if match else "NO"
-
-            # Format price nicely
-            try:
-                precio = f"${float(item['Precio Contado']):,.0f}"
-            except:
-                precio = str(item['Precio Contado'])
-
-            specs = item.get('especificaciones', 'N/A')
-            if specs == 'N/A': specs = ""
             
-            # Tip Priority: Manual Expert Tip > AI Generated Tip
-            manual_tip = expert_tips.get(item['Material'])
-            final_tip = manual_tip if manual_tip else item.get('tip_venta', 'N/A')
-            if final_tip == 'N/A': final_tip = ""
+            # Determine if we have an image (vs a PDF or nothing)
+            has_image = "NO"
+            if match:
+                is_img_ext = any(match.lower().endswith(ext) for ext in [".jpg", ".jpeg", ".png", ".webp"])
+                if is_img_ext:
+                    has_image = "SI"
+            
+            # For backward compatibility with mapping or direct Material.jpg
+            if has_image == "NO":
+                if str(item['Material']) in manual_map:
+                    has_image = "SI" # Mapping exists
+                elif f"{item['Material']}.jpg" in available_specs or f"{item['Material']}.png" in available_specs:
+                    has_image = "SI"
 
-            # Construct readable line with FICHA tag and TIP
-            line = f"- [ID: {item['Material']}] MODELO: {item['Subproducto']} | FICHA: {ficha_tag} | CATEGORIA: {item['categoria']} | MARCA: {item['marca']} | DESC: {specs} | STOCK: {int(item['CantDisponible'])} | PRECIO CONTADO: {precio} | TIP: {final_tip}\n"
+            # Construct readable line with FICHA tag, IMG tag and TIP
+            ficha_tag = "SI" if match else "NO"
+            line = f"- [ID: {item['Material']}] MODELO: {item['Subproducto']} | FICHA: {ficha_tag} | IMG: {has_image} | CATEGORIA: {item['categoria']} | MARCA: {item['marca']} | DESC: {specs} | STOCK: {int(item['CantDisponible'])} | PRECIO CONTADO: {precio} | TIP: {final_tip}\n"
             inventory_context += line
     else:
         inventory_context = "No se encontraron productos que coincidan exactamente con la búsqueda."

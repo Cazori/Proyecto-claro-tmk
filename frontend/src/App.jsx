@@ -209,7 +209,11 @@ const ChatApp = () => {
     }
 
     if (found) {
-      setSelectedImage(chatService.getSpecImageUrl(found));
+      if (Array.isArray(found)) {
+        setSelectedImage(found.map(f => chatService.getSpecImageUrl(f)));
+      } else {
+        setSelectedImage(chatService.getSpecImageUrl(found));
+      }
     } else if (modelName) {
       const search = modelName.toLowerCase().replace(/[\s-]/g, '');
       const keywords = search.split(/\s+/).filter(k => k.length > 2);
@@ -247,7 +251,7 @@ const ChatApp = () => {
           setSidebarOpen={setSidebarOpen}
         />
 
-        <div className="chat-area-container" style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+        <div className="chat-area-container" style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
           {activeTab === 'chat' && (
             <ChatArea
               messages={messages}

@@ -7,7 +7,7 @@ const Header = ({ activeTab, setSidebarOpen, isSidebarOpen }) => {
             case 'dashboard': return 'Estadísticas Generales';
             case 'upload': return 'Cargar Inventario';
             case 'fichas': return 'Fichas Técnicas';
-            case 'expert': return 'Fichas Técnicas Expertas';
+            case 'expert': return 'Enseñale a Cleo';
             default: return 'Cleo AI';
         }
     };

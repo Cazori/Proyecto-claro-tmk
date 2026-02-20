@@ -39,6 +39,10 @@ export const parseMarkdownTable = (text) => {
                     key = 'hasSpec';
                     values[index] = values[index].toUpperCase() === 'SI';
                 }
+                else if (key.includes('imag')) {
+                    key = 'hasImage';
+                    values[index] = values[index].toUpperCase() === 'VER';
+                }
                 else if (key.includes('tip')) {
                     key = 'tip';
                 }
