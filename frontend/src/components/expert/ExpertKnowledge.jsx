@@ -11,22 +11,15 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
     const [saveStatus, setSaveStatus] = useState('');
 
     const handleSearch = () => {
-        const search = (searchMaterial || '').trim().toUpperCase();
-        if (!search) return;
-
-        // Priority 1: Exact SKU match. Priority 2: Partial Model match.
-        const item = knowledge.find(k =>
-            (k.sku && k.sku.toUpperCase() === search) ||
-            (k.model && k.model.toUpperCase().includes(search))
-        );
-
+        if (!searchMaterial) return;
+        const item = knowledge.find(k => k.sku.toUpperCase() === searchMaterial.toUpperCase());
         if (item) {
             setFoundItem(item);
             setEditTip(item.tip_venta || '');
             setSaveStatus('');
         } else {
             setFoundItem(null);
-            setSaveStatus(`No se encontró "${searchMaterial}". Intenta con el código exacto o parte del nombre.`);
+            setSaveStatus('No se encontró ningún producto con ese Material.');
         }
     };
 
@@ -60,79 +53,8 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
 
     return (
         <div style={{ color: 'white', padding: '20px' }}>
-            {/* 1. Sales Speech Editor Section (Promoted to Top for Mobile Accessibility) */}
-            <div style={{ background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(167, 139, 250, 0.4)', marginBottom: '32px', boxShadow: '0 4px 25px rgba(124, 58, 237, 0.1)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                    <span style={{ fontSize: '24px' }}>💡</span>
-                    <h3 style={{ fontSize: '18px', fontWeight: 'bold', margin: 0, color: '#A78BFA' }}>Editor de Tip de Venta</h3>
-                </div>
-                <p style={{ fontSize: '13px', color: '#9CA3AF', marginBottom: '16px' }}>Busca un producto por código de Material o Nombre para personalizar su argumento de venta.</p>
-
-                <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
-                    <input
-                        type="text"
-                        placeholder="Escribe Material o Nombre..."
-                        value={searchMaterial}
-                        onChange={(e) => setSearchMaterial(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-                        style={{ flex: 1, background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', borderRadius: '10px', color: 'white', outline: 'none' }}
-                    />
-                    <button
-                        onClick={handleSearch}
-                        style={{ background: '#7C3AED', border: 'none', padding: '0 20px', borderRadius: '10px', color: 'white', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s' }}
-                    >
-                        Buscar
-                    </button>
-                </div>
-
-                {foundItem && (
-                    <div style={{ background: 'rgba(255,255,255,0.03)', padding: '20px', borderRadius: '15px', border: '1px solid rgba(167, 139, 250, 0.2)', animation: 'fadeIn 0.3s ease-out' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
-                            <div>
-                                <div style={{ fontSize: '15px', fontWeight: 'bold', color: '#F3F4F6' }}>{foundItem.model}</div>
-                                <div style={{ fontSize: '11px', color: '#A78BFA', fontWeight: 'bold', textTransform: 'uppercase', marginTop: '2px' }}>Material: {foundItem.sku}</div>
-                            </div>
-                            <button onClick={() => setFoundItem(null)} style={{ background: 'transparent', border: 'none', color: '#6B7280', cursor: 'pointer', fontSize: '12px' }}>Cerrar</button>
-                        </div>
-
-                        <div style={{ fontSize: '12px', color: '#9CA3AF', marginBottom: '16px', fontStyle: 'italic', paddingLeft: '8px', borderLeft: '2px solid #374151' }}>{foundItem.specs}</div>
-
-                        <label style={{ display: 'block', fontSize: '13px', color: '#A78BFA', marginBottom: '8px', fontWeight: '600' }}>Argumento Ganador (Tip):</label>
-                        <textarea
-                            rows="3"
-                            value={editTip}
-                            onChange={(e) => setEditTip(e.target.value)}
-                            placeholder="Escribe aquí por qué este producto es increíble..."
-                            style={{ width: '100%', background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '12px', borderRadius: '10px', color: 'white', outline: 'none', resize: 'none', marginBottom: '16px', fontSize: '14px', lineHeight: '1.4' }}
-                        />
-
-                        <button
-                            onClick={handleSaveTip}
-                            style={{ background: 'linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%)', border: 'none', padding: '12px', borderRadius: '10px', color: 'white', fontWeight: '700', cursor: 'pointer', width: '100%', boxShadow: '0 4px 15px rgba(124, 58, 237, 0.3)' }}
-                        >
-                            Guardar Cambios
-                        </button>
-                    </div>
-                )}
-                {saveStatus && (
-                    <div style={{
-                        marginTop: '12px',
-                        fontSize: '13px',
-                        color: saveStatus.includes('✓') ? '#10B981' : '#F87171',
-                        background: saveStatus.includes('✓') ? 'rgba(16, 185, 129, 0.1)' : 'rgba(248, 113, 113, 0.1)',
-                        padding: '10px',
-                        borderRadius: '8px',
-                        textAlign: 'center',
-                        fontWeight: '500'
-                    }}>
-                        {saveStatus}
-                    </div>
-                )}
-            </div>
-
-            {/* 2. Upload Section (Secondary) */}
             <div style={{ display: 'flex', gap: '20px', marginBottom: '32px', flexWrap: 'wrap' }}>
-                <div style={{ flex: 1, minWidth: '300px', background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                <div style={{ flex: 1, background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
                     <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px' }}>Subir Ficha Técnica</h3>
 
                     <div style={{ marginBottom: '15px' }}>
@@ -216,6 +138,51 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
                 {quotasStatus && <p style={{ marginTop: '10px', fontSize: '13px', color: '#FCD34D' }}>{quotasStatus}</p>}
             </div>
 
+            {/* Sales Speech Editor Section */}
+            <div style={{ background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(167, 139, 250, 0.2)', marginBottom: '32px' }}>
+                <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '4px', color: '#A78BFA' }}>💡 Editor de Tip de Venta</h3>
+                <p style={{ fontSize: '13px', color: '#9CA3AF', marginBottom: '16px' }}>Busca por código de Material para editar el speech de venta personalizado.</p>
+
+                <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
+                    <input
+                        type="text"
+                        placeholder="Pegar Material aquí..."
+                        value={searchMaterial}
+                        onChange={(e) => setSearchMaterial(e.target.value)}
+                        style={{ flex: 1, background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white' }}
+                    />
+                    <button
+                        onClick={handleSearch}
+                        style={{ background: '#7C3AED', border: 'none', padding: '10px 20px', borderRadius: '8px', color: 'white', fontWeight: '600', cursor: 'pointer' }}
+                    >
+                        Buscar
+                    </button>
+                </div>
+
+                {foundItem && (
+                    <div style={{ background: 'rgba(255,255,255,0.03)', padding: '16px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                        <div style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '4px' }}>{foundItem.model}</div>
+                        <div style={{ fontSize: '12px', color: '#9CA3AF', marginBottom: '12px' }}>{foundItem.specs}</div>
+
+                        <label style={{ display: 'block', fontSize: '13px', color: '#A78BFA', marginBottom: '6px' }}>Speech de Venta / Tip:</label>
+                        <textarea
+                            rows="2"
+                            value={editTip}
+                            onChange={(e) => setEditTip(e.target.value)}
+                            placeholder="Escribe aquí el argumento de venta ganador..."
+                            style={{ width: '100%', background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white', outline: 'none', resize: 'none', marginBottom: '12px' }}
+                        />
+
+                        <button
+                            onClick={handleSaveTip}
+                            style={{ background: 'rgba(167, 139, 250, 0.2)', border: '1px solid rgba(167, 139, 250, 0.4)', padding: '8px 16px', borderRadius: '8px', color: '#C4B5FD', fontWeight: '600', cursor: 'pointer', width: '100%' }}
+                        >
+                            Guardar Tip para {foundItem.sku}
+                        </button>
+                    </div>
+                )}
+                {saveStatus && <p style={{ marginTop: '10px', fontSize: '13px', color: saveStatus.includes('✓') ? '#10B981' : '#F87171' }}>{saveStatus}</p>}
+            </div>
 
             <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px' }}>Conocimientos Indexados</h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
