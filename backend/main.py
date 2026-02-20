@@ -555,6 +555,15 @@ async def chat(query: str):
 
             # Construct readable line with FICHA tag, IMG tag and TIP
             ficha_tag = "SI" if match else "NO"
+            
+            precio = f"${item['Precio Contado']:,}" if 'Precio Contado' in item and pd.notnull(item['Precio Contado']) else "No disponible"
+            specs = item.get('especificaciones', '-')
+            
+            # Use expert tip if available, fallback to inventory tip
+            sku_str = str(item['Material'])
+            final_tip = expert_tips.get(sku_str, item.get('tip_venta', '-'))
+            if not final_tip or final_tip == "nan": final_tip = "-"
+
             line = f"- [ID: {item['Material']}] MODELO: {item['Subproducto']} | FICHA: {ficha_tag} | IMG: {has_image} | CATEGORIA: {item['categoria']} | MARCA: {item['marca']} | DESC: {specs} | STOCK: {int(item['CantDisponible'])} | PRECIO CONTADO: {precio} | TIP: {final_tip}\n"
             inventory_context += line
     else:
