@@ -1,124 +1,21 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-import uvicorn
-import shutil
-import os
-import re
-from datetime import datetime
-import json
-from dotenv import load_dotenv
-import pandas as pd
-from embeddings_service import embeddings_service
-from processor import process_inventory_pdf, rotate_inventories, get_latest_inventory, set_ai_pool, STORAGE_DIR
-from supabase_db import (
-    get_metadata_db, upload_spec_to_supabase, get_spec_url_supabase, 
-    list_specs_supabase, upload_inventory_pdf_to_supabase, 
-    download_latest_inventory_pdf_from_supabase
-)
-from ai_pool import AIPool, RotationStrategy
+from fastapi import FastAPI, UploadFile, File, HTTPException, BackgroundTasks
 
-# Load environment variables
-load_dotenv()
+# ... (keep other imports)
 
-# Path handling
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-SPECS_DIR = os.path.join(BASE_DIR, "specs")
-KNOWLEDGE_FILE = os.path.join(BASE_DIR, "expert_knowledge.json")
-SPECS_MAPPING_FILE = os.path.join(STORAGE_DIR, "specs_mapping.json")
-
-# Ensure directories exist
-for d in [STORAGE_DIR, SPECS_DIR]:
-    if not os.path.exists(d):
-        os.makedirs(d)
-
-# Initialize knowledge base
-if not os.path.exists(KNOWLEDGE_FILE):
-    with open(KNOWLEDGE_FILE, "w", encoding="utf-8") as f:
-        json.dump([], f)
-
-# Initialize AI Pool (multi-provider support)
-try:
-    ai_pool = AIPool(strategy=RotationStrategy.FASTEST_FIRST)
-    print("✓ AI Pool initialized with FASTEST_FIRST strategy")
-    
-    # Inject AI Pool into processor for normalization
-    from processor import set_ai_pool
-    set_ai_pool(ai_pool)
-    print("✓ AI Pool injected into processor")
-except Exception as e:
-    print(f"✗ CRITICAL: Failed to initialize AI Pool: {e}")
-    print("AI Pool is required for operation. Please check ai_pool.py configuration.")
-    ai_pool = None
-
-# Persona and Instructions for Gemini
-CLEO_PROMPT = """
-Eres Cleo, la asistente ejecutiva de Claro Tecnología TMK. 
-TU REGLA ABSOLUTA: Solo puedes informar sobre productos que aparezcan explícitamente en el "CONTEXTO DE INVENTARIO".
-
-REGLAS DE RESPUESTA (POLÍTICA CERO RUIDO):
-1. NO SALUDAR, NO TE PRESENTES, NO TE DESPIDAS. Prohibido usar frases como "¡Hola! Soy Cleo" o "¿Deseas algo más?".
-2. EMPIEZA DIRECTAMENTE con la tabla de resultados. Si no hay resultados, responde únicamente la frase de error.
-3. REGLA DE 1 a 1: Cada fila del "CONTEXTO DE INVENTARIO" debe tener su fila exacta en la tabla de respuesta. No resumas ni omitas ningún ítem proporcionado.
-
-REGLAS CRÍTICAS DE VERACIDAD:
-1. Si el "CONTEXTO DE INVENTARIO" está vacío, responde: "No encontré equipos con esa descripción en Bogotá. ¿Deseas buscar otra categoría?"
-2. TABLA: (Referencia | Ficha | Imagen | Marca | Modelo | Precio | Unidades | Caracteristicas | Tip). La columna "Referencia" DEBE contener el código de "Material" exacto. La columna "Ficha" debe decir "SI" o "NO" según el campo FICHA del inventario. La columna "Imagen" debe decir "VER" si el campo IMG del inventario es SI, de lo contrario déjala vacía o con "-". La columna "Imagen" debe decir "VER" si el campo IMG del inventario es SI, de lo contrario déjala vacía o con "-". La columna "Modelo" DEBE ser el nombre DESCRIPTIVO COMPLETO (Subproducto) tal como aparece en el contexto, NO lo resumas (Ej: "TV UN50U8200 50+BRRA..."). La columna "Tip" debe contener el texto del campo TIP proporcionado en el contexto.
-3. FUENTES DE DATOS: Usa ÚNICAMENTE la información proporcionada. Prohibido usar Google o conocimiento externo.
-"""
-
-app = FastAPI(title="Cleo Inventory AI API")
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# Mount specs folder but with a fallback logic
-# app.mount("/specs", StaticFiles(directory=SPECS_DIR), name="specs") 
-# We'll use a manual route instead of mounting to allow Supabase fallback
-
-from fastapi.responses import FileResponse, RedirectResponse
-
-@app.get("/specs/{filename}")
-async def get_spec_image(filename: str):
-    local_path = os.path.join(SPECS_DIR, filename)
-    if os.path.exists(local_path):
-        return FileResponse(local_path)
-    
-    # Try cloud
-    cloud_url = get_spec_url_supabase(filename)
-    if cloud_url:
-        return RedirectResponse(cloud_url)
-    
-    raise HTTPException(status_code=404, detail="Imagen no encontrada local ni en la nube.")
-
-@app.get("/")
-async def root():
-    return {"status": "Cleo AI Online", "timestamp": datetime.now()}
-
-@app.get("/specs-list")
-async def list_specs():
-    """List all available technical sheet images (Local + Cloud)"""
-    # 1. Local
-    local_files = []
-    if os.path.exists(SPECS_DIR):
-        local_files = [f for f in os.listdir(SPECS_DIR) if f.lower().endswith(('.png', '.jpg', '.jpeg', '.pdf'))]
-    
-    # 2. Supabase
+async def background_inventory_processing(file_path:str, filename: str):
+    """Heavy lifting done in the background to avoid HTTP timeouts"""
     try:
-        cloud_files = await list_specs_supabase()
-    except:
-        cloud_files = []
-        
-    # Combine (unique)
-    return list(set(local_files + cloud_files))
+        from processor import process_inventory_pdf, rotate_inventories
+        rotate_inventories()
+        await process_inventory_pdf(file_path)
+        # Cloud Storage Upload (Raw PDF)
+        await upload_inventory_pdf_to_supabase(file_path, filename)
+        print(f"✓ Inventario {filename} procesado y sincronizado en segundo plano.")
+    except Exception as e:
+        print(f"✗ ERROR en procesamiento de fondo: {e}")
 
 @app.post("/upload-inventory")
-async def upload_inventory(file: UploadFile = File(...)):
+async def upload_inventory(background_tasks: BackgroundTasks, file: UploadFile = File(...)):
     if not file.filename.endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Solo se permiten archivos PDF.")
     
@@ -126,14 +23,13 @@ async def upload_inventory(file: UploadFile = File(...)):
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
     
-    # Process immediately
-    rotate_inventories()
-    await process_inventory_pdf(file_path)
+    # Add to background tasks
+    background_tasks.add_task(background_inventory_processing, file_path, file.filename)
     
-    # Cloud Storage Upload (Raw PDF)
-    await upload_inventory_pdf_to_supabase(file_path, file.filename)
-    
-    return {"message": "Inventario cargado, procesado y sincronizado con la nube.", "filename": file.filename}
+    return {
+        "message": "Archivo recibido. Cleo está actualizando el inventario en segundo plano. Podrás ver los cambios en unos segundos.",
+        "filename": file.filename
+    }
 
 @app.get("/inventory-metadata")
 async def get_inventory_metadata():

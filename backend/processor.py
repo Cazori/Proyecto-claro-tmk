@@ -133,11 +133,11 @@ async def process_inventory_pdf(file_path):
                 # Process line by line to allow greedy name capture safely
                 lines = text.split('\n')
                 for line in lines:
-                    # Robust Pattern 1 (Strict): ID -> Name -> Total -> Disponible -> ... -> Aplica $
-                    pattern_strict = r"(\d{7})\s*(.+)\s+(\d+)\s+(\d+).*?Aplica\s+\$.*?(\d[\d\.\s-]*(?:\d|$))"
+                    # Robust Pattern 1 (Strict): ID (7-8 digits) -> Name -> Total -> Disponible -> ... -> Aplica $
+                    pattern_strict = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+).*?Aplica\s+\$.*?(\d[\d\.\s-]*(?:\d|$))"
                     
-                    # Robust Pattern 2 (Flexible): ID -> Name -> Total -> Disponible -> Price (digits only)
-                    pattern_flex = r"(\d{7})\s*(.+)\s+(\d+)\s+(\d+).*?\$?\s?(\d{1,3}(?:\.\d{3})*(?:,\d+)?)"
+                    # Robust Pattern 2 (Flexible): ID (7-8 digits) -> Name -> Total -> Disponible -> Price (digits only)
+                    pattern_flex = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+).*?\$?\s?(\d{1,3}(?:\.\d{3})*(?:,\d+)?)"
 
                     match = re.search(pattern_strict, line)
                     if not match:
@@ -232,14 +232,11 @@ async def process_inventory_pdf(file_path):
 
 def rotate_inventories():
     """
-    Keeps only the most recent 5 files and cleans up processed data to force re-processing.
+    Keeps only the most recent 5 files.
+    NOTE: Removed deletion of PROCESSED_DATA_FILE to avoid 'reversion' to old data
+    if a background task takes time or fails. Data will be overwritten when new
+    processing actually COMPLETES.
     """
-    if os.path.exists(PROCESSED_DATA_FILE):
-        try:
-            os.remove(PROCESSED_DATA_FILE)
-            print("Datos procesados invalidados (se re-generarán en la próxima consulta).")
-        except: pass
-
     files = glob.glob(os.path.join(STORAGE_DIR, "*.pdf"))
     if len(files) <= MAX_FILES:
         return
@@ -248,42 +245,50 @@ def rotate_inventories():
     for i in range(len(files) - MAX_FILES):
         try:
             os.remove(files[i])
+            print(f"Limpieza: Eliminado PDF antiguo {files[i]}")
         except: pass
 
 async def get_latest_inventory():
     """
     Returns the most recent processed DataFrame. 
-    Priority: 1. Supabase (Cloud Memory) -> 2. Local JSON -> 3. Local PDF processing
+    Priority: 
+    1. Local JSON (if it matches the latest local PDF timestamp)
+    2. Supabase (Cloud Memory)
+    3. Local PDF processing
     """
-    # 1. TRY SUPABASE FIRST (Cloud Memory)
+    # Get latest local PDF info
+    local_pdfs = glob.glob(os.path.join(STORAGE_DIR, "*.pdf"))
+    latest_pdf = max(local_pdfs, key=os.path.getmtime) if local_pdfs else None
+    
+    # 1. LOCAL JSON (Primary source if it matches latest PDF)
+    if os.path.exists(PROCESSED_DATA_FILE) and latest_pdf:
+        try:
+            json_mtime = os.path.getmtime(PROCESSED_DATA_FILE)
+            pdf_mtime = os.path.getmtime(latest_pdf)
+            # If JSON is newer than PDF, it's already processed the latest data
+            if json_mtime >= pdf_mtime:
+                print("✓ Cargando inventario local (Caché actualizada).")
+                return pd.read_json(PROCESSED_DATA_FILE)
+        except Exception as e:
+            print(f"Error cargando JSON local: {e}")
+
+    # 2. SUPABASE (Cloud Backup)
     try:
         cloud_df = await get_inventory_from_db()
         if cloud_df is not None and not cloud_df.empty:
-            print("✓ Cargando inventario desde Supabase (Memoria en la nube).")
-            # Cache locally for faster subsequent access
+            print("✓ Cargando inventario desde Supabase (Sincronización en la nube).")
+            # Cache locally
             cloud_df.to_json(PROCESSED_DATA_FILE, orient="records", force_ascii=False, indent=4)
             return cloud_df
     except Exception as e:
-        print(f"! Error consultando Supabase, reintentando local: {e}")
+        print(f"! Supabase no disponible o vacío: {e}")
 
-    # 2. LOCAL JSON FALLBACK
-    if os.path.exists(PROCESSED_DATA_FILE):
-        try:
-            return pd.read_json(PROCESSED_DATA_FILE)
-        except: pass
+    # 3. LOCAL PDF PROCESSING (Fallback/First run)
+    if latest_pdf:
+        print(f"Procesando PDF local más reciente: {latest_pdf}")
+        return await process_inventory_pdf(latest_pdf)
 
-    # 3. LOCAL PDF PROCESSING FALLBACK
-    if os.path.exists(STORAGE_DIR):
-        files = glob.glob(os.path.join(STORAGE_DIR, "*.pdf"))
-    else:
-        files = []
-        
-    if not files:
-        return None
-    
-    latest_file = max(files, key=os.path.getmtime)
-    print(f"No se encontró data procesada. Procesando PDF local: {latest_file}")
-    return await process_inventory_pdf(latest_file)
+    return None
 
     # 4. CLOUD PDF FALLBACK (Last Resort)
     print("Buscando PDF en la nube como último recurso...")
