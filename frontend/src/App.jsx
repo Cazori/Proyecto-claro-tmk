@@ -71,11 +71,20 @@ const ChatApp = () => {
       catch (e) { console.error("Fetch failed", e); return defaultValue; }
     };
 
-    const knowledgeData = await safeFetch(() => chatService.getKnowledge(), []);
-    const specsData = await safeFetch(() => chatService.getSpecsList(), []);
-    const mappingData = await safeFetch(() => chatService.getSpecsMapping(), {});
-    const inventoryMeta = await safeFetch(() => chatService.getInventoryMetadata(), null);
-    const quotasData = await safeFetch(() => chatService.getQuotas(), {});
+    // Fetch all data in parallel for speed
+    const [
+      knowledgeData,
+      specsData,
+      mappingData,
+      inventoryMeta,
+      quotasData
+    ] = await Promise.all([
+      safeFetch(() => chatService.getKnowledge(), []),
+      safeFetch(() => chatService.getSpecsList(), []),
+      safeFetch(() => chatService.getSpecsMapping(), {}),
+      safeFetch(() => chatService.getInventoryMetadata(), null),
+      safeFetch(() => chatService.getQuotas(), {})
+    ]);
 
     setKnowledge(knowledgeData);
     setSpecsList(specsData);

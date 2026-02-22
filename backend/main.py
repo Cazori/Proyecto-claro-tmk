@@ -370,6 +370,24 @@ async def get_specs_mapping():
     df = await get_latest_inventory()
     if df is None: return {}
     
+    # 1. Try to serve from persistent cache if valid
+    cache_file = os.path.join(STORAGE_DIR, "specs_resolved_cache.json")
+    inv_file = os.path.join(STORAGE_DIR, "processed_inventory.json")
+    
+    try:
+        if os.path.exists(cache_file) and os.path.exists(inv_file):
+            cache_mtime = os.path.getmtime(cache_file)
+            inv_mtime = os.path.getmtime(inv_file)
+            
+            # If cache is newer than inventory, it should be valid
+            if cache_mtime > inv_mtime:
+                with open(cache_file, "r", encoding="utf-8") as f:
+                    return json.load(f)
+    except Exception as e:
+        print(f"Cache read error: {e}")
+
+    # 2. Re-calculate if cache is invalid or missing
+    print("Recalculando mapeo de imágenes (Caché inválida o ausente)...")
     try:
         available_specs = os.listdir(SPECS_DIR)
         with open(SPECS_MAPPING_FILE, "r", encoding="utf-8") as f:
@@ -383,6 +401,14 @@ async def get_specs_mapping():
         match = resolve_spec_match(item['Material'], item['Subproducto'], available_specs, manual_map)
         if match:
             resolved[str(item['Material'])] = match
+            
+    # Save to persistent cache
+    try:
+        with open(cache_file, "w", encoding="utf-8") as f:
+            json.dump(resolved, f, indent=4)
+    except Exception as e:
+        print(f"Cache write error: {e}")
+
     return resolved
 
 @app.post("/generate-tip")

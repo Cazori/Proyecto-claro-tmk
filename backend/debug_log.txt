@@ -7,3 +7,29 @@ TU REGLA ABSOLUTA: Solo puedes inf...
 DEBUG RESPONSE: | Referencia | Ficha | Imagen | Marca | Modelo | Precio | Unidades | Caracteristicas | Tip |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 7022577 | NO | - | HP | PRT B8PH7LA RZN3 512G W11 SLVR+MLTA HEWP | $2,613,900 | 238 | Procesador Ryzen 3, 512GB SSD, Windows 11, Color Silver | Lapto...
+DEBUG INTENT PROMPT LEN: 1341
+DEBUG PROMPT LEN: 7181
+DEBUG PROMPT START: 
+    
+Eres Cleo, la asistente ejecutiva de Claro Tecnología TMK. 
+TU REGLA ABSOLUTA: Solo puedes inf...
+DEBUG RESPONSE: | Referencia | Ficha | Imagen | Marca | Modelo | Precio | Unidades | Caracteristicas | Tip |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 7022577 | NO | - | HP | PRT B8PH7LA RZN3 512G W11 SLVR+MLTA HEWP | $2,613,900 | 238 | Procesador Ryzen 3, 512GB SSD, Windows 11, Color Silver | Lapto...
+DEBUG INTENT PROMPT LEN: 1345
+DEBUG PROMPT LEN: 3620
+DEBUG PROMPT START: 
+    
+Eres Cleo, la asistente ejecutiva de Claro Tecnología TMK. 
+TU REGLA ABSOLUTA: Solo puedes inf...
+DEBUG RESPONSE: | Referencia | Ficha | Imagen | Marca | Modelo | Precio | Unidades | Caracteristicas | Tip |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 7022577 | NO | - | HP | PRT B8PH7LA RZN3 512G W11 SLVR+MLTA HEWP | $2,613,900 | 238 | Procesador Ryzen 3, 512GB SSD, Windows 11, Color Silver | Lapto...
+DEBUG PROMPT LEN: 7675
+DEBUG PROMPT START: 
+    
+Eres Cleo, la asistente ejecutiva de Claro Tecnología TMK. 
+TU REGLA ABSOLUTA: Solo puedes inf...
+DEBUG RESPONSE: | Referencia | Ficha | Imagen | Marca | Modelo | Precio | Unidades | Caracteristicas | Tip |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 7022848 | SI | VER | Huawei | TABLT MTPD SE11 AGS6-W09 11" 8G AZL HUAW | $699,900 | 101 | 11", 8G, AGS6-W09, AZL | Tablet Huawei MatePad SE11 de 11" ...

@@ -771,3 +771,19 @@
 [2026-02-22 15:46:03.341020] FAST PATH: Found 0 matches
 [2026-02-22 15:46:04.021597] AI PATH: After Categoria: 18
 [2026-02-22 15:46:04.023847] After deduplication: 12 unique materials
+[2026-02-22 16:05:35.353253] QUERY RECIBIDA (Original): laptop
+[2026-02-22 16:05:35.354379] Keywords válidas final: ['laptop']
+[2026-02-22 16:05:35.357784] FAST PATH: Found 0 matches
+[2026-02-22 16:05:36.109368] AI PATH: After Categoria: 18
+[2026-02-22 16:05:36.116331] After deduplication: 12 unique materials
+[2026-02-22 16:05:43.209631] QUERY RECIBIDA (Original): laptop hp 
+[2026-02-22 16:05:43.210133] Keywords válidas final: ['laptop', 'hp']
+[2026-02-22 16:05:43.213642] FAST PATH: Found 0 matches
+[2026-02-22 16:05:44.216430] AI PATH: After Categoria: 18
+[2026-02-22 16:05:44.218457] AI PATH: After Marca: 6
+[2026-02-22 16:05:44.221143] After deduplication: 4 unique materials
+[2026-02-22 16:06:21.832704] QUERY RECIBIDA (Original): tablets
+[2026-02-22 16:06:21.833277] Keywords válidas final: ['tab']
+[2026-02-22 16:06:21.837353] FAST PATH: Found 16 matches
+[2026-02-22 16:06:21.838191] FAST PATH: EXECUTED
+[2026-02-22 16:06:21.842194] After deduplication: 14 unique materials
