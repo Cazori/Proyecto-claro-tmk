@@ -90,6 +90,15 @@ const ChatApp = () => {
         console.error("Error loading initial data", e);
       }
     };
+    const refreshKnowledge = async () => {
+      try {
+        const knowledgeData = await chatService.getKnowledge();
+        setKnowledge(knowledgeData);
+      } catch (e) {
+        console.error("Error refreshing knowledge", e);
+      }
+    };
+
     loadInitialData();
   }, []);
 
@@ -302,6 +311,7 @@ const ChatApp = () => {
               handleSpecUpload={handleSpecUpload}
               specUploadStatus={specUploadStatus}
               knowledge={knowledge}
+              refreshKnowledge={refreshKnowledge}
             />
           )}
         </div>

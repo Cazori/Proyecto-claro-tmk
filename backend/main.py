@@ -311,6 +311,125 @@ async def get_specs_mapping():
             resolved[str(item['Material'])] = match
     return resolved
 
+@app.post("/generate-tip")
+async def generate_tip(data: dict):
+    model_name = data.get("model")
+    specs = data.get("specs")
+    if not model_name:
+        raise HTTPException(status_code=400, detail="Falta el nombre del modelo.")
+    
+    prompt = f"""
+    Eres un experto en ventas de tecnología para Claro. 
+    Crea un "Tip de Venta" o "Speech" breve (máximo 20 palabras) para este producto:
+    PRODUCTO: {model_name}
+    ESPECIFICACIONES: {specs if specs else 'No disponibles'}
+    
+    El tip debe ser persuasivo, técnico pero fácil de entender, y resaltar un beneficio clave.
+    Responde ÚNICAMENTE con el texto del tip, sin comillas ni introducciones.
+    """
+    
+    try:
+        if ai_pool:
+            response = await ai_pool.generate(prompt)
+            return {"tip": response.strip()}
+        else:
+            # Fallback to single model if pool is not initialized
+            # (Note: 'model' would need to be imported or handled if pool fails)
+            return {"tip": "Destaca la excelente relación calidad-precio y la garantía de Claro."}
+    except Exception as e:
+        print(f"Error generando tip: {e}")
+        return {"tip": "Destaca la excelente relación calidad-precio y la garantía de Claro."}
+
+@app.get("/knowledge")
+async def get_knowledge():
+    try:
+        with open(KNOWLEDGE_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except:
+        return []
+
+@app.post("/update-knowledge")
+async def update_knowledge(entry: dict):
+    try:
+        with open(KNOWLEDGE_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        
+        # Update or add
+        sku = entry.get("sku")
+        found = False
+        for i, item in enumerate(data):
+            if item.get("sku") == sku:
+                data[i] = entry
+                found = True
+                break
+        
+        if not found:
+            data.append(entry)
+            
+        with open(KNOWLEDGE_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=4, ensure_ascii=False)
+            
+        return {"message": "Conocimiento actualizado correctamente."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/find-product")
+async def find_product(material: str):
+    try:
+        df = await get_latest_inventory()
+        # Filter by material
+        product = df[df['Material'].astype(str) == str(material)]
+        if not product.empty:
+            item = product.iloc[0].to_dict()
+            # Clean for JSON
+            cleaned_item = {k: (None if pd.isna(v) else v) for k, v in item.items()}
+            return cleaned_item
+        return {"error": "Producto no encontrado"}
+    except Exception as e:
+        return {"error": str(e)}
+
+@app.post("/apply-auto-tips")
+async def apply_auto_tips(data: dict):
+    category = data.get("category")
+    tip = data.get("tip")
+    if not category or not tip:
+        raise HTTPException(status_code=400, detail="Categoría y tip son obligatorios.")
+    
+    try:
+        df = await get_latest_inventory()
+        # Filter products by category
+        mask = df['categoria'].astype(str).str.upper() == category.upper()
+        targets = df[mask]
+        
+        # Load current expert knowledge
+        with open(KNOWLEDGE_FILE, "r", encoding="utf-8") as f:
+            expert_data = json.load(f)
+        
+        applied_count = 0
+        for _, row in targets.iterrows():
+            sku = str(row['Material'])
+            # Only apply if not already in expert knowledge or has no tip
+            existing = next((item for item in expert_data if item.get("sku") == sku), None)
+            if existing:
+                if not existing.get("tip_venta") or existing.get("tip_venta") == "-":
+                    existing["tip_venta"] = tip
+                    applied_count += 1
+            else:
+                expert_data.append({
+                    "sku": sku,
+                    "model": row['Subproducto'],
+                    "specs": row.get('especificaciones', '-'),
+                    "tip_venta": tip
+                })
+                applied_count += 1
+        
+        with open(KNOWLEDGE_FILE, "w", encoding="utf-8") as f:
+            json.dump(expert_data, f, indent=4, ensure_ascii=False)
+            
+        return {"message": "Tips aplicados correctamente.", "applied": applied_count}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/chat")
 async def chat(query: str):
     df = await get_latest_inventory()

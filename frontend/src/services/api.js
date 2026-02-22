@@ -61,6 +61,38 @@ export const chatService = {
         return response.json();
     },
 
+    async findProduct(material) {
+        const response = await fetch(`${BASE_URL}/find-product?material=${encodeURIComponent(material)}`);
+        return response.json();
+    },
+
+    async generateTip(model, specs) {
+        const response = await fetch(`${BASE_URL}/generate-tip`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ model, specs })
+        });
+        return response.json();
+    },
+
+    async updateKnowledge(entry) {
+        const response = await fetch(`${BASE_URL}/update-knowledge`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(entry)
+        });
+        return response.json();
+    },
+
+    async applyAutoTips(category, tip) {
+        const response = await fetch(`${BASE_URL}/apply-auto-tips`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ category, tip })
+        });
+        return response.json();
+    },
+
     getSpecImageUrl(filename) {
         return `${BASE_URL}/specs/${filename}`;
     }

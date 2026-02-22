@@ -1,110 +1,944 @@
 [
     {
-        "sku": "B8PH7LA",
-        "model": "HP 255 G10 Notebook PC (R3)",
-        "specs": "AMD Ryzen 3 7330U, 16GB RAM, 512GB SSD, 15.6\" HD, Windows 11 Home",
-        "tip_venta": "Ideal para estudiantes: Diseño ligero con 16GB de RAM para multitarea sin bloqueos.",
-        "image": "Ficha (1).jpeg"
-    },
-    {
-        "sku": "B8PH9LA",
-        "model": "HP 255 G10 Notebook PC (R5)",
-        "specs": "AMD Ryzen 5 7530U, 16GB RAM, 512GB SSD, 15.6\" HD, Windows 11 Home",
-        "image": "Ficha (2).jpeg"
-    },
-    {
-        "sku": "ASUS EXPERTBOOK B1",
-        "model": "Asus Expertbook B1 (B1502)",
-        "specs": "Intel Core i3-1315U, Pantalla 15.6\" NanoEdge, Teclado resistente, Grado Militar MIL-STD 810H, Windows 11"
-    },
-    {
-        "sku": "HUAWEI WATCH FIT 4",
-        "model": "Huawei Watch Fit 4",
-        "specs": "Pantalla AMOLED 1.82\", Batería hasta 10 días, GPS, Modos deportivos"
-    },
-    {
-        "sku": "HUAWEI WATCH FIT 4 PRO",
-        "model": "Huawei Watch Fit 4 Pro",
-        "specs": "Cuerpo Titanio, Cristal Zafiro, ECG, AMOLED 1.82\" 3000 nits, Buceo 40m"
-    },
-    {
-        "sku": "HUAWEI WATCH GT 6 PRO",
-        "model": "Huawei Watch GT 6 Pro",
-        "specs": "Titanio y Zafiro, Batería 21 días, Potenciómetro ciclismo, NFC, ECG, SpO2"
-    },
-    {
-        "sku": "HUAWEI WATCH GT 6",
-        "model": "Huawei Watch GT 6",
-        "specs": "Acero Inoxidable, Batería hasta 21 días (46mm) / 14 días (41mm), GPS, NFC"
-    },
-    {
-        "sku": "HUAWEI MATEPAD 11.5",
-        "model": "Huawei MatePad 11.5",
-        "specs": "11.5\" 120Hz, 8GB RAM, 128/256GB, Batería 10100mAh, HarmonyOS 4.3"
-    },
-    {
-        "sku": "HUAWEI MATEPAD SE 11",
-        "model": "Huawei MatePad SE 11\"",
-        "specs": "Diseño metálico, Pantalla FullView 11\", Batería 7700mAh, 8GB RAM + 128GB ROM, Huawei Histen 9.0"
-    },
-    {
-        "sku": "HONOR PAD X8A",
-        "model": "Honor Pad X8a",
-        "specs": "Snapdragon 680, 8GB (4+4) RAM, 128GB, Pantalla 11\" 90Hz FHD, Batería 8300mAh"
-    },
-    {
-        "sku": "7021104",
-        "model": "OPPO PAD NEO",
-        "specs": "Helio G99, 6GB+6GB RAM, 128GB, Pantalla 11.4\" 2.4K 90Hz, Batería 8000mAh"
-    },
-    {
-        "sku": "TECNO PAD",
-        "model": "Tecno Pad",
-        "specs": "Helio G80, 4GB RAM, 128/256GB, 10.1\" IPS, Batería 7000mAh"
-    },
-    {
-        "sku": "TECNO MEGAPAD 10",
-        "model": "Tecno Megapad 10",
-        "specs": "MT8786, 4GB RAM, 10.1\" LCD Proteccion Visual, Android 14"
-    },
-    {
-        "sku": "MEGAPAD 10",
-        "model": "Megapad 10 (Tablet)",
-        "specs": "Pantalla 10.1\" con protección visual, Batería larga duración, Gran capacidad de almacenamiento"
-    },
-    {
-        "sku": "ZAEH0127CO",
-        "model": "Lenovo Tab M11",
-        "specs": "Helio G85, 4GB RAM, 128GB, 10.1\" WUXGA, Batería 5100mAh"
-    },
-    {
         "sku": "7019280",
-        "model": "Barra de Sonido AIWA AWSBH1W-W",
-        "specs": "Potencia 100 Watts, Woofer inalámbrico, BT 5.0, MP3, USB, Optico, HDMI"
-    },
-    {
-        "sku": "7021234",
-        "model": "Xiaomi 4 lite Gen 2 (Scooter)",
-        "specs": "350W-390W, 25KM Distancia, 25K/h, IPX4, Llantas Aire"
-    },
-    {
-        "sku": "7022233",
-        "model": "Xiaomi 5 Electric PRO (Scooter)",
-        "specs": "400W-1000W, 60KM Distancia, 25K/h, IPX5, Amortiguadores"
+        "model": "Aiwa BRRA SONIDO AWSBH1W-W LED BT5.0 MP3 AIWA",
+        "specs": "Potencia 100 Watts, Woofer inalámbrico, BT 5.0, MP3, USB, Optico, HDMI",
+        "tip_venta": "Parlante Aiwa AWSBH1W-W de barra de sonido con iluminación LED, Bluetooth 5.0, soporte MP3, para una experiencia multimedia envolvente. Es ideal para cine en casa o fiestas."
     },
     {
         "sku": "7022235",
-        "model": "Xiaomi 5 Electric (Scooter)",
-        "specs": "350W-700W, 60KM Distancia, 25K/h, IPX5, Amortiguadores"
+        "model": "Xiaomi PATINETA 5 ELECTR 350W 25KM/H NEGRO XIAO",
+        "specs": "350W-700W, 60KM Distancia, 25K/h, IPX5, Amortiguadores",
+        "tip_venta": "Patineta Xiaomi 5 Eléctrica de color negro con motor de 350W y velocidad máxima de 25km/h, para desplazamientos rápidos y eficientes en la ciudad. Es una patineta ideal para el commute diario o paseos más dinámicos."
     },
     {
-        "sku": "7019323",
-        "model": "Xiaomi Scooter 4 lite",
-        "specs": "300W Max, 20KM Distancia, 25K/h, IPX4, Llantas Macizas"
+        "sku": "7023263",
+        "model": "Xiaomi ASPIRADORA S40C BLTTH4.2 2600MH BLN XIAO",
+        "specs": "Bluetooth 4.2, Batería 2600mAh, Color Blanco",
+        "tip_venta": "Aspiradora Xiaomi S40C en Blanco con batería de 2600mAh y conectividad Bluetooth 4.2, para una limpieza eficiente y control inteligente desde su móvil. Disfrute de mayor autonomía y conveniencia. Es un equipo ideal para hogares modernos y quienes buscan automatización."
     },
     {
-        "sku": "7021356",
-        "model": "Xiaomi 4 Electric (Scooter)",
-        "specs": "350W-600W, 35KM Distancia, 25K/h, IP54, Llantas 10\" sin cámara"
+        "sku": "7022237",
+        "model": "Xiaomi ASPIRADORA G20 MAX 180AW 0.6LT BLNC XIAO",
+        "specs": "Succión 180AW, Capacidad 0.6L, Color Blanco",
+        "tip_venta": "Otro Xiaomi G20 Max de 0.6LT con succión de 180AW, color blanco, para una limpieza profunda y eficiente del hogar. Es un equipo ideal para mantener espacios impecables."
+    },
+    {
+        "sku": "7018103",
+        "model": "Huawei AUDF FREEBUDS PRO2 BLN+ KIT SPEAKER HUAW",
+        "specs": "Color Blanco, Incluye Kit Speaker",
+        "tip_venta": "Audífonos Huawei FREEBUDS PRO2 en color Blanco con audio de alta fidelidad, cancelación de ruido inteligente para una experiencia sonora inmersiva y comunicación clara. Incluye un práctico Kit Speaker. Es un equipo ideal para amantes de la música y profesionales en movimiento."
+    },
+    {
+        "sku": "7022803",
+        "model": "Honor AUDIFONS OWS LOKY BLTTH5.2 IP54 NGR HONR",
+        "specs": "Bluetooth 5.2, Certificación IP54, Color Negro",
+        "tip_venta": "Audífonos Honor OWS LOKY en color Negro con Bluetooth 5.2 de baja latencia, certificación IP54 de resistencia para un sonido impecable y durabilidad en cualquier entorno. Es un equipo ideal para deportistas y personas con un estilo de vida activo."
+    },
+    {
+        "sku": "7022501",
+        "model": "Huawei AUDF FREECLIP 20W BLTTH5.2 510MH NG HUAW",
+        "specs": "Potencia 20W, Bluetooth 5.2, Batería 510mAh, Color Negro",
+        "tip_venta": "Audífonos Huawei FREECLIP con batería de 510mAh con alta potencia de 20W, conexión Bluetooth 5.2 estable para un audio potente y horas de reproducción ininterrumpida. Es un equipo ideal para usuarios que exigen rendimiento y autonomía."
+    },
+    {
+        "sku": "7022606",
+        "model": "Xiaomi AUDIFNS BUDS5PRO BLTH5.4 570MAH NGR XIAO",
+        "specs": "Bluetooth 5.4, Batería 570mAh, Color Negro",
+        "tip_venta": "Audífonos Xiaomi Buds 5 Pro en Negro con Bluetooth 5.4 y una batería de 570mAh para una conexión estable y duradera. Disfrute de su música sin interrupciones. Es un equipo ideal para amantes de la música y usuarios activos."
+    },
+    {
+        "sku": "7022554",
+        "model": "Huawei AUD FREEBUDS PR4 BLTTH5.2 510MAH BL HUAW",
+        "specs": "Bluetooth 5.2, 510mAh, Blanco",
+        "tip_venta": "Audífonos Huawei FreeBuds Pro 4 en Blanco con Bluetooth 5.2 y una batería de 510mAh, para una conexión estable y gran autonomía. Ideal para llamadas claras y música envolvente. Es un equipo ideal para profesionales y quienes valoran la calidad de audio."
+    },
+    {
+        "sku": "7021495",
+        "model": "Samsung AUDF GALAXY BUDS3 PRO 8GB BT5.4 PLT SAMS",
+        "specs": "8GB, Bluetooth 5.4, Plateado",
+        "tip_venta": "Audífonos Samsung Galaxy Buds3 Pro Plateados con Bluetooth 5.4 y memoria interna de 8GB, para escuchar música directamente sin su teléfono y disfrutar de conectividad avanzada. Es un equipo ideal para deportistas y usuarios que buscan independencia del smartphone."
+    },
+    {
+        "sku": "7018106",
+        "model": "Huawei AUDF FREEBUDS PRO2 AZL+ KIT SPEAKER HUAW",
+        "specs": "Color Azul, Incluye Kit de Parlante",
+        "tip_venta": "Audífonos Huawei FreeBuds Pro 2 en Azul con sonido premium y conectividad eficiente, para un audio inmersivo y potente. Incluye un Kit de Parlante para compartir su música. Es un equipo ideal para audiófilos y quienes disfrutan de compartir experiencias sonoras."
+    },
+    {
+        "sku": "7023108",
+        "model": "Honor AUD CHOICE EARDBUDS CLIP BLT5.3 NGR HONR",
+        "specs": "Bluetooth 5.3, Color Negro",
+        "tip_venta": "Audífonos Honor Choice Earbuds Clip en Negro con diseño clip y Bluetooth 5.3, para un ajuste seguro y una conexión estable en su día a día. Disfrute de libertad de movimiento. Es un equipo ideal para usuarios activos y quienes buscan comodidad y seguridad."
+    },
+    {
+        "sku": "7023197",
+        "model": "Xiaomi AUDF OPENWEARPRO BLTTH5.4 700MH NGR XIAO",
+        "specs": "Bluetooth 5.4, Batería 700mAh, Color Negro",
+        "tip_venta": "Audífonos Xiaomi OpenWear Pro en Negro con Bluetooth 5.4 y una batería de 700mAh para una duración excepcional y conexión de última generación. Ideal para largas jornadas de uso. Es un equipo ideal para viajeros, deportistas de resistencia y usuarios intensivos."
+    },
+    {
+        "sku": "7022772",
+        "model": "Honor AUDIFONS OWS LOKY BLTTH5.2 IP54 DRD HONR",
+        "specs": "Bluetooth 5.2, Certificación IP54, Color Dorado",
+        "tip_venta": "Audífonos Honor OWS Loky en Dorado con Bluetooth 5.2 y certificación IP54, para una conexión estable y resistencia al agua y polvo. Ideales para su estilo de vida activo. Es un equipo ideal para usuarios activos que buscan durabilidad y un toque de estilo."
+    },
+    {
+        "sku": "7022393",
+        "model": "Argom CAMARA EPIC88 4K 24MP 128G IP68 NGR ARGM",
+        "specs": "Resolución 4K, 24MP, Soporta 128GB, Protección IP68, Color Negro",
+        "tip_venta": "Otro Argom Epic88 de 24MP con resolución 4K, protección IP68, y soporte de 128GB para capturar aventuras extremas. Es una cámara ideal para deportistas o viajeros."
+    },
+    {
+        "sku": "7022846",
+        "model": "Samsung TV UN55DU7000 55\"+TV UN32H5000 32\" SAMS",
+        "specs": "Combo de televisores 55 pulgadas y 32 pulgadas",
+        "tip_venta": "TV Samsung Combo de 55\" y 32\" con imágenes vibrantes, múltiples opciones de conectividad, y tecnología de mejora de imagen para vivir una experiencia cinematográfica en casa. Ofrece dos pantallas para diferentes espacios. Es ideal para familias."
+    },
+    {
+        "sku": "7023005",
+        "model": "Lenovo PRT V14G5IRL IC_5 14\"+MOUSE ESSENTL LENO",
+        "specs": "Procesador Intel Core i5, Pantalla 14 pulgadas, Incluye Mouse Essential",
+        "tip_venta": "Laptop Lenovo de 14 pulgadas con pantalla nítida, rendimiento fiable, con Procesador Intel Core i5 para un trabajo diario eficiente y fluido, y un Mouse Essential de regalo. Es un equipo ideal para profesionales y estudiantes."
+    },
+    {
+        "sku": "7023333",
+        "model": "Sony CS PS5 SLM_DGT 825G+VJ ASTRB+VJ GT7 SONY",
+        "specs": "825GB de almacenamiento, Incluye juegos Astro's Playroom y Gran Turismo 7",
+        "tip_venta": "Otro Sony PlayStation 5 Slim Digital de 825GB con Astro's Playroom y Gran Turismo 7, para experiencias de juego ultra rápidas. Es ideal para entusiastas de los videojuegos."
+    },
+    {
+        "sku": "7021504",
+        "model": "Microsoft CNS XBOX S/S 512G+2CNTRLS+GIFT CARD MSFT",
+        "specs": "512GB de almacenamiento, 2 Controles, Incluye Gift Card",
+        "tip_venta": "Otro Microsoft Xbox Series S de 512GB con 2 controles y Gift Card, para disfrutar de juegos de nueva generación. Es ideal para gamers que buscan valor y versatilidad."
+    },
+    {
+        "sku": "7018923",
+        "model": "Panasonic MINICMPNNT AKX320 450W EFCTSDJ RDFM PNSC",
+        "specs": "Minicomponente, Potencia 450W, Efectos DJ, Radio FM",
+        "tip_venta": "Parlante Panasonic AKX320 de minicomponente con potencia de 450W, efectos DJ, radio FM, para animar cualquier reunión. Es ideal para fiestas en casa o eventos sociales."
+    },
+    {
+        "sku": "7019276",
+        "model": "AIWA ALTVZ PRTTL AWPOK7D LED BLTH5.1 30W AIWA",
+        "specs": "Portátil, Iluminación LED, Bluetooth 5.1, Potencia 30W",
+        "tip_venta": "Parlante Aiwa AWPOK7D de 30W portátil con iluminación LED, Bluetooth 5.1, para llevar tu música a todas partes. Es ideal para picnics, reuniones al aire libre o la playa."
+    },
+    {
+        "sku": "7018928",
+        "model": "Panasonic EQUP ONEBOX AU30 300W SND180° 4AMPL PNSC",
+        "specs": "Potencia 300W, Sonido 180 grados, 4 Amplificadores",
+        "tip_venta": "Parlante Panasonic AU30 de 300W con sonido 180 grados, 4 amplificadores, para llenar cualquier espacio con tu música. Es ideal para eventos o amantes de audio potente."
+    },
+    {
+        "sku": "7020163",
+        "model": "Segway Ninebot KCK SCTER E2PLUS NINEBOT 500WH GRIS SGWY",
+        "specs": "Potencia 500W, color gris",
+        "tip_venta": "Patineta Segway Ninebot E2 Plus de color gris con una potente batería de 500WH y motor eficiente, para desplazarte con potencia y autonomía en la ciudad. Es una patineta ideal para usuarios que buscan rendimiento y estilo."
+    },
+    {
+        "sku": "7023212",
+        "model": "Acer PRT TMP214-55-586G ICI5 16G 14\" GR ACER",
+        "specs": "Procesador Intel Core i5, 16GB RAM, Pantalla 14\", Color Gris",
+        "tip_venta": "Laptop Acer de 14 pulgadas en color Gris con gran capacidad de respuesta, diseño robusto, con 16GB RAM y Procesador Intel Core i5 para multitarea intensiva y proyectos exigentes. Es un equipo ideal para usuarios avanzados y empresariales."
+    },
+    {
+        "sku": "7022577",
+        "model": "HP PRT B8PH7LA RZN3 512G W11 SLVR+MLTA HEWP",
+        "specs": "Procesador Ryzen 3, 512GB SSD, Windows 11, Color Silver",
+        "tip_venta": "Laptop HP compacta con almacenamiento SSD de 512GB, sistema operativo Windows 11, y Procesador Ryzen 3 para inicios rápidos y rendimiento óptimo. Perfecta para el trabajo híbrido o uso familiar."
+    },
+    {
+        "sku": "7021601",
+        "model": "Lenovo PRT V14G5IRL IC_I3 256G 14\" W11 GRS LENO",
+        "specs": "Intel Core i3, 256GB SSD, Pantalla 14 pulgadas, Windows 11, Color Gris",
+        "tip_venta": "Laptop Lenovo de 14\" con disco sólido de 256GB, Windows 11, y Procesador Intel Core i3 para tareas diarias y navegación eficiente. Ideal para uso estudiantil y navegación web."
+    },
+    {
+        "sku": "7018366",
+        "model": "Huawei PRTL MTEBKD14 IC_I3 14\" 8G/256G SLV HUAW",
+        "specs": "Procesador Intel Core i3, Pantalla 14\", 8GB RAM, 256GB SSD, Color Silver",
+        "tip_venta": "Laptop Huawei de 14 pulgadas en color Silver con agilidad en procesos, almacenamiento sólido, con 8GB RAM, 256GB SSD y Procesador Intel Core i3 para trabajo y estudio fluido y eficiente. Es un equipo ideal para estudiantes y teletrabajo."
+    },
+    {
+        "sku": "7023048",
+        "model": "ASUS PORT B1503CVA-S75191W ICI3 15.6\" NG ASUS",
+        "specs": "Procesador Intel Core i3, Pantalla 15.6 pulgadas, Color Negro",
+        "tip_venta": "Laptop ASUS de 15.6\" con pantalla amplia, diseño robusto, y Procesador Intel Core i3 para su entretenimiento y productividad básica. Es ideal para el hogar y tareas escolares."
+    },
+    {
+        "sku": "7022746",
+        "model": "HP PRT B8PH9LA RZN5+DDM PLY BLCKW 3220 HEWP",
+        "specs": "Procesador Ryzen 5, Color Black/White",
+        "tip_venta": "Laptop HP en color Black/White con potencia multitarea, estilo moderno, con Procesador Ryzen 5 para gestionar tareas complejas y entretenimiento sin esfuerzo. Es un equipo ideal para usuarios exigentes y creativos."
+    },
+    {
+        "sku": "7023549",
+        "model": "HP PRT HP225G10 NOTBKPC RZN5 15.6\" SLV HEWP",
+        "specs": "Notebook PC, Procesador Ryzen 5, Pantalla 15.6\", Color Silver",
+        "tip_venta": "Laptop HP Notebook PC de 15.6 pulgadas en color Silver con rendimiento superior, pantalla grande, con Procesador Ryzen 5 para productividad avanzada y experiencia visual inmersiva. Es un equipo ideal para profesionales y multimedia."
+    },
+    {
+        "sku": "7019979",
+        "model": "ASUS PRT E1504FA-NJ424W RYZ3 8G 15.6\" NG ASUS",
+        "specs": "Procesador Ryzen 3, 8GB RAM, Pantalla 15.6\", Color Negro",
+        "tip_venta": "Laptop ASUS de 15.6\" con pantalla nítida, diseño elegante, Procesador Ryzen 3 y 8GB RAM para un rendimiento fluido en tareas diarias. Es un equipo ideal para estudiantes y uso doméstico."
+    },
+    {
+        "sku": "7022580",
+        "model": "HP PRT B8PH9LA RZN5 512G W11 15.6\" SLV HEWP",
+        "specs": "Procesador Ryzen 5, 512GB SSD, Windows 11, Pantalla 15.6\", Color Silver",
+        "tip_venta": "Laptop HP de 15.6\" con amplio disco sólido de 512GB, Windows 11 preinstalado, y Procesador Ryzen 5 para alta velocidad y multitarea exigente. Es ideal para profesionales y usuarios avanzados."
+    },
+    {
+        "sku": "7022785",
+        "model": "Lenovo PRT V14G5IRL IC_5 256GB 14\" W11 GRS LENO",
+        "specs": "Procesador Intel Core i5, 256GB SSD, Pantalla 14\", Windows 11, Color Gris",
+        "tip_venta": "Laptop Lenovo de 14\" con disco sólido rápido de 256GB, Windows 11, y Procesador Intel Core i5 para productividad y agilidad en sus proyectos. Es un equipo perfecto para oficina y teletrabajo."
+    },
+    {
+        "sku": "7021507",
+        "model": "Acer PORTL TMP214-55-38LV CI3 8G 14\" GRS ACER",
+        "specs": "Procesador Intel Core i3, 8GB RAM, Pantalla 14\", Color Gris",
+        "tip_venta": "Laptop Acer de 14\" con diseño portátil, pantalla nítida, Procesador Intel Core i3 y 8GB RAM para ejecutar aplicaciones simultáneas sin problemas. Perfecta para movilidad y estudiantes."
+    },
+    {
+        "sku": "7022094",
+        "model": "Panasonic TV TC32NS600H 32\" HD LED GGL_TV NGR PNSC",
+        "specs": "32\", HD, LED",
+        "tip_venta": "TV Panasonic de 32\" con resolución HD, tecnología LED, y Google TV integrado para acceder a un mundo de entretenimiento inteligente. Perfecta para habitaciones, cocinas o espacios pequeños."
+    },
+    {
+        "sku": "7022740",
+        "model": "TCL TV 43C69B 43\" QLED 4K GOOGLE_TV NEGR TCL",
+        "specs": "43\", QLED, 4K, Google TV",
+        "tip_venta": "TV TCL de 43 pulgadas con tecnología QLED para colores vibrantes, resolución 4K ultra-nítida y Google TV integrado para un entretenimiento inmersivo y acceso fácil a tus apps. Es un equipo ideal para familias modernas o amantes del cine en casa."
+    },
+    {
+        "sku": "7022808",
+        "model": "HSSN TV 43QD6N 43\" 4K QLED GOOGLE_TV NGR HSSN",
+        "specs": "43\", 4K, QLED, GOOGLE_TV",
+        "tip_venta": "TV HSSN de 43 pulgadas con pantalla QLED para colores realistas, calidad 4K UHD y sistema operativo Google TV para disfrutar de contenido con la máxima definición y fluidez. Es un equipo ideal para quienes buscan una experiencia Smart TV premium."
+    },
+    {
+        "sku": "7023157",
+        "model": "Samsung TV UN55U8000 55\"+BRRA SND HWB400FZL SAMS",
+        "specs": "55\" UHD, Barra de sonido",
+        "tip_venta": "TV Samsung de 55\" UHD con calidad de imagen superior, sonido envolvente con barra HWB400FZL, y procesador Smart TV para una experiencia multimedia completa. Incluye barra de sonido HWB400FZL. Es un equipo ideal para cineastas en casa."
+    },
+    {
+        "sku": "7021263",
+        "model": "Samsung TV UN55DU8200 55\" UHD LED CRYSTL 4K SAMS",
+        "specs": "55\", UHD, LED, CRYSTL, 4K",
+        "tip_venta": "TV Samsung de 55\" con pantalla UHD 4K Crystal Display, y panel LED para colores más vívidos y detalles nítidos. Su procesador Crystal 4K garantiza una imagen óptima. Es un equipo ideal para familias que buscan una experiencia visual inmersiva y un entretenimiento superior en su hogar."
+    },
+    {
+        "sku": "7021958",
+        "model": "HSSN TV 55Q6N 55\" QLED 4K GOOGLE_TV NGRO HSSN",
+        "specs": "55\", QLED, 4K, GOOGLE_TV, NGRO",
+        "tip_venta": "TV HSSN de 55\" QLED 4K con colores vibrantes, resolución 4K, y sistema Google TV para un sistema operativo inteligente para disfrutar de entretenimiento inmersivo. Es un equipo ideal para amantes del cine y la tecnología que buscan control intuitivo."
+    },
+    {
+        "sku": "7021612",
+        "model": "TCL TV 58P635 58\" 4K+CEL ONETCH 4041 AZL TCL",
+        "specs": "58\", 4K, CEL, ONETCH, 4041, AZL",
+        "tip_venta": "TV TCL de 58 pulgadas con resolución 4K de alta claridad, incluye celular ONETCH 4041 azul para disfrutar de tu contenido favorito y estar siempre conectado. Es un equipo ideal para una visualización inmersiva, perfecto para familias o personas que buscan un combo de entretenimiento y comunicación."
+    },
+    {
+        "sku": "7023158",
+        "model": "SAMS TV UN55U8200 55\"+BRRA SND HWB400FZL SAMS",
+        "specs": "55\", BRRA, SND, HWB400FZL",
+        "tip_venta": "TV Samsung de 55\" con gran tamaño para inmersión visual, audio potente con la barra de sonido HWB400FZL, y procesador Smart TV para una experiencia multimedia completa. Incluye barra de sonido HWB400FZL. Es un equipo ideal para cine en casa."
+    },
+    {
+        "sku": "7022742",
+        "model": "TCL TV 55C69B 55\" QLED 4K GOOGLE_TV NGRO TCL",
+        "specs": "55\", QLED, 4K, GOOGLE_TV, NGRO",
+        "tip_venta": "TV TCL de 55\" QLED 4K Google TV negro con un panel QLED para colores vibrantes, resolución 4K y Google TV integrado para contenido personalizado y una navegación fluida. Es un equipo ideal para usuarios exigentes y familias modernas que buscan lo último en entretenimiento."
+    },
+    {
+        "sku": "7023156",
+        "model": "Samsung TV UN50U8200 50\"+BRRA SND HWB400FZL SAMS",
+        "specs": "50\", Smart TV, Home Theater",
+        "tip_venta": "TV Samsung de 50 pulgadas con función Smart TV intuitiva, incluye barra de sonido HWB400FZL para Home Theater y así crear un ambiente cinematográfico en casa. Es un equipo ideal para una inmersión total, perfecto para quienes desean una solución completa de entretenimiento en el hogar."
+    },
+    {
+        "sku": "7022096",
+        "model": "Panasonic TV TC43NX700H 43\" 4K LED GGL_TV NGR PNSC",
+        "specs": "43\", 4K, LED",
+        "tip_venta": "TV Panasonic de 43 pulgadas con pantalla 4K LED de alta definición y Smart TV con Google TV para acceder a tus contenidos favoritos con una claridad excepcional. Es un equipo ideal para una experiencia inteligente y detallada, perfecto para usuarios que buscan calidad de imagen y funcionalidad Smart."
+    },
+    {
+        "sku": "7023548",
+        "model": "Samsung TV U8200 65\" LED CRSTL4K SMRT_TV NG SAMS",
+        "specs": "65\", LED, 4K, Smart TV",
+        "tip_venta": "TV Samsung de 65\" LED Crystal 4K con Smart TV integrado, colores vibrantes y Procesador Crystal 4K para una experiencia visual inmersiva de entretenimiento. Es un equipo ideal para familias y amantes del cine."
+    },
+    {
+        "sku": "7021957",
+        "model": "HSSN TV 50Q6N 50\" QLED 4K GOOGLE_TV NGRO HSSN",
+        "specs": "50\" QLED 4K, Google TV",
+        "tip_venta": "TV HSSN de 50\" con tecnología QLED 4K, y sistema Google TV para colores vibrantes y una resolución asombrosa. Disfrute de su contenido favorito con una navegación smart fluida. Es un equipo ideal para los amantes del cine y quienes buscan la mejor calidad de imagen."
+    },
+    {
+        "sku": "7022707",
+        "model": "Samsung TV UN50DU8000 50\" UHD 4K SMRT_TV NG SAMS",
+        "specs": "50\" UHD 4K, Smart TV",
+        "tip_venta": "TV Samsung de 50\" UHD 4K con Smart TV y resolución Ultra HD, procesador de imágenes UHD para detalles nítidos y ver tus contenidos favoritos. Es un equipo ideal para hogares modernos y amantes del contenido streaming."
+    },
+    {
+        "sku": "7021242",
+        "model": "Samsung TV UN50DU8200 50\" UHD LED CRYSTL 4K SAMS",
+        "specs": "50\" UHD LED, Crystal 4K",
+        "tip_venta": "TV Samsung de 50\" UHD LED Crystal 4K con imágenes vibrantes y resolución UHD, Procesador Crystal 4K para disfrutar colores puros y una imagen definida. Es un equipo ideal para quienes buscan una experiencia visual clara y colorida."
+    },
+    {
+        "sku": "7022058",
+        "model": "Samsung TV UN50DU8200 50\"+BRR SND HW C400ZL SAMS",
+        "specs": "50\", BRR SND, HW, C400ZL",
+        "tip_venta": "Combo TV + Barra de sonido Samsung de 50\" 4K con resolución nítida y audio envolvente, procesador de sonido integrado para una experiencia audiovisual completa e inmersiva. Incluye Barra de Sonido HW C400ZL. Es ideal para amantes del cine en casa y entretenimiento."
+    },
+    {
+        "sku": "7021715",
+        "model": "Samsung TV UN55DU8200 55\"+BRRA SND HWC400ZL SAMS",
+        "specs": "55\", BRRA SND, HWC400ZL",
+        "tip_venta": "TV Samsung de 55\" con imagen 4K nítida, y un procesador inteligente para optimizar cada escena. Incluye una barra de sonido HWC400ZL para un audio envolvente y potente. Es un equipo ideal para una experiencia cinematográfica completa y un hogar que valora el mejor sonido."
+    },
+    {
+        "sku": "7022391",
+        "model": "TCL TV 55P655 55\" LED 4K+BARRA SNDO S45H TCL",
+        "specs": "55\" LED 4K, Barra de sonido",
+        "tip_venta": "Combo TV + Barra de sonido TCL de 55\" LED 4K con alta definición y audio potenciado, procesador TCL optimizado para una experiencia visual impactante y sonido envolvente. Incluye Barra de Sonido S45H. Es ideal para familias que desean mejorar su entretenimiento doméstico."
+    },
+    {
+        "sku": "7021364",
+        "model": "SAMS TV UN43DU7000 43\" UHD LED CRYSTL 4K SAMS",
+        "specs": "43\", UHD, LED, CRYSTL, 4K",
+        "tip_venta": "TV Samsung de 43\" UHD LED Crystal 4K con claridad Ultra HD y colores Crystal Display, Procesador Crystal 4K para disfrutar imágenes nítidas y vibrantes en un tamaño compacto. Es un equipo ideal para espacios medianos o usuarios que buscan calidad premium."
+    },
+    {
+        "sku": "7022880",
+        "model": "Samsung TV UN50U8200 50\" LED 4K SMRT_TV NGR SAMS",
+        "specs": "50\", LED, 4K, SMRT_TV, NGR",
+        "tip_venta": "TV Samsung de 50\" LED 4K Smart TV con alta resolución 4K y acceso a streaming, procesador de imagen optimizado para entretenimiento sin límites y gran calidad visual. Es un equipo ideal para hogares modernos que buscan conectividad y buena imagen."
+    },
+    {
+        "sku": "7018548",
+        "model": "TCL TV 55P635 55\" UHD 4K D-LED GOOGLE TV TCL",
+        "specs": "55\", UHD, 4K, D-LED, Google TV",
+        "tip_venta": "TV TCL de 55\" con resolución UHD 4K, tecnología D-LED y el sistema operativo Google TV para acceso fácil a miles de contenidos y apps. Es un equipo ideal para quienes buscan una interfaz intuitiva y gran calidad de imagen."
+    },
+    {
+        "sku": "7022212",
+        "model": "TCL TV 55P655 55\" LED 4K GOOGLE_TV GRIS TCL",
+        "specs": "55\", LED, 4K, GOOGLE_TV, GRIS",
+        "tip_venta": "TV TCL de 55\" con pantalla LED 4K, y sistema Google TV para una alta resolución y acceso intuitivo a todo su contenido. Disfrute de imágenes detalladas y entretenimiento sin límites. Es un equipo ideal para el salón familiar y quienes buscan una experiencia smart completa."
+    },
+    {
+        "sku": "7021594",
+        "model": "Samsung TV UN55DU8000 55\" LED 4K SMRT_TV GR SAMS",
+        "specs": "55\", LED, 4K, Smart TV",
+        "tip_venta": "TV Samsung de 55\" con panel LED 4K y su potente plataforma Smart TV para una navegación fluida y acceso a un mundo de contenido. Es un equipo ideal para familias que buscan facilidad de uso, alta calidad visual y entretenimiento garantizado."
+    },
+    {
+        "sku": "7023584",
+        "model": "Samsung TV 55Q6N 55\" 4K QLED NG+BARR HS1000 HSSN",
+        "specs": "55\", 4K, QLED, NG+BARR, HS1000, HSSN",
+        "tip_venta": "TV Hisense de 55\" con panel 4K QLED de color negro y barra de sonido HS1000 integrada para imágenes espectaculares y audio inmersivo. Es un equipo ideal para cinéfilos y usuarios que valoran una experiencia audiovisual completa y de alta fidelidad."
+    },
+    {
+        "sku": "7023065",
+        "model": "Panasonic TV TC-43NX700H 43\"+MINCMP SC-TMAX15 PNSC",
+        "specs": "43\", Smart TV, Minicomponente",
+        "tip_venta": "TV Panasonic de 43\" con funciones Smart TV y el potente Minicomponente SC-TMAX15, para entretenimiento multimedia completo. Es un equipo ideal para quienes buscan un centro de entretenimiento compacto, versátil y con un audio excepcional para cualquier reunión."
+    },
+    {
+        "sku": "7023112",
+        "model": "Samsung TV UN58U8000 58\" LED 4K SMART_TV NG SAMS",
+        "specs": "58\" LED 4K SMART_TV",
+        "tip_venta": "TV Samsung de 58\" con panel LED 4K y potente Smart TV para imágenes amplias y nítidas, ofreciendo acceso inteligente a todas sus apps. Es un equipo ideal para usuarios que desean una pantalla grande y funciones inteligentes en su sala de entretenimiento principal."
+    },
+    {
+        "sku": "7023583",
+        "model": "HSSN TV 50Q6N 50\" 4K QLED NG+BARR HS1000 HSSN",
+        "specs": "50\" 4K QLED NG+BARR HS1000 HSSN",
+        "tip_venta": "TV Hisense de 50\" con panel 4K QLED de color negro y barra de sonido HS1000 integrada para colores vibrantes y audio inmersivo. Es un equipo ideal para quienes buscan una experiencia audiovisual premium en un tamaño versátil para cualquier habitación."
+    },
+    {
+        "sku": "7022741",
+        "model": "TCL TV 50C69B 50\" QLED 4K GOOGLE_TV NGRO TCL",
+        "specs": "50\", QLED, 4K, GOOGLE_TV, NGRO",
+        "tip_venta": "TV TCL de 50\" QLED 4K con imagen QLED de colores puros, resolución 4K, y procesador Google TV para un sistema operativo fluido para disfrutar de una experiencia cinematográfica. Es un equipo ideal para entusiastas del entretenimiento."
+    },
+    {
+        "sku": "7022095",
+        "model": "PNSC TV TC43NS600H 43\" FHD LED GL_TV NGR PNSC",
+        "specs": "43\", FHD, LED, GL_TV",
+        "tip_venta": "TV PNSC de 43\" con pantalla LED FHD, y sistema Google TV para imágenes nítidas y acceso inteligente a tus apps favoritas. Disfruta de entretenimiento sin complicaciones. Es un equipo ideal para espacios reducidos o una segunda pantalla con conectividad smart."
+    },
+    {
+        "sku": "7023107",
+        "model": "TCL TV 43C69B 43\" QLED TCL+SOPORT PARED KLLY",
+        "specs": "43\", QLED, SOPORT PARED",
+        "tip_venta": "TV TCL de 43\" con tecnología QLED para colores vibrantes, y resolución avanzada para una imagen excepcional. Incluye soporte de pared para una instalación flexible. Es un equipo ideal para quienes valoran la calidad visual y buscan optimizar su espacio con estilo."
+    },
+    {
+        "sku": "7023609",
+        "model": "Samsung TV U8000 43\" SAMS+SPRT HD602B+R C30 ARG",
+        "specs": "43\", HD, Smart TV",
+        "tip_venta": "TV Samsung de 43\" con resolución HD, y funcionalidades Smart TV para acceder a tus aplicaciones favoritas. Su procesador de imagen optimiza cada escena. Incluye soporte de pared para fácil instalación. Es un equipo ideal para un segundo televisor o entretenimiento diario en espacios cómodos."
+    },
+    {
+        "sku": "7023132",
+        "model": "Samsung TV UN43U8000 43\" SAMS+SOPORTE HD602B GNR",
+        "specs": "43\" SAMS+SOPORTE HD602B GNR",
+        "tip_venta": "TV Samsung de 43\" con calidad de imagen nítida, diseño compacto, y procesador Smart TV para una navegación fluida y optimización de su espacio. Incluye soporte HD602B GNR. Es un equipo ideal para espacios reducidos y quienes buscan practicidad."
+    },
+    {
+        "sku": "7023147",
+        "model": "Samsung TV UN43U8000 43\" LED 4K SMART_TV NG SAMS",
+        "specs": "43\" LED 4K SMART_TV NG",
+        "tip_venta": "TV Samsung de 43\" LED 4K con pantalla LED de resolución 4K, Smart TV integrado, y procesador inteligente para un rendimiento eficiente y acceso fácil a su contenido favorito. Es un equipo ideal para quienes buscan calidad 4K."
+    },
+    {
+        "sku": "7023586",
+        "model": "Samsung TV U8200 50\"+BRRA HWB400+AUD SMR410 SAMS",
+        "specs": "50\", Smart TV, Home Theater",
+        "tip_venta": "TV Samsung de 50\" Smart TV con experiencia Smart TV completa, sonido envolvente con Home Theater y Audífonos SMR410, y procesador optimizado para un entretenimiento completo. Incluye Home Theater HWB400 y audífonos SMR410. Es ideal para familias."
+    },
+    {
+        "sku": "7022936",
+        "model": "SAMS TV UN65U8000 65\" LED 4K SMRT_TV NGR SAMS",
+        "specs": "65\", LED, 4K, SMRT_TV",
+        "tip_venta": "TV Samsung de 65\" LED 4K Smart TV negro con resolución 4K, tecnología LED y un procesador inteligente para una experiencia visual inmersiva y acceso rápido a tus apps favoritas. Es un equipo ideal para amantes del cine y el entretenimiento en casa."
+    },
+    {
+        "sku": "7023543",
+        "model": "Samsung TABLT A11+ 256G 8GB 10.9\" BT5.3 GRS SAMS",
+        "specs": "256G, 8GB, 10.9\", BT5.3",
+        "tip_venta": "Tablet Samsung A11+ de 10.9\" gris con 256GB de almacenamiento, conectividad Bluetooth 5.3 y 8GB de RAM para procesos múltiples. Ofrece gran capacidad para tus archivos y una conectividad rápida. Es un equipo ideal para profesionales móviles y estudiantes avanzados."
+    },
+    {
+        "sku": "7023544",
+        "model": "Samsung TABLT A11+ 256G 8GB 10.9\" BT5.3 PLT SAMS",
+        "specs": "256G, 8GB, 10.9\", BT5.3",
+        "tip_venta": "Tablet Samsung A11+ de 10.9\" plata con 256GB de almacenamiento, conectividad Bluetooth 5.3 y 8GB de RAM para procesos múltiples. Ofrece gran capacidad para tus archivos y una conectividad rápida. Es un equipo ideal para profesionales móviles y estudiantes avanzados."
+    },
+    {
+        "sku": "7022771",
+        "model": "Honor TABL PAD X8A 128GB 11 BLTTH5.1 GRS HONR",
+        "specs": "11\", 128GB, Bluetooth 5.1",
+        "tip_venta": "Tablet Honor Pad X8A de 11\" con 128GB de almacenamiento y Bluetooth 5.1, para tus archivos y una conectividad rápida con accesorios. Es un equipo ideal para trabajo, estudio o entretenimiento en casa."
+    },
+    {
+        "sku": "7018552",
+        "model": "Huawei TBLT MTPD 64G 10.4\"+MLTA+MCR SD 16G HUAW",
+        "specs": "64G, 10.4\", MLTA, MCR SD 16G",
+        "tip_venta": "Tablet Huawei MatePad de 10.4\" con 64GB de almacenamiento y expandible con Micro SD de 16GB para una gran capacidad. Permite disfrutar multimedia sin límites. Es un equipo ideal para familias y entretenimiento personal, perfecto para almacenar tus recuerdos y contenido favorito."
+    },
+    {
+        "sku": "7021704",
+        "model": "Huawei TABLET MATEPAD 11.5\" S 256G 8GB PLT HUAW",
+        "specs": "11.5\", 256G, 8GB, PLT",
+        "tip_venta": "Tablet Huawei MatePad 11.5\" S plata con 256GB de almacenamiento, una pantalla de 11.5\" y 8GB de RAM para multitarea fluida. Disfruta de gran espacio y rendimiento superior. Es un equipo ideal para diseñadores, creadores de contenido y profesionales que buscan potencia."
+    },
+    {
+        "sku": "7022848",
+        "model": "Huawei TABLT MTPD SE11 AGS6-W09 11\" 8G AZL HUAW",
+        "specs": "11\", 8G, AGS6-W09, AZL",
+        "tip_venta": "Tablet Huawei MatePad SE11 de 11\" azul con una amplia pantalla de 11\" y 8GB de RAM para un rendimiento óptimo en todas tus tareas. Su procesador eficiente garantiza fluidez. Es un equipo ideal para estudiantes y para uso diario, ofreciendo una visualización amplia y cómoda."
+    },
+    {
+        "sku": "7019330",
+        "model": "Huawei TBLT MATEPAD SE 128G 10.4\" WIFI NGR HUAW",
+        "specs": "128G, 10.4\", WIFI",
+        "tip_venta": "Tablet Huawei MatePad SE de 10.4\" negro con 128GB de almacenamiento y conectividad Wi-Fi. Tendrás gran espacio para tus aplicaciones y una navegación fluida en casa. Es un equipo ideal para familias y entretenimiento en el hogar, perfecto para contenido online y tareas diarias."
+    },
+    {
+        "sku": "7020677",
+        "model": "Samsung TBLT GALAXY TAB A9 PLUS 11\" 8GB PLT SAMS",
+        "specs": "11\", 8GB",
+        "tip_venta": "Tablet Samsung de 11\" con pantalla amplia, diseño moderno color plata, 8GB RAM para fluidez en tus apps y juegos. Es un equipo ideal para entretenimiento y productividad ligera."
+    },
+    {
+        "sku": "7023268",
+        "model": "Samsung TAB A11 128G 8.7\" BLTH5.3 5100MH GR SAMS",
+        "specs": "128G, 8.7\", BLTH5.3, 5100MH, GR",
+        "tip_venta": "Tablet Samsung de 8.7\" con 128GB de almacenamiento, Bluetooth 5.3 y batería de 5100mAh para guardar todo tu contenido y gran autonomía. Es un equipo ideal para uso diario y viajes."
+    },
+    {
+        "sku": "7022801",
+        "model": "Oppo TAB OPD2419 10.5\" 128G BLTTH5.3 AZL OPPO",
+        "specs": "10.5\", 128G, BLTTH5.3, AZL",
+        "tip_venta": "Tablet Oppo de 10.5\" con 128GB de almacenamiento, Bluetooth 5.3 en elegante color azul para guardar tus archivos y conectividad veloz. Es un equipo ideal para entretenimiento y trabajo ligero."
+    },
+    {
+        "sku": "7023154",
+        "model": "Samsung TAB GALAXY TABS10LITE 11\" 128GB SLV SAMS",
+        "specs": "11\", 128GB, SLV",
+        "tip_venta": "Tablet Samsung de 11\" con pantalla amplia, 128GB de almacenamiento en color plata para gran espacio en apps y medios. Es un equipo ideal para usuarios que buscan amplio almacenamiento y visualización inmersiva."
+    },
+    {
+        "sku": "7023449",
+        "model": "Samsung TAB S10FE 128G 10.9\" GR+BDS3FE+SPEN SAMS",
+        "specs": "10.9\", 128G, GR, BDS3FE, SPEN",
+        "tip_venta": "Tablet Samsung de 10.9\" con 128GB de almacenamiento, color gris, e incluye Buds 3FE y S Pen para interactuar con precisión. Es un equipo ideal para creativos y profesionales."
+    },
+    {
+        "sku": "7023153",
+        "model": "Samsung TAB GALAXY TABS10LITE 11\" 128GB GRS SAMS",
+        "specs": "11\", 128GB, GRS",
+        "tip_venta": "Tablet Samsung de 11\" con pantalla inmersiva, 128GB de almacenamiento en color gris para amplio espacio en apps y archivos. Es un equipo ideal para entretenimiento y productividad básica."
+    },
+    {
+        "sku": "7023269",
+        "model": "Samsung TAB A11 128G 8.7\" BLTH5.3 5100MH PL SAMS",
+        "specs": "128G, 8.7\", BLTH5.3, 5100MH",
+        "tip_venta": "Tablet Samsung de 8.7\" con 128GB de almacenamiento, Bluetooth 5.3 y batería de 5100mAh para guardar tus recuerdos, conectividad rápida y gran autonomía. Es un equipo ideal para uso diario y multimedia portátil."
+    },
+    {
+        "sku": "7022270",
+        "model": "Lenovo TBL TB311FU 128G 10.1\"+FLIO CSE+AUD LENO",
+        "specs": "10.1\", 128G, FLIO CSE, AUD",
+        "tip_venta": "Tablet Lenovo de 10.1\" con 128GB de almacenamiento, pantalla inmersiva para guardar tu contenido y protección, e incluye Folio Case y Audífonos. Es un equipo ideal para estudiantes y usuarios que buscan un paquete completo."
+    },
+    {
+        "sku": "7023301",
+        "model": "Huawei TBLET MATPD11.5\" 128_8G GRS+TECLADO HUAW",
+        "specs": "128GB Almacenamiento, 8GB RAM, Color Gris, incluye Teclado",
+        "tip_venta": "Tablet Huawei de 11.5\" con 128GB de almacenamiento, 8GB RAM potente para multitarea sin lentitud y máxima productividad, e incluye Teclado. Es un equipo ideal para profesionales y estudiantes que necesitan versatilidad."
+    },
+    {
+        "sku": "7023450",
+        "model": "Samsung TAB S10FE 128G 10.9\" AZ+BDS3FE+SPEN SAMS",
+        "specs": "10.9\", 128G, AZ, BDS3FE, SPEN",
+        "tip_venta": "Tablet Samsung de 10.9\" con 128GB de almacenamiento, color azul, e incluye Buds 3FE y S Pen para creatividad y precisión. Es un equipo ideal para usuarios creativos y estudiantes avanzados."
+    },
+    {
+        "sku": "7021705",
+        "model": "Huawei TABLET MATEPAD SE 11\" KIDS 128G GRS HUAW",
+        "specs": "11\", 128G, Kids",
+        "tip_venta": "Tablet Huawei de 11\" Kids Edition con 128GB de almacenamiento y modo seguro para niños, para un aprendizaje y entretenimiento seguro y con espacio. Es un equipo ideal para los más pequeños del hogar."
+    },
+    {
+        "sku": "7023202",
+        "model": "Xiaomi PATINETA 5PLUS BLTTH4.1 10200MH NGR XIAO",
+        "specs": "Bluetooth 4.1, 10200mAh, Color Negro",
+        "tip_venta": "Patineta Xiaomi 5 Plus de color negro con batería de 10200mAh y Bluetooth 4.1, para recorridos largos y conectividad inteligente con tu app. Es una patineta ideal para tus desplazamientos urbanos diarios."
+    },
+    {
+        "sku": "7020844",
+        "model": "Segway PATINETA ELECT C2 160W 16KMH GRIS SEGWAY",
+        "specs": "Motor de 160W, velocidad máxima 16km/h, color gris",
+        "tip_venta": "Patineta Segway C2 de color gris con motor de 160W y velocidad máxima de 16km/h, para movimientos ágiles y seguros en distancias cortas. Es una patineta ideal para principiantes o paseos tranquilos."
+    },
+    {
+        "sku": "7023679",
+        "model": "Xiaomi PTNETA 6 800WTTS 25KM BT4.1 IPX5 NG XIAO",
+        "specs": "800W, 25KM/H, Bluetooth 4.1, IPX5, Color Negro",
+        "tip_venta": "Patineta Xiaomi 6 de color negro con motor de 800W y velocidad de 25km/h, Bluetooth 4.1 e IPX5, para potencia, resistencia al agua y conectividad avanzada. Es una patineta ideal para usuarios exigentes y terrenos variados."
+    },
+    {
+        "sku": "7017216",
+        "model": "Huawei RELOJ SW GT3 MILO-B19 42MM 4GB NGRO HUAW",
+        "specs": "Tamaño 42mm, almacenamiento 4GB, color negro",
+        "tip_venta": "Reloj Huawei Watch GT3 de 42mm en color negro con 4GB de almacenamiento y monitoreo avanzado de salud, para llevar tu música y registrar tus actividades con precisión. Es un reloj ideal para deportistas y amantes de la tecnología."
+    },
+    {
+        "sku": "7020321",
+        "model": "Huawei RLJ WTCHGT4 41MM BL+KIT SELFIE STCK HUAW",
+        "specs": "Tamaño 41mm, color blanco, incluye kit selfie stick",
+        "tip_venta": "Reloj Huawei Watch GT4 de 41mm en color blanco con diseño elegante y funciones de seguimiento de actividad, para complementar tu estilo de vida activo y lucir a la moda, e incluye un práctico kit selfie stick. Es un reloj ideal para quienes valoran moda y utilidad."
+    },
+    {
+        "sku": "7023198",
+        "model": "Xiaomi SMRTWTCH S4 41MM BLTTH5.4 320MH NGR XIAO",
+        "specs": "Tamaño 41mm, Bluetooth 5.4, batería de 320mAh, color negro",
+        "tip_venta": "Reloj Xiaomi Smartwatch S4 de 41mm en color negro con Bluetooth 5.4 y batería de 320mAh, para una conectividad ultrarrápida y gran autonomía diaria. Es un reloj ideal para usuarios conectados y activos."
+    },
+    {
+        "sku": "7023240",
+        "model": "Huawei SMRTWTCH WGT6 41MM BLT6.0 540MH BLN HUAW",
+        "specs": "41mm, Bluetooth 6.0, 540mAh, color blanco",
+        "tip_venta": "Reloj Huawei de 41mm en color blanco con Bluetooth 6.0, batería de 540mAh y un rendimiento optimizado para mantenerte conectado y monitorear tu día sin lentitud. Es un equipo ideal para usuarios activos y modernos que buscan estilo y funcionalidad."
+    },
+    {
+        "sku": "7023545",
+        "model": "Argom SMRTWTCH C30BG+C30RG 33MM BT5.3 BGE ARGM",
+        "specs": "Set C30BG+C30RG, 33mm, Bluetooth 5.3, color beige",
+        "tip_venta": "Reloj Argom de 33mm en set de colores beige con conectividad Bluetooth 5.3 y una operación eficiente para compartir o alternar estilos fácilmente, siempre con un control fluido de tu bienestar. Es un equipo ideal para parejas o quienes disfrutan de la variedad en sus accesorios tecnológicos."
+    },
+    {
+        "sku": "7017220",
+        "model": "Huawei RELOJ SW GT RUNNER-B19 46MM 4G NGRO HUAW",
+        "specs": "46mm, Conectividad 4G, Color Negro",
+        "tip_venta": "Reloj Huawei GT Runner de 46mm en color negro con conectividad 4G y un procesador ágil para entrenar con total libertad, recibiendo llamadas y mensajes sin interrupciones. Es un equipo ideal para deportistas y corredores que buscan independencia y precisión en su rendimiento."
+    },
+    {
+        "sku": "7023238",
+        "model": "Huawei SMRTWTCH WGT6PRO 46MM BLTH6.0 NEGRO HUAW",
+        "specs": "46mm, Bluetooth 6.0, Color Negro",
+        "tip_venta": "Reloj Huawei de 46mm en color negro con Bluetooth 6.0 y un chip de alto rendimiento para monitorear tu salud y notificaciones con una conexión ultra estable y fluida. Es un equipo ideal para usuarios que buscan un smartwatch premium y confiable para su día a día."
+    },
+    {
+        "sku": "7021695",
+        "model": "Huawei SMRTWTCH GT5PRO 1.43\" B5.2 323M NGR HUAW",
+        "specs": "Pantalla 1.43\", Bluetooth 5.2, Batería 323mAh, Color Negro",
+        "tip_venta": "Reloj Huawei GT5 Pro con pantalla de 1.43\" en color negro, Bluetooth 5.2 y un procesamiento eficiente para disfrutar de una visualización clara y conectividad fluida. Es un equipo ideal para quienes valoran una excelente pantalla y autonomía confiable en su smartwatch."
+    },
+    {
+        "sku": "7022764",
+        "model": "Huawei SMRT WTCH FIT4PRO 1.8\" BLTTH5.2 NG HUAW",
+        "specs": "Pantalla 1.8\", Bluetooth 5.2, Color Negro",
+        "tip_venta": "Reloj Huawei Fit4 Pro con pantalla de 1.8\" en color negro y Bluetooth 5.2 con un sistema optimizado para visualizar tus notificaciones y métricas de salud con máxima claridad y rapidez. Es un equipo ideal para usuarios que buscan una experiencia visual inmersiva y muy práctica."
+    },
+    {
+        "sku": "7022430",
+        "model": "Huawei SMRTWTCH GT5 1.32\" BT5.2 BLN CONSIG HUAW",
+        "specs": "Pantalla 1.32\", Bluetooth 5.2, Color Blanco",
+        "tip_venta": "Reloj Huawei GT5 con pantalla de 1.32\" en color blanco y Bluetooth 5.2 con un software ágil para recibir notificaciones y monitorear tu actividad con estilo y eficiencia. Es un equipo ideal para quienes buscan un smartwatch con diseño sofisticado y funcionalidad diaria."
+    },
+    {
+        "sku": "7017218",
+        "model": "Huawei RELOJ SW GT3 JUPITER-B19 46MM 4G NG HUAW",
+        "specs": "46MM, 4G, NG",
+        "tip_venta": "Reloj Huawei GT3 Jupiter de 46mm en color negro con conectividad 4G y un potente chip para mantenerte siempre conectado y monitorear tu bienestar integral sin interrupciones. Es un equipo ideal para profesionales y usuarios exigentes que valoran la independencia y rendimiento."
+    },
+    {
+        "sku": "7023242",
+        "model": "Huawei SMRTWTCH WGT6 41MM BLTH6.0 540MH NG HUAW",
+        "specs": "Tamaño 41mm, Bluetooth 6.0, batería de 540mAh, color negro",
+        "tip_venta": "Reloj Huawei de 41mm en color negro con Bluetooth 6.0, batería de 540mAh y un sistema de procesamiento rápido para disfrutar de una conectividad súper veloz y gran autonomía. Es un equipo ideal para usuarios que buscan eficiencia, estilo y una excelente duración de batería."
+    },
+    {
+        "sku": "7023089",
+        "model": "Samsung SMRT WATCH8 1.46\" 32GB BLTTH5.3 SLV SAMS",
+        "specs": "Pantalla 1.46\", 32GB de almacenamiento, Bluetooth 5.3, color silver",
+        "tip_venta": "Reloj Samsung de 1.46\" en color silver con 32GB de almacenamiento y Bluetooth 5.3 para llevar tu música y aplicaciones favoritas contigo con un rendimiento superior y sin lentitud. Es un equipo ideal para amantes de la tecnología y el ecosistema Samsung que buscan potencia."
+    },
+    {
+        "sku": "7022431",
+        "model": "Huawei SMRTWTCH GT5PRO 1.43\" B5.2 NG CONSG HUAW",
+        "specs": "Pantalla 1.43 pulgadas, Bluetooth 5.2, Color Negro",
+        "tip_venta": "Reloj Huawei de pantalla de 1.43 pulgadas con conectividad Bluetooth 5.2, diseño elegante en color Negro, rendimiento ágil para una experiencia de usuario fluida. Es un equipo ideal para quienes buscan tecnología y estilo."
+    },
+    {
+        "sku": "7021097",
+        "model": "Oppo SMRTWT WATCHX 1.43\" IP68 500MAH CAF OPPO",
+        "specs": "Pantalla 1.43\", Protección IP68, Batería 500mAh, Color Café",
+        "tip_venta": "Reloj Oppo de pantalla de 1.43\" con Protección IP68, batería de 500mAh, rendimiento eficiente para acompañarte todo el día. Es un equipo ideal para usuarios activos que valoran la durabilidad y autonomía."
+    },
+    {
+        "sku": "7021498",
+        "model": "Samsung SMRTW GLX WATCH7 40MM 2GB BT5.3 VRD SAMS",
+        "specs": "40mm, 2GB RAM, Bluetooth 5.3, Color Verde",
+        "tip_venta": "Reloj Samsung de 40mm con conectividad Bluetooth 5.3, un llamativo color Verde, 2GB RAM para una fluidez excepcional en todas sus apps. Es un equipo ideal para usuarios que buscan rendimiento y estilo premium."
+    },
+    {
+        "sku": "7022040",
+        "model": "Honor SMRTWTCH WATCH4PRO 1.5\" BTTH5.2 NGR HONR",
+        "specs": "Pantalla 1.5 pulgadas, Bluetooth 5.2, Color Negro",
+        "tip_venta": "Reloj Honor de pantalla de 1.5 pulgadas con conectividad Bluetooth 5.2, un diseño moderno en color Negro, procesamiento optimizado para un uso diario sin interrupciones. Es ideal para los amantes de la tecnología."
+    },
+    {
+        "sku": "7023103",
+        "model": "Argom SMRTWTCH C70BK 1.39\" NG+DIAD HS2682 ARGM",
+        "specs": "Pantalla 1.39 pulgadas, Color Negro, Incluye Diadema, Procesador HS2682",
+        "tip_venta": "Reloj Argom de pantalla de 1.39 pulgadas con un elegante color Negro, Procesador HS2682 para un rendimiento potente y una Diadema de obsequio. Es un equipo ideal para quienes buscan funcionalidad y extras."
+    },
+    {
+        "sku": "7023237",
+        "model": "Huawei SMRTWTCH WGT6PRO 46MM TN BLT6.0 SLV HUAW",
+        "specs": "Tamaño 46mm, Bluetooth 6.0, Color Silver (Plateado)",
+        "tip_venta": "Reloj Huawei de 46mm con Bluetooth 6.0 de última generación, un sofisticado color Silver, operación fluida para una conectividad superior y gestión inteligente. Es un equipo ideal para el usuario conectado y exigente."
+    },
+    {
+        "sku": "7018727",
+        "model": "Huawei RLJ SW GT3SE 1.43\" B5.2 VRD+ARM BND HUAW",
+        "specs": "1.43\", B5.2, VRD+ARM, BND",
+        "tip_venta": "Reloj Huawei de 1.43\" con conectividad Bluetooth 5.2, color Verde vibrante con correa de brazo, rendimiento confiable para un seguimiento preciso. Es un equipo ideal para usuarios activos que buscan funcionalidad y estilo."
+    },
+    {
+        "sku": "7022607",
+        "model": "Xiao SMRTWT WATCHS4 1.43\" BT5.3 486MH NG XIAO",
+        "specs": "1.43\", BT5.3, 486MH, NG",
+        "tip_venta": "Reloj Xiao de 1.43\" con Bluetooth 5.3 de alta velocidad, batería de 486mAh de larga duración, hardware optimizado para una experiencia fluida y energética. Es un equipo ideal para usuarios que necesitan autonomía."
+    },
+    {
+        "sku": "7023088",
+        "model": "Samsung SMRT WATCH8 1.46\" 32GB BLTTH5.3 GRS SAMS",
+        "specs": "1.46\", 32GB, BLTTH5.3, GRS",
+        "tip_venta": "Reloj Samsung de 1.46\" con Bluetooth 5.3, amplio almacenamiento de 32GB, memoria generosa para aplicaciones y datos. Es un equipo ideal para usuarios avanzados que necesitan gran capacidad y rapidez."
+    },
+    {
+        "sku": "7023200",
+        "model": "Xiao SMRTWTCH S4 41MM BLTTH5.4 320MH VRD XIAO",
+        "specs": "41MM, BLTTH5.4, 320MH, VRD",
+        "tip_venta": "Reloj Xiao de 41mm con conectividad Bluetooth 5.4, batería de 320mAh, funcionamiento ágil para una experiencia inteligente y sin interrupciones. Es un equipo ideal para quienes buscan tecnología avanzada y compacidad."
+    },
+    {
+        "sku": "7023203",
+        "model": "JNCS SMTWTCH JW-30 46MM BLT5.3 450MAH NG JNCS",
+        "specs": "46MM, BLT5.3, 450MAH, NG",
+        "tip_venta": "Reloj JNCS de 46MM con Bluetooth 5.3 para conexión estable, y batería de 450mAh para autonomía duradera. Su conectividad NG ofrece notificaciones instantáneas. Es un equipo ideal para usuarios que buscan funcionalidad diaria y estilo moderno."
+    },
+    {
+        "sku": "7022042",
+        "model": "Huawei SMRTW VILI-B19F 1.43\" NG+WT GT546MM HUAW",
+        "specs": "Pantalla 1.43 pulgadas, Color Negro",
+        "tip_venta": "Reloj Huawei de 1.43 pulgadas con pantalla vibrante en color Negro. Ofrece monitoreo de salud preciso y notificaciones inteligentes. Es un equipo ideal para quienes valoran diseño y tecnología avanzada en su muñeca, manteniendo la elegancia."
+    },
+    {
+        "sku": "7023241",
+        "model": "Huawei SMRTWTCH WGT6 41MM MS BLTH6.0 DORAD HUAW",
+        "specs": "41mm, Bluetooth 6.0, Color Dorado",
+        "tip_venta": "Reloj Huawei de 41mm con Bluetooth 6.0 para conexión ultra rápida y eficiente. Su elegante color Dorado lo hace un accesorio de moda inteligente. Es un equipo ideal para usuarios que buscan vanguardia tecnológica y estilo sofisticado."
+    },
+    {
+        "sku": "7015291",
+        "model": "Huawei WATCH FIT TIA-B09 4GB 1,64\" NEGRO HUAW",
+        "specs": "4GB de almacenamiento, Pantalla de 1.64 pulgadas, Color Negro",
+        "tip_venta": "Reloj Huawei de 1.64 pulgadas con pantalla vívida, 4GB de almacenamiento para tu música y apps. Su diseño en color Negro es versátil. Es un equipo ideal para deportistas y amantes de la música que necesitan funcionalidad y estilo."
+    },
+    {
+        "sku": "7021696",
+        "model": "Huawei SMRTWTCH GT5PRO 1.43\" B5.2 323M PLT HUAW",
+        "specs": "Pantalla 1.43\", Bluetooth 5.2, Color Plata",
+        "tip_venta": "Reloj Huawei de 1.43\" con pantalla táctil, Bluetooth 5.2 para conexión optimizada. Su color Plata premium lo hace elegante. Es un equipo ideal para ejecutivos y aficionados al deporte que buscan alto rendimiento y diseño sofisticado."
+    },
+    {
+        "sku": "7021499",
+        "model": "Samsung SMRTW GLX WATCH7 44MM 2GB 1.47\" VRD SAMS",
+        "specs": "44mm, 2GB RAM, Pantalla 1.47\", Color Verde",
+        "tip_venta": "Reloj Samsung de 44MM con 2GB RAM para un rendimiento fluido y pantalla de 1.47\" vibrante. Su color Verde moderno lo destaca. Es un equipo ideal para entusiastas de la tecnología que exigen velocidad y multitarea sin esfuerzo."
+    },
+    {
+        "sku": "7023087",
+        "model": "Samsung SMRT WATCH8 CLSSIC 1.32\" BTH5.3 NGR SAMS",
+        "specs": "Pantalla 1.32\", Bluetooth 5.3, Color Negro",
+        "tip_venta": "Reloj Samsung de 1.32\" con pantalla clara, Bluetooth 5.3 para conexión ultra estable. Su diseño clásico en color Negro es atemporal. Es un equipo ideal para profesionales que necesitan fiabilidad y elegancia en su día a día."
+    },
+    {
+        "sku": "7023126",
+        "model": "Tecno SMTWTCH WGT01 1.51\" BT5.3 480MAH NG TCMB",
+        "specs": "Pantalla 1.51 pulgadas, Bluetooth 5.3, Batería 480mAh, Color Negro",
+        "tip_venta": "Reloj Tecno de 1.51 pulgadas con pantalla amplia y Bluetooth 5.3 para conexión rápida. Su batería de 480mAh asegura gran autonomía. Es un equipo ideal para usuarios activos que requieren durabilidad y seguimiento constante."
+    },
+    {
+        "sku": "7023199",
+        "model": "Xiaomi SMRTWTCH S4 41MM LT BLT5.4 320M BLN XIAO",
+        "specs": "41mm, LTE, Bluetooth 5.4, Batería 320mAh, Color Blanco",
+        "tip_venta": "Reloj Xiaomi de 41MM con LTE para independencia total, y Bluetooth 5.4 de última generación. Su batería de 320mAh acompaña tu ritmo. Es un equipo ideal para quienes buscan conectividad ilimitada y estilo vanguardista en color Blanco."
+    },
+    {
+        "sku": "7022427",
+        "model": "Huawei SMRTWTCH GT5 1.32\" BT5.2 AZL CONSIG HUAW",
+        "specs": "Pantalla 1.32 pulgadas, Bluetooth 5.2, Color Azul",
+        "tip_venta": "Reloj Huawei de 1.32 pulgadas con pantalla nítida y Bluetooth 5.2 para una conexión robusta. Su vibrante color Azul añade un toque de energía. Es un equipo ideal para usuarios dinámicos que buscan rendimiento y estilo."
+    },
+    {
+        "sku": "7020322",
+        "model": "Huawei RJ GT4 41 BL+KIT BLSA+BT VDR+ C_DTS HUAW",
+        "specs": "Color Blanco, Incluye Kit, Bluetooth, Tecnología DTS",
+        "tip_venta": "Reloj Huawei GT4 de color Blanco con conectividad Bluetooth, sonido inmersivo DTS para gestión completa de tu bienestar y un audio superior, y un kit de accesorios exclusivo. Es un equipo ideal para los amantes de la tecnología y el diseño."
+    },
+    {
+        "sku": "7022766",
+        "model": "Huawei SMRT WTCH FIT4PRO 1.8\" BLTTH5.2 VR HUAW",
+        "specs": "Pantalla de 1.8 pulgadas, Bluetooth 5.2, Color Verde",
+        "tip_venta": "Reloj Huawei Fit4 Pro de 1.8 pulgadas en Color Verde con Bluetooth 5.2 para conexión estable, pantalla vibrante para un monitoreo preciso de tus actividades y notificaciones rápidas. Es un equipo ideal para deportistas y personas activas."
+    },
+    {
+        "sku": "7020017",
+        "model": "Huawei RELOJ WATCH GT4 41MM 1.32\" BT5.2 ML HUAW",
+        "specs": "41mm, BT5.2, pantalla de 1.32\", audio",
+        "tip_venta": "Reloj Huawei Watch GT4 de 41mm con pantalla de 1.32 pulgadas, con Bluetooth 5.2, funciones de audio integradas para una conexión fluida y control multimedia desde tu muñeca. Es un equipo ideal para usuarios que buscan estilo y funcionalidad."
+    },
+    {
+        "sku": "7021500",
+        "model": "Samsung SMRTW GLX WATCH7 44MM 2GB 1.47\" PLT SAMS",
+        "specs": "Pantalla 1.47 pulgadas, 2GB RAM, Color Plata",
+        "tip_venta": "Reloj Inteligente Samsung Galaxy Watch7 de pantalla brillante de 1.47 pulgadas con 2GB de RAM, elegante color plata, y un potente procesador para multitarea fluida y acceso rápido a tus aplicaciones favoritas. Es un equipo ideal para profesionales y usuarios exigentes."
+    },
+    {
+        "sku": "7022712",
+        "model": "Huawei SMRT WTCH FIT4 1.8\" BLTH5.2 IP54 MR HUAW",
+        "specs": "Pantalla 1.8\", Bluetooth 5.2, Certificación IP54",
+        "tip_venta": "Reloj Huawei Fit4 de 1.8 pulgadas con Bluetooth 5.2 para conectividad avanzada, certificación IP54 de resistencia al agua y polvo para monitorear tu salud en cualquier condición. Es un equipo ideal para aventureros y quienes valoran la durabilidad."
+    },
+    {
+        "sku": "7023239",
+        "model": "Huawei SMRTWTCH WGT6 41MM BLT6.0 540MH PRP HUAW",
+        "specs": "Tamaño 41mm, Bluetooth 6.0, Batería 540mAh, Color Púrpura",
+        "tip_venta": "Reloj Huawei Watch GT6 de 41mm en Color Púrpura con Bluetooth 6.0 de última generación, batería de 540mAh de larga duración para una conexión ultra rápida y autonomía extendida. Es un equipo ideal para usuarios modernos y con estilo."
+    },
+    {
+        "sku": "7017217",
+        "model": "Huawei RELOJ SW GT3 JUPITER-B19 46MM 4G CF HUAW",
+        "specs": "Tamaño 46mm, Conectividad 4G, Color Café",
+        "tip_venta": "Reloj Huawei Watch GT3 de 46mm en Color Café con conectividad 4G integrada para total independencia de tu smartphone y un estilo sofisticado. Es un equipo ideal para profesionales y usuarios que buscan libertad."
+    },
+    {
+        "sku": "7018461",
+        "model": "Huawei RELOJ SW GT3 SE 1.43\" BLTH5.2 NEGRO HUAW",
+        "specs": "Pantalla de 1.43 pulgadas, Bluetooth 5.2, Color Negro",
+        "tip_venta": "Reloj Huawei Watch GT3 SE de 1.43 pulgadas en Color Negro con Bluetooth 5.2 para una conexión estable y pantalla amplia para visualizar tus métricas claramente y sincronización rápida. Es un equipo ideal para entusiastas del deporte y la tecnología."
+    },
+    {
+        "sku": "7021095",
+        "model": "Oppo SMRTWT WATCHX 1.43\" IP68 500MAH NGR OPPO",
+        "specs": "Pantalla 1.43 pulgadas, certificación IP68, batería de 500mAh, color negro",
+        "tip_venta": "Reloj Oppo Watch X de 1.43 pulgadas en Color Negro con certificación IP68 de resistencia extrema, batería de 500mAh para acompañarte en cualquier aventura con autonomía extendida. Es un equipo ideal para exploradores y usuarios exigentes."
+    },
+    {
+        "sku": "7020224",
+        "model": "Huawei RLJ WTCHGT4 41MM ML+AUDF FREEBDS 5I HUAW",
+        "specs": "41mm, BT5.2, pantalla de 1.32\", audio",
+        "tip_venta": "Reloj Huawei Watch GT4 de 41mm con pantalla de 1.32 pulgadas, con Bluetooth 5.2, funciones de audio integradas para una experiencia multimedia completa y conectividad, y unos audífonos FreeBuds 5i de obsequio. Es un equipo ideal para amantes de la música y la tecnología."
+    },
+    {
+        "sku": "7022710",
+        "model": "Huawei SMRT WTCH FIT4 1.8\" BLTH5.2 IP54 NG HUAW",
+        "specs": "1.8\", BT5.2, IP54, pantalla táctil",
+        "tip_venta": "Reloj Inteligente Huawei de pantalla táctil de 1.8 pulgadas con Bluetooth 5.2, resistencia IP54, y un eficiente procesador para monitoreo preciso y control intuitivo en cualquier condición. Es un equipo ideal para deportistas y usuarios activos."
+    },
+    {
+        "sku": "7023233",
+        "model": "Huawei SMRTWTCH WGT6 46MM BLTH6.0 867M VRD HUAW",
+        "specs": "46mm, BT6.0, 867M, resistente al agua",
+        "tip_venta": "Reloj Inteligente Huawei de caja de 46mm con Bluetooth 6.0, resistencia al agua, y un rendimiento ágil de 867M para conexión ultrarrápida y durabilidad en cualquier entorno. Es un equipo ideal para amantes del deporte y la tecnología."
+    },
+    {
+        "sku": "7023235",
+        "model": "Huawei SMRTWTCH WGT6 46MM BLTH6.0 867M NGR HUAW",
+        "specs": "46mm, BT6.0, 867M, resistente al agua",
+        "tip_venta": "Reloj Inteligente Huawei de caja de 46mm con Bluetooth 6.0, resistencia al agua, y un rendimiento ágil de 867M para conexión ultrarrápida y durabilidad en cualquier entorno. Es un equipo ideal para amantes del deporte y la tecnología."
+    },
+    {
+        "sku": "7017215",
+        "model": "Huawei RELOJ SW GT3 MILO-B19 42MM 4GB BLNC HUAW",
+        "specs": "Tamaño 42mm, Almacenamiento 4GB, Color Blanco",
+        "tip_venta": "Reloj Inteligente Huawei GT3 de 42mm en color blanco con 4GB de almacenamiento, diseño elegante, y un procesador optimizado para guardar tu música y datos de entrenamiento para una experiencia autónoma. Es un equipo ideal para usuarios que valoran estilo y funcionalidad."
+    },
+    {
+        "sku": "7017255",
+        "model": "Huawei REL SW GTRNNR-B19 NG+FBDS4I+FRLC RJ HUAW",
+        "specs": "Color Negro y Rojo, Incluye Freebuds 4i de regalo",
+        "tip_venta": "Reloj Inteligente Huawei GT Runner de diseño negro y rojo con funcionalidades avanzadas para corredores, monitoreo de rendimiento, y un eficiente procesador para un seguimiento deportivo completo. Incluye Freebuds 4i de regalo. Es un equipo ideal para deportistas y amantes de la música."
+    },
+    {
+        "sku": "7022608",
+        "model": "Xiaomi SMRTWT WATCHS4 1.43\" BT5.3 486MH PL XIAO",
+        "specs": "1.43\", BT5.3, 486MH",
+        "tip_venta": "Reloj Inteligente Xiaomi Watch S4 de 1.43 pulgadas con Bluetooth 5.3, rendimiento de 486MH, y un procesador ágil para conectividad avanzada y operación fluida en tu día a día. Es un equipo ideal para entusiastas de la tecnología y la eficiencia."
+    },
+    {
+        "sku": "7022763",
+        "model": "Huawei SMRT WTCH FIT4 1.8\" BLTH5.2 IP54 GR HUAW",
+        "specs": "1.8\", BLTH5.2, IP54",
+        "tip_venta": "Reloj Inteligente Huawei de pantalla táctil de 1.8 pulgadas con Bluetooth 5.2, certificación IP54, y un eficiente procesador para monitoreo preciso y control intuitivo en cualquier condición. Es un equipo ideal para deportistas y usuarios activos."
+    },
+    {
+        "sku": "7023234",
+        "model": "Huawei SMRTWTCH WGT6 46MM BLTH6.0 867M GRS HUAW",
+        "specs": "46MM, BLTH6.0, 867M",
+        "tip_venta": "Reloj Inteligente Huawei de caja de 46mm con Bluetooth 6.0, rendimiento de 867M, y un procesador optimizado para conectividad ultra-rápida y fluidez en todas tus notificaciones. Es un equipo ideal para usuarios que buscan tecnología avanzada y eficiencia."
+    },
+    {
+        "sku": "7023546",
+        "model": "Argenmax SMRTWTCH C62B 36MM NG+AUDF E86BK NG ARGM",
+        "specs": "36MM, NG+AUDF, E86BK",
+        "tip_venta": "Reloj Inteligente Argenmax de 36mm en color negro con funciones de audio, especificación E86BK, y un procesador dedicado para manejar tus llamadas y música directamente desde tu muñeca. Es un equipo ideal para usuarios con necesidades de comunicación manos libres."
+    },
+    {
+        "sku": "7021895",
+        "model": "CBTT SMARTWTCH AURA PRO 1.43\" BTT5.0 NGR CBTT",
+        "specs": "Pantalla 1.43 pulgadas, Bluetooth 5.0, Color Negro",
+        "tip_venta": "Reloj CBTT SMARTWATCH AURA PRO de 1.43\" con pantalla vibrante, conexión Bluetooth 5.0, en color Negro para notificaciones rápidas y seguimiento básico de actividad. Es un equipo ideal para quienes buscan tecnología asequible en su muñeca."
+    },
+    {
+        "sku": "7020014",
+        "model": "Huawei RELOJ WATCH GT4 46MM 1.43\" BT5.2 VD HUAW",
+        "specs": "46mm, Pantalla 1.43 pulgadas, Bluetooth 5.2, Color Verde",
+        "tip_venta": "Reloj Huawei WATCH GT4 de 46mm con pantalla nítida de 1.43 pulgadas, Bluetooth 5.2 de alta velocidad, en color Verde para monitoreo deportivo avanzado y conectividad superior. Es un equipo ideal para entusiastas del fitness y el estilo."
+    },
+    {
+        "sku": "7020016",
+        "model": "Huawei RELOJ WATCH GT4 41MM 1.32\" BT5.2 BL HUAW",
+        "specs": "Pantalla 1.32 pulgadas, Bluetooth 5.2, Color Blanco",
+        "tip_venta": "Reloj Huawei WATCH GT4 de 41mm con pantalla brillante de 1.32 pulgadas, Bluetooth 5.2 eficiente, en color Blanco para un seguimiento de salud preciso y un diseño elegante. Es un equipo ideal para usuarios que buscan funcionalidad y sofisticación."
+    },
+    {
+        "sku": "7020326",
+        "model": "Huawei RLJ WTCHGT4 41MM ML+BLTTH SPKEAR NG HUAW",
+        "specs": "Bluetooth, Altavoz integrado, Color Negro",
+        "tip_venta": "Reloj Huawei WATCH GT4 de 41mm con Bluetooth para conexión fácil, altavoz integrado, en color Negro para llamadas directamente desde la muñeca y control de audio. Es un equipo ideal para quienes valoran la comunicación manos libres."
+    },
+    {
+        "sku": "7022038",
+        "model": "Honor SMRTWTCH WATCH5 1.85\" BLTTH5.2 DORD HONR",
+        "specs": "Pantalla 1.85 pulgadas, Bluetooth 5.2, Color Dorado",
+        "tip_venta": "Reloj Honor SMARTWATCH WATCH5 de 1.85\" con amplia pantalla, Bluetooth 5.2 de última generación, en color Dorado para una visualización clara y conectividad fluida. Es un equipo ideal para usuarios modernos que buscan funcionalidad y un toque de lujo."
+    },
+    {
+        "sku": "7022039",
+        "model": "Honor SMRTWTCH WATCH5 1.85\" BLTTH5.2 VERD NONR",
+        "specs": "Pantalla 1.85 pulgadas, Bluetooth 5.2, Color Verde",
+        "tip_venta": "Reloj Honor SMARTWATCH WATCH5 de 1.85\" con pantalla inmersiva, Bluetooth 5.2 estable, en color Verde para seguimiento de actividad y notificaciones en tiempo real. Es un equipo ideal para deportistas y amantes de la tecnología con estilo."
+    },
+    {
+        "sku": "7022435",
+        "model": "Huawei SMRTWATCH GT5 1.43\" BT5.2 AZL CONSG HUAW",
+        "specs": "Pantalla 1.43 pulgadas, Bluetooth 5.2, Color Azul",
+        "tip_venta": "Reloj Huawei SMARTWATCH GT5 de 1.43\" con pantalla vívida, Bluetooth 5.2 avanzado, en color Azul para monitoreo completo de salud y un estilo dinámico. Es un equipo ideal para usuarios activos que desean tecnología de punta."
+    },
+    {
+        "sku": "7023267",
+        "model": "Samsung AUD GALAXY BDS3FE BLTH5.4 515MH NGR SAMS",
+        "specs": "Bluetooth 5.4, Batería 515mAh, Color Negro",
+        "tip_venta": "Audífonos Samsung Galaxy Buds 3 FE en Negro con Bluetooth 5.4 y una batería de 515mAh, para una conexión avanzada y gran autonomía. Disfrute de su música y llamadas con confianza. Es un equipo ideal para usuarios que buscan equilibrio entre precio y rendimiento."
+    },
+    {
+        "sku": "7022735",
+        "model": "Huawei AUD FREEBUDS PRO4 BLTTH5.2 IP54 VRD HUAW",
+        "specs": "Bluetooth 5.2, IP54, Verde",
+        "tip_venta": "Audífonos Huawei FreeBuds Pro 4 en Verde con Bluetooth 5.2 y certificación IP54, para una conexión estable y resistencia a salpicaduras y polvo. Ideal para usar en cualquier entorno. Es un equipo ideal para deportistas, aventureros y quienes buscan durabilidad."
+    },
+    {
+        "sku": "7023588",
+        "model": "Sony CS PS5 SLM_DG 825GB+ASTRBT+GT7+CTRL SONY",
+        "specs": "Almacenamiento 825GB, incluye Astro's Playroom, Gran Turismo 7 y control adicional",
+        "tip_venta": "Otro Sony PlayStation 5 Slim Digital de 825GB con Astro's Playroom, Gran Turismo 7 y control adicional, para horas de diversión inmersiva. Es ideal para gamers exigentes y compartir."
+    },
+    {
+        "sku": "7023341",
+        "model": "AIWA PARLANTE AWS544BT 110W BLTTH5.3 NGR AIWA",
+        "specs": "Potencia 110W, Bluetooth 5.3, Color Negro",
+        "tip_venta": "Parlante Aiwa AWS544BT de 110W con Bluetooth 5.3, color negro, para una conexión inalámbrica estable y potente. Es ideal para ambientes domésticos o reuniones pequeñas."
+    },
+    {
+        "sku": "7023299",
+        "model": "Tronsmart TRRE SND BMAX5 BLTTH5.0 2475MAH NGR PNSC",
+        "specs": "BLTTH5.0, 2475MAH, NGR, PNSC",
+        "tip_venta": "Parlante Tronsmart de diseño compacto con Bluetooth 5.0, batería de 2475mAh, potente sonido envolvente para disfrutar su música sin interrupciones y con conexión rápida. Es ideal para amantes de la música al aire libre o reuniones pequeñas."
+    },
+    {
+        "sku": "7023340",
+        "model": "AWSP TORRE SND AWSP15TWL 1000W BT5.0 NGR AIWA",
+        "specs": "1000W, BT5.0, NGR, AIWA",
+        "tip_venta": "Parlante Aiwa de torre de sonido con 1000W de potencia, Bluetooth 5.0, sonido envolvente y potente para vivir una experiencia de audio inigualable en sus fiestas y eventos. Es un equipo ideal para organizadores de eventos o amantes de las fiestas."
+    },
+    {
+        "sku": "7023300",
+        "model": "Tronsmart TRRE SND BMAX10 BLTTH5.0 4950MAH NG PNSC",
+        "specs": "BLTTH5.0, 4950MAH, NG, PNSC",
+        "tip_venta": "Parlante Tronsmart portátil de gran autonomía con Bluetooth 5.0, batería de 4950mAh, audio nítido y potente para llevar la fiesta a cualquier lugar y disfrutar de horas de música sin recargar. Ideal para viajeros, aventureros o reuniones con amigos."
+    },
+    {
+        "sku": "7023339",
+        "model": "AWPOH TRRE SND AWPOH5D 800W LED BT5.0 NGR AIWA",
+        "specs": "800W, LED, BT5.0, NGR, AIWA",
+        "tip_venta": "Parlante Aiwa de torre de sonido con 800W de potencia, luces LED integradas, conectividad Bluetooth 5.0 para crear el ambiente perfecto en sus reuniones y disfrutar de sonido potente. Es ideal para ambientar fiestas en casa o reuniones familiares."
     }
 ]
