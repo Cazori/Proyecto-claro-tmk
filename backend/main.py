@@ -9,6 +9,7 @@ from datetime import datetime
 import json
 from dotenv import load_dotenv
 import pandas as pd
+from embeddings_service import embeddings_service
 from processor import process_inventory_pdf, rotate_inventories, get_latest_inventory, set_ai_pool, STORAGE_DIR
 from supabase_db import (
     get_metadata_db, upload_spec_to_supabase, get_spec_url_supabase, 
@@ -250,45 +251,118 @@ SYNONYMS = {
     "ryzen": "rzn", "intel": "ic", "core": "ic", "ram": "g", "gb": "g"
 }
 
+# In-request cache for spec resolution to avoid redundant calls
+_spec_match_cache = {}
+
 def resolve_spec_match(mat_id, subprod, available_specs, manual_map):
     """Hybrid logic to match inventory item with a spec file."""
     subprod_upper = str(subprod).upper()
     mat_id_str = str(mat_id)
-    
-    # 1. Manual Mapping (Priority 1)
+
+    # Check cache first
+    cache_key = f"{mat_id_str}:{subprod_upper}"
+    if cache_key in _spec_match_cache:
+        return _spec_match_cache[cache_key]
+
     for key, val in manual_map.items():
         if key.upper() in subprod_upper or key == mat_id_str:
             if isinstance(val, dict):
                 for size_key, fname in val.items():
-                    # Handle size matches like "50" in "TV 50C69B..."
                     if size_key in subprod_upper:
+                        _spec_match_cache[cache_key] = fname
                         return fname
+            _spec_match_cache[cache_key] = val
             return val
             
     # 2. Exact Material ID Match (Priority 2)
-    for f in available_specs:
-        if mat_id_str in f:
-            return f
+    # Only match if ID is long enough (prevents accidental matches with model numbers like "4" or "1")
+    if len(mat_id_str) >= 4:
+        for f in available_specs:
+            if re.search(rf"\b{mat_id_str}\b", f):
+                _spec_match_cache[cache_key] = f
+                return f
             
-    # 3. Keyword Intersection Match (Priority 3)
-    def get_intersection_score(p_name, f_name):
-        # Noise words to ignore
-        noise = {"ngr", "grs", "slv", "sams", "xiao", "tv", "tab", "cel", "lat", 
-                 "negro", "gris", "silver", "tcl", "pana", "huaw", "honor", "motorola", 
-                 "apple", "iphone", "pro", "max", "lit", "lite"}
-        p_words = set(re.findall(r'\w+', p_name.lower())) - noise
-        f_words = set(re.findall(r'\w+', f_name.lower())) - noise
-        return len(p_words.intersection(f_words))
+    # --- SMART VARIANT GUARD ---
+    def check_variant_mismatch(p_name, f_name):
+        # 1. Normalize categories
+        p_norm = p_name.upper().replace("TELEVISOR", "TV").replace("TABLET", "TAB").replace("CELULAR", "CEL")
+        f_norm = f_name.upper().replace("TELEVISOR", "TV").replace("TABLET", "TAB").replace("CELULAR", "CEL")
+        
+        p_clean_str = re.sub(r'[^A-Z0-9\s]', ' ', p_norm)
+        f_clean_str = re.sub(r'[^A-Z0-9\s]', ' ', f_norm)
+        
+        p_words = set(p_clean_str.split())
+        f_words = set(f_clean_str.split())
+        
+        # 2. Critical Version Keywords (Hard mismatch)
+        # Handle cases where keywords might be concatenated (e.g., S10Lite)
+        versions = ["PRO", "ULTRA", "MAX", "PLUS", "LITE", "5G", "MINI"]
+        for v in versions:
+            in_p = v in p_words
+            # Also check if version is part of a word in filename (common in specs)
+            in_f = v in f_words or any(v in word for word in f_words)
+            if in_p != in_f:
+                return True
+                
+        # 3. Category Check (Soft mismatch)
+        categories = ["TV", "TAB", "CEL"]
+        p_cat = next((c for c in categories if c in p_words), None)
+        f_cat = next((c for c in categories if c in f_words), None)
+        if p_cat and f_cat and p_cat != f_cat:
+            return True
+                
+        # 3. Smart Numeric Check — only block if filename has significant numbers absent from product
+        # This prevents false negatives: SE11 has SKU codes like "8G", "09" that are not in "se11"
+        f_clean_str_local = re.sub(r'[^A-Z0-9\s]', ' ', f_norm)
+        p_clean_str_local = re.sub(r'[^A-Z0-9\s]', ' ', p_norm)
+        f_sig_nums = {n for n in re.findall(r'\d+', f_clean_str_local) if len(n) >= 2}
+        p_nums_all = set(re.findall(r'\d+', p_clean_str_local))
+        if f_sig_nums and not f_sig_nums.intersection(p_nums_all):
+            return True
+                
+        return False
 
+    # 3. Robust Keyword Scoring (Priority 3)
+    noise = {"ngr", "grs", "slv", "negro", "gris", "silver", "pulg", "pulgadas", "inches", "smart"}
+    clean_p_name = re.sub(r'[^A-Z0-9\s]', ' ', subprod_upper)
+    p_words = [w for w in clean_p_name.lower().split() if (len(w) > 2 or w.isdigit()) and w not in noise]
+    
     best_file = None
-    best_score = 0
+    max_score = 0
+    
     for f in available_specs:
-        score = get_intersection_score(subprod_upper, f)
-        if score > best_score and score >= 2:
-            best_score = score
+        if check_variant_mismatch(subprod_upper, f):
+            continue
+
+        f_name_clean = re.sub(r'[^A-Z0-9\s]', ' ', f.upper().split('.')[0])
+        f_words = f_name_clean.lower().split()
+        
+        score = 0
+        for pw in p_words:
+            if pw in f_words:
+                score += 5
+            elif any(pw in fw for fw in f_words):
+                score += 2
+        
+        if score > max_score and score >= 10:
+            max_score = score
             best_file = f
             
-    return best_file
+    if best_file:
+        _spec_match_cache[cache_key] = best_file
+        return best_file
+
+    # 4. Semantic Matching (Priority 4)
+    # Use embeddings service with a higher safety threshold
+    semantic_match = embeddings_service.find_best_match(subprod_upper, available_specs, threshold=0.82)
+    
+    if semantic_match:
+        if not check_variant_mismatch(subprod_upper, semantic_match):
+            _spec_match_cache[cache_key] = semantic_match
+            return semantic_match
+    
+    _spec_match_cache[cache_key] = None
+    return None
 
 @app.get("/specs-mapping")
 async def get_specs_mapping():
@@ -725,10 +799,15 @@ async def chat(query: str):
         # Use AI Pool if available, otherwise fallback to single model
         if ai_pool:
             response_text = await ai_pool.generate(full_prompt)
+            with open("debug_log.txt", "a", encoding="utf-8") as f:
+                f.write(f"DEBUG RESPONSE: {response_text[:300]}...\n")
             return {"response": response_text}
         else:
             response = model.generate_content(full_prompt)
-            return {"response": response.text.strip()}
+            response_text = response.text.strip()
+            with open("debug_log.txt", "a", encoding="utf-8") as f:
+                f.write(f"DEBUG RESPONSE (FALLBACK): {response_text[:300]}...\n")
+            return {"response": response_text}
     except Exception as e:
         print(f"Error Cleo: {e}")
         import traceback

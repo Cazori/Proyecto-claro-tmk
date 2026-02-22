@@ -27,13 +27,13 @@
     "last_used": "2026-02-16T23:01:27.305218"
   },
   "groq-1": {
-    "total_requests": 180,
-    "successful": 178,
-    "failed": 2,
-    "total_latency_ms": 191568.46475601196,
-    "avg_latency_ms": 1076.2273300899549,
-    "last_error": "Groq API Error 429: {\"error\":{\"message\":\"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kf2fex5veq8810jt3thr8h29` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99028, Requested 2018. Please try again in 15m3.744s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n",
-    "last_used": "2026-02-16T23:02:06.399585"
+    "total_requests": 215,
+    "successful": 212,
+    "failed": 3,
+    "total_latency_ms": 246811.60879135132,
+    "avg_latency_ms": 1164.2057018459968,
+    "last_error": "",
+    "last_used": "2026-02-22T15:46:06.417967"
   },
   "groq-2": {
     "total_requests": 2,

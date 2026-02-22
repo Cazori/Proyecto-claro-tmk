@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { chatService } from '../../services/api';
 
 const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleSpecUpload, specUploadStatus, knowledge, refreshKnowledge }) => {
+    const [unlocked, setUnlocked] = useState(false);
+    const [passwordInput, setPasswordInput] = useState('');
+    const [passwordError, setPasswordError] = useState(false);
+
     const [quotasFile, setQuotasFile] = useState(null);
     const [quotasStatus, setQuotasStatus] = useState('');
     const [quotasLoading, setQuotasLoading] = useState(false);
@@ -11,16 +15,20 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
     const [saveStatus, setSaveStatus] = useState('');
     const [isGenerating, setIsGenerating] = useState(false);
 
-    // Auto-tip state
-    const [autoTipCategory, setAutoTipCategory] = useState('');
-    const [autoTipText, setAutoTipText] = useState('');
-    const [autoTipStatus, setAutoTipStatus] = useState('');
+    const handleUnlock = () => {
+        if (passwordInput === 'TEC123') {
+            setUnlocked(true);
+            setPasswordError(false);
+        } else {
+            setPasswordError(true);
+            setPasswordInput('');
+        }
+    };
 
     const handleSearch = async () => {
         if (!searchMaterial) return;
         setSaveStatus('Buscando...');
 
-        // 1. Search in existing knowledge
         const expertItem = knowledge.find(k => k.sku.toUpperCase() === searchMaterial.toUpperCase());
         if (expertItem) {
             setFoundItem(expertItem);
@@ -29,7 +37,6 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
             return;
         }
 
-        // 2. Search in inventory via API
         try {
             const result = await chatService.findProduct(searchMaterial);
             if (result && !result.error) {
@@ -78,18 +85,6 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
         }
     };
 
-    const handleApplyAutoTips = async () => {
-        if (!autoTipCategory || !autoTipText) return;
-        setAutoTipStatus('Aplicando tips...');
-        try {
-            const result = await chatService.applyAutoTips(autoTipCategory, autoTipText);
-            setAutoTipStatus(`✓ ${result.applied} productos de "${autoTipCategory}" actualizados.`);
-            if (refreshKnowledge) await refreshKnowledge();
-        } catch (e) {
-            setAutoTipStatus('Error al aplicar tips automáticos.');
-        }
-    };
-
     const handleQuotasUpload = async () => {
         if (!quotasFile) return;
         setQuotasLoading(true);
@@ -105,6 +100,89 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
         }
     };
 
+    // --- PASSWORD GATE ---
+    if (!unlocked) {
+        return (
+            <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: '60vh',
+                gap: '24px',
+                color: 'white',
+                textAlign: 'center',
+                padding: '40px'
+            }}>
+                <div style={{
+                    background: 'rgba(239, 68, 68, 0.1)',
+                    border: '1px solid rgba(239, 68, 68, 0.3)',
+                    borderRadius: '20px',
+                    padding: '40px 48px',
+                    maxWidth: '420px',
+                    width: '100%'
+                }}>
+                    <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔒</div>
+                    <h2 style={{ fontSize: '22px', fontWeight: '700', marginBottom: '8px', color: '#F87171' }}>
+                        Zona Restringida
+                    </h2>
+                    <p style={{ fontSize: '14px', color: '#9CA3AF', marginBottom: '28px', lineHeight: '1.6' }}>
+                        ⚠️ Esta es una interfaz exclusiva para <strong style={{ color: '#FCD34D' }}>desarrolladores</strong>.<br />
+                        Ingresa la contraseña de acceso para continuar.
+                    </p>
+
+                    <input
+                        type="password"
+                        placeholder="Contraseña de desarrollador"
+                        value={passwordInput}
+                        onChange={(e) => { setPasswordInput(e.target.value); setPasswordError(false); }}
+                        onKeyDown={(e) => e.key === 'Enter' && handleUnlock()}
+                        style={{
+                            width: '100%',
+                            background: '#1F2937',
+                            border: `1px solid ${passwordError ? '#EF4444' : 'rgba(255,255,255,0.1)'}`,
+                            padding: '12px 16px',
+                            borderRadius: '10px',
+                            color: 'white',
+                            outline: 'none',
+                            fontSize: '15px',
+                            marginBottom: '12px',
+                            boxSizing: 'border-box',
+                            letterSpacing: '2px'
+                        }}
+                    />
+
+                    {passwordError && (
+                        <p style={{ color: '#EF4444', fontSize: '13px', marginBottom: '12px' }}>
+                            ❌ Contraseña incorrecta. Inténtalo nuevamente.
+                        </p>
+                    )}
+
+                    <button
+                        onClick={handleUnlock}
+                        style={{
+                            width: '100%',
+                            background: 'linear-gradient(135deg, #7C3AED, #5B21B6)',
+                            border: 'none',
+                            padding: '12px',
+                            borderRadius: '10px',
+                            color: 'white',
+                            fontWeight: '700',
+                            fontSize: '15px',
+                            cursor: 'pointer',
+                            transition: 'opacity 0.2s'
+                        }}
+                        onMouseEnter={e => e.target.style.opacity = '0.85'}
+                        onMouseLeave={e => e.target.style.opacity = '1'}
+                    >
+                        Acceder
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    // --- MAIN CONTENT (unlocked) ---
     return (
         <div style={{ color: 'white', padding: '20px' }}>
             <div style={{ display: 'flex', gap: '20px', marginBottom: '32px', flexWrap: 'wrap' }}>
@@ -170,7 +248,7 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
                 </div>
             </div>
 
-            {/* Sales Speech Editor Section */}
+            {/* Sales Speech Editor */}
             <div style={{ background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(167, 139, 250, 0.2)', marginBottom: '32px' }}>
                 <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '4px', color: '#A78BFA' }}>💡 Editor de Tip de Venta Individual</h3>
                 <p style={{ fontSize: '13px', color: '#9CA3AF', marginBottom: '16px' }}>Busca por código de Material para editar el speech personalizado de un producto específico.</p>
@@ -231,44 +309,7 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
                 {saveStatus && <p style={{ marginTop: '10px', fontSize: '13px', color: saveStatus.includes('✓') ? '#10B981' : '#F87171' }}>{saveStatus}</p>}
             </div>
 
-            {/* Bulk Automated Tips Section */}
-            <div style={{ background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(16, 185, 129, 0.2)', marginBottom: '32px' }}>
-                <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '4px', color: '#10B981' }}>🚀 Tips Masivos por Categoría (Sin Costo)</h3>
-                <p style={{ fontSize: '13px', color: '#9CA3AF', marginBottom: '16px' }}>Aplica un speech estándar a todos los productos de una categoría que no tengan tip aún.</p>
-
-                <div style={{ display: 'flex', gap: '8px', flexDirection: 'column' }}>
-                    <div style={{ display: 'flex', gap: '8px' }}>
-                        <select
-                            value={autoTipCategory}
-                            onChange={(e) => setAutoTipCategory(e.target.value)}
-                            style={{ flex: 1, background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white' }}
-                        >
-                            <option value="">Selecciona Categoría...</option>
-                            <option value="TELEVISORES">TELEVISORES</option>
-                            <option value="CELULARES">CELULARES</option>
-                            <option value="AUDIO">AUDIO</option>
-                            <option value="LINEA BLANCA">LINEA BLANCA</option>
-                            <option value="COMPUTACION">COMPUTACION</option>
-                        </select>
-                        <button
-                            onClick={handleApplyAutoTips}
-                            disabled={!autoTipCategory || !autoTipText}
-                            style={{ background: '#10B981', border: 'none', padding: '10px 20px', borderRadius: '8px', color: 'white', fontWeight: '600', cursor: (!autoTipCategory || !autoTipText) ? 'not-allowed' : 'pointer' }}
-                        >
-                            Aplicar a todos
-                        </button>
-                    </div>
-                    <textarea
-                        rows="2"
-                        value={autoTipText}
-                        onChange={(e) => setAutoTipText(e.target.value)}
-                        placeholder="Ej: Garantía total de 1 año y envío gratis para toda esta categoría."
-                        style={{ width: '100%', background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white', outline: 'none', resize: 'none' }}
-                    />
-                    {autoTipStatus && <p style={{ fontSize: '12px', color: '#10B981' }}>{autoTipStatus}</p>}
-                </div>
-            </div>
-
+            {/* Cuotas Uploader */}
             <div style={{ background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(245, 158, 11, 0.2)', marginBottom: '32px' }}>
                 <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '4px', color: '#FCD34D' }}>💰 Subir Cuotas (cuotas.xlsx)</h3>
                 <input
@@ -287,18 +328,6 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
                     </button>
                 )}
                 {quotasStatus && <p style={{ marginTop: '10px', fontSize: '13px', color: '#FCD34D' }}>{quotasStatus}</p>}
-            </div>
-
-            <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px' }}>Conocimientos Indexados</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
-                {knowledge.length === 0 && <p style={{ color: '#6B7280' }}>Aún no hay fichas indexadas de forma manual.</p>}
-                {knowledge.map((item, idx) => (
-                    <div key={idx} style={{ background: '#111827', padding: '16px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                        <div style={{ color: '#A78BFA', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '4px' }}>{item.sku}</div>
-                        <div style={{ fontSize: '15px', fontWeight: '600', marginBottom: '8px' }}>{item.model}</div>
-                        <div style={{ fontSize: '13px', color: '#9CA3AF' }}>{item.specs}</div>
-                    </div>
-                ))}
             </div>
         </div>
     );

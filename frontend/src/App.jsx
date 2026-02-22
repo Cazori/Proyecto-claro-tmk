@@ -64,41 +64,43 @@ const ChatApp = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const loadInitialData = async () => {
+    // Helper to fetch without breaking everything
+    const safeFetch = async (fn, defaultValue) => {
+      try { return await fn(); }
+      catch (e) { console.error("Fetch failed", e); return defaultValue; }
+    };
+
+    const knowledgeData = await safeFetch(() => chatService.getKnowledge(), []);
+    const specsData = await safeFetch(() => chatService.getSpecsList(), []);
+    const mappingData = await safeFetch(() => chatService.getSpecsMapping(), {});
+    const inventoryMeta = await safeFetch(() => chatService.getInventoryMetadata(), null);
+    const quotasData = await safeFetch(() => chatService.getQuotas(), {});
+
+    setKnowledge(knowledgeData);
+    setSpecsList(specsData);
+    setSpecsMapping(mappingData);
+    setQuotasMapping(quotasData);
+
+    if (inventoryMeta && inventoryMeta.last_update) {
+      const date = new Date(inventoryMeta.last_update);
+      const day = date.getDate();
+      const month = date.toLocaleString('es-ES', { month: 'long' });
+      const dynamicText = `Hola. Soy Cleo. Tu sistema de inventario está en línea, inventario actualizado al día ${day} de ${month}.`;
+      setMessages(prev => prev.map(m => m.id === 1 ? { ...m, text: dynamicText } : m));
+    }
+  };
+
+  const refreshKnowledge = async () => {
+    try {
+      const knowledgeData = await chatService.getKnowledge();
+      setKnowledge(knowledgeData);
+    } catch (e) {
+      console.error("Error refreshing knowledge", e);
+    }
+  };
+
   useEffect(() => {
-    const loadInitialData = async () => {
-      try {
-        const [knowledgeData, specsData, mappingData, inventoryMeta, quotasData] = await Promise.all([
-          chatService.getKnowledge(),
-          chatService.getSpecsList(),
-          chatService.getSpecsMapping(),
-          chatService.getInventoryMetadata(),
-          chatService.getQuotas()
-        ]);
-        setKnowledge(knowledgeData);
-        setSpecsList(specsData);
-        setSpecsMapping(mappingData);
-        setQuotasMapping(quotasData);
-
-        if (inventoryMeta && inventoryMeta.last_update) {
-          const date = new Date(inventoryMeta.last_update);
-          const day = date.getDate();
-          const month = date.toLocaleString('es-ES', { month: 'long' });
-          const dynamicText = `Hola. Soy Cleo. Tu sistema de inventario está en línea, inventario actualizado al día ${day} de ${month}.`;
-          setMessages(prev => prev.map(m => m.id === 1 ? { ...m, text: dynamicText } : m));
-        }
-      } catch (e) {
-        console.error("Error loading initial data", e);
-      }
-    };
-    const refreshKnowledge = async () => {
-      try {
-        const knowledgeData = await chatService.getKnowledge();
-        setKnowledge(knowledgeData);
-      } catch (e) {
-        console.error("Error refreshing knowledge", e);
-      }
-    };
-
     loadInitialData();
   }, []);
 

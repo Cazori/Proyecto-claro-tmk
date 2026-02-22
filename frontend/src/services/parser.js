@@ -21,14 +21,16 @@ export const parseMarkdownTable = (text) => {
     const dataRows = lines.slice(headerIndex + 2)
         .filter(line => line.includes('|'))
         .map(line => {
-            const values = line.split('|')
-                .map(v => v.trim())
-                .filter(v => v !== '');
+            // Robust parsing: remove leading/trailing pipes then split
+            const cleanLine = line.trim().replace(/^\||\|$/g, '');
+            const values = cleanLine.split('|').map(v => v.trim());
 
             const obj = {};
             headers.forEach((header, index) => {
                 // Map common headers to our expected keys
                 let key = header.toLowerCase();
+                const val = values[index] !== undefined ? values[index] : '';
+
                 if (key.includes('ref') || key.includes('material')) key = 'Material';
                 else if (key.includes('mod')) key = 'Subproducto';
                 else if (key.includes('pre')) key = 'Precio Contado';
@@ -37,17 +39,19 @@ export const parseMarkdownTable = (text) => {
                 else if (key.includes('caract')) key = 'Caracteristicas';
                 else if (key.includes('fich')) {
                     key = 'hasSpec';
-                    values[index] = values[index].toUpperCase() === 'SI';
+                    obj[key] = val.toUpperCase() === 'SI';
+                    return;
                 }
                 else if (key.includes('imag')) {
                     key = 'hasImage';
-                    values[index] = values[index].toUpperCase() === 'VER';
+                    obj[key] = val.toUpperCase() === 'VER';
+                    return;
                 }
                 else if (key.includes('tip')) {
                     key = 'tip';
                 }
 
-                obj[key] = values[index];
+                obj[key] = val;
             });
             return obj;
         });

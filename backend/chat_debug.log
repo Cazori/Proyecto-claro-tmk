@@ -648,3 +648,126 @@
 [2026-02-16 23:02:01.402625] FAST PATH: Found 0 matches
 [2026-02-16 23:02:02.343028] AI PATH: After Categoria: 60
 [2026-02-16 23:02:02.344682] After deduplication: 59 unique materials
+[2026-02-22 01:34:39.607803] QUERY RECIBIDA (Original): tv43
+[2026-02-22 01:34:39.608518] Keywords válidas final: ['tv43']
+[2026-02-22 01:34:39.617732] FAST PATH: Found 0 matches
+[2026-02-22 01:34:40.385278] AI PATH: After Categoria: 54
+[2026-02-22 01:34:40.386756] AI PATH: After Modelo (['43"']): 10
+[2026-02-22 01:34:40.396433] After deduplication: 10 unique materials
+[2026-02-22 01:41:02.821805] QUERY RECIBIDA (Original): tv 43
+[2026-02-22 01:41:02.822388] Keywords válidas final: ['tv', '43"']
+[2026-02-22 01:41:02.826426] FAST PATH: Found 10 matches
+[2026-02-22 01:41:02.826940] FAST PATH: EXECUTED
+[2026-02-22 01:41:02.828816] After deduplication: 10 unique materials
+[2026-02-22 01:41:11.319502] QUERY RECIBIDA (Original): tv 55
+[2026-02-22 01:41:11.319978] Keywords válidas final: ['tv', '55"']
+[2026-02-22 01:41:11.322301] FAST PATH: Found 25 matches
+[2026-02-22 01:41:11.322609] FAST PATH: EXECUTED
+[2026-02-22 01:41:11.324312] After deduplication: 12 unique materials
+[2026-02-22 01:41:35.124949] QUERY RECIBIDA (Original): tablet 11.5
+[2026-02-22 01:41:35.125551] Keywords válidas final: ['tab', '11.5']
+[2026-02-22 01:41:35.129505] FAST PATH: Found 1 matches
+[2026-02-22 01:41:35.129892] FAST PATH: EXECUTED
+[2026-02-22 01:41:35.131777] After deduplication: 1 unique materials
+[2026-02-22 01:41:48.089194] QUERY RECIBIDA (Original): tablet huawei
+[2026-02-22 01:41:48.089860] Keywords válidas final: ['tab', 'huawei']
+[2026-02-22 01:41:48.093928] FAST PATH: Found 0 matches
+[2026-02-22 01:41:48.793730] AI PATH: After Categoria: 20
+[2026-02-22 01:41:48.795219] AI PATH: After Marca: 6
+[2026-02-22 01:41:48.797380] After deduplication: 6 unique materials
+[2026-02-22 01:42:57.554694] QUERY RECIBIDA (Original): se11
+[2026-02-22 01:42:57.555280] Keywords válidas final: ['se11']
+[2026-02-22 01:42:57.558059] FAST PATH: Found 1 matches
+[2026-02-22 01:42:57.558442] FAST PATH: EXECUTED
+[2026-02-22 01:42:57.560164] After deduplication: 1 unique materials
+[2026-02-22 02:06:40.909184] QUERY RECIBIDA (Original): tv43
+[2026-02-22 02:06:40.909734] Keywords válidas final: ['tv43']
+[2026-02-22 02:06:40.913622] FAST PATH: Found 0 matches
+[2026-02-22 02:06:41.640323] AI PATH: After Categoria: 54
+[2026-02-22 02:06:41.641649] AI PATH: After Modelo (['43"']): 10
+[2026-02-22 02:06:41.643220] After deduplication: 10 unique materials
+[2026-02-22 02:07:53.528387] QUERY RECIBIDA (Original): tablet
+[2026-02-22 02:07:53.528879] Keywords válidas final: ['tab']
+[2026-02-22 02:07:53.531303] FAST PATH: Found 16 matches
+[2026-02-22 02:07:53.531598] FAST PATH: EXECUTED
+[2026-02-22 02:07:53.533180] After deduplication: 14 unique materials
+[2026-02-22 02:13:13.539604] QUERY RECIBIDA (Original): patinetas
+[2026-02-22 02:13:13.540180] Keywords válidas final: ['ptn']
+[2026-02-22 02:13:13.544341] FAST PATH: Found 5 matches
+[2026-02-22 02:13:13.544691] FAST PATH: EXECUTED
+[2026-02-22 02:13:13.546227] After deduplication: 5 unique materials
+[2026-02-22 02:13:44.314962] QUERY RECIBIDA (Original): tablet huawei
+[2026-02-22 02:13:44.315597] Keywords válidas final: ['tab', 'huawei']
+[2026-02-22 02:13:44.319861] FAST PATH: Found 0 matches
+[2026-02-22 02:13:45.179494] AI PATH: After Categoria: 20
+[2026-02-22 02:13:45.180908] AI PATH: After Marca: 6
+[2026-02-22 02:13:45.183770] After deduplication: 6 unique materials
+[2026-02-22 13:19:15.659755] QUERY RECIBIDA (Original): laptop hp
+[2026-02-22 13:19:15.660206] Keywords válidas final: ['laptop', 'hp']
+[2026-02-22 13:19:15.672634] FAST PATH: Found 0 matches
+[2026-02-22 13:20:21.484438] AI PATH: After Categoria: 18
+[2026-02-22 13:20:21.488393] AI PATH: After Marca: 6
+[2026-02-22 13:20:21.493041] After deduplication: 4 unique materials
+[2026-02-22 13:22:33.135736] QUERY RECIBIDA (Original): laptop hp
+[2026-02-22 13:22:33.136262] Keywords válidas final: ['laptop', 'hp']
+[2026-02-22 13:22:33.138982] FAST PATH: Found 0 matches
+[2026-02-22 13:22:33.792717] AI PATH: After Categoria: 18
+[2026-02-22 13:22:33.793493] AI PATH: After Marca: 6
+[2026-02-22 13:22:33.795339] After deduplication: 4 unique materials
+[2026-02-22 13:22:48.846689] QUERY RECIBIDA (Original): tablets
+[2026-02-22 13:22:48.847196] Keywords válidas final: ['tab']
+[2026-02-22 13:22:48.849986] FAST PATH: Found 16 matches
+[2026-02-22 13:22:48.850322] FAST PATH: EXECUTED
+[2026-02-22 13:22:48.852141] After deduplication: 14 unique materials
+[2026-02-22 13:23:08.263763] QUERY RECIBIDA (Original): gt6
+[2026-02-22 13:23:08.264231] Keywords válidas final: ['gt6']
+[2026-02-22 13:23:08.267057] FAST PATH: Found 9 matches
+[2026-02-22 13:23:08.267344] FAST PATH: EXECUTED
+[2026-02-22 13:23:08.268865] After deduplication: 9 unique materials
+[2026-02-22 13:34:25.215634] QUERY RECIBIDA (Original): tablets 
+[2026-02-22 13:34:25.216212] Keywords válidas final: ['tab']
+[2026-02-22 13:34:25.219116] FAST PATH: Found 16 matches
+[2026-02-22 13:34:25.219442] FAST PATH: EXECUTED
+[2026-02-22 13:34:25.221597] After deduplication: 14 unique materials
+[2026-02-22 13:46:28.921395] QUERY RECIBIDA (Original): samsung
+[2026-02-22 13:46:28.921915] Keywords válidas final: ['samsung']
+[2026-02-22 13:46:28.924927] FAST PATH: Found 0 matches
+[2026-02-22 13:46:29.590992] AI PATH: After Marca: 44
+[2026-02-22 13:46:29.597583] After deduplication: 37 unique materials
+[2026-02-22 13:52:02.647976] QUERY RECIBIDA (Original): laptop hp 
+[2026-02-22 13:52:02.648530] Keywords válidas final: ['laptop', 'hp']
+[2026-02-22 13:52:02.651174] FAST PATH: Found 0 matches
+[2026-02-22 13:52:03.431990] AI PATH: After Categoria: 18
+[2026-02-22 13:52:03.433095] AI PATH: After Marca: 6
+[2026-02-22 13:52:03.435573] After deduplication: 4 unique materials
+[2026-02-22 14:24:51.687847] QUERY RECIBIDA (Original): tablets
+[2026-02-22 14:24:51.688224] Keywords válidas final: ['tab']
+[2026-02-22 14:24:51.690666] FAST PATH: Found 16 matches
+[2026-02-22 14:24:51.690939] FAST PATH: EXECUTED
+[2026-02-22 14:24:51.692625] After deduplication: 14 unique materials
+[2026-02-22 14:25:28.649948] QUERY RECIBIDA (Original): tv43
+[2026-02-22 14:25:28.650332] Keywords válidas final: ['tv43']
+[2026-02-22 14:25:28.652815] FAST PATH: Found 0 matches
+[2026-02-22 14:25:29.436614] AI PATH: After Categoria: 54
+[2026-02-22 14:25:29.438233] AI PATH: After Modelo (['43"']): 10
+[2026-02-22 14:25:29.439858] After deduplication: 10 unique materials
+[2026-02-22 14:28:52.188095] QUERY RECIBIDA (Original): laptops
+[2026-02-22 14:28:52.188517] Keywords válidas final: ['laptop']
+[2026-02-22 14:28:52.191115] FAST PATH: Found 0 matches
+[2026-02-22 14:28:52.890178] AI PATH: After Categoria: 18
+[2026-02-22 14:28:52.892323] After deduplication: 12 unique materials
+[2026-02-22 14:46:36.470604] QUERY RECIBIDA (Original): TABLETS
+[2026-02-22 14:46:36.471016] Keywords válidas final: ['tab']
+[2026-02-22 14:46:36.473401] FAST PATH: Found 16 matches
+[2026-02-22 14:46:36.473710] FAST PATH: EXECUTED
+[2026-02-22 14:46:36.475400] After deduplication: 14 unique materials
+[2026-02-22 14:53:51.669739] QUERY RECIBIDA (Original): tablets
+[2026-02-22 14:53:51.670268] Keywords válidas final: ['tab']
+[2026-02-22 14:53:51.672688] FAST PATH: Found 16 matches
+[2026-02-22 14:53:51.672978] FAST PATH: EXECUTED
+[2026-02-22 14:53:51.674674] After deduplication: 14 unique materials
+[2026-02-22 15:46:03.337081] QUERY RECIBIDA (Original): laptop
+[2026-02-22 15:46:03.337613] Keywords válidas final: ['laptop']
+[2026-02-22 15:46:03.341020] FAST PATH: Found 0 matches
+[2026-02-22 15:46:04.021597] AI PATH: After Categoria: 18
+[2026-02-22 15:46:04.023847] After deduplication: 12 unique materials

@@ -41,25 +41,29 @@ const MessageBubble = ({ msg, specsList = [], specsMapping = {}, quotasMapping =
                                     </div>
                                 )}
                                 <div className="product-cards-container" style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '10px' }}>
-                                    {parsedData.products.map((product, idx) => (
-                                        <ProductCard
-                                            key={idx}
-                                            product={{
-                                                ...product,
-                                                CantDisponible: parseInt(String(product.CantDisponible || 0).replace(/[^\d]/g, '')),
-                                                "Precio Contado": parseFloat(String(product['Precio Contado'] || 0).replace(/[^\d]/g, '')),
-                                                hasSpec: checkHasSpec(product.Material, product.Subproducto),
-                                                quotas: (() => {
-                                                    const rawId = String(product.Material || '');
-                                                    const cleanId = rawId.replace(/[^\d]/g, '');
-                                                    const result = quotasMapping[cleanId] || quotasMapping[rawId.trim()];
-                                                    console.log('[QUOTAS DEBUG]', { rawId, cleanId, found: !!result, totalKeys: Object.keys(quotasMapping).length, firstKey: Object.keys(quotasMapping)[0] });
-                                                    return result;
-                                                })()
-                                            }}
-                                            onViewSpec={onViewSpec}
-                                        />
-                                    ))}
+                                    {parsedData.products.map((product, idx) => {
+                                        if (!product || !product.Material) return null;
+                                        return (
+                                            <ProductCard
+                                                key={idx}
+                                                product={{
+                                                    ...product,
+                                                    CantDisponible: parseInt(String(product.CantDisponible || 0).replace(/[^\d]/g, '')) || 0,
+                                                    "Precio Contado": parseFloat(String(product['Precio Contado'] || 0).replace(/[^\d]/g, '')) || 0,
+                                                    hasSpec: checkHasSpec(product.Material, product.Subproducto),
+                                                    quotas: (() => {
+                                                        const rawId = String(product.Material || '');
+                                                        const cleanId = rawId.replace(/[^\d]/g, '');
+                                                        if (!cleanId) return null;
+                                                        const result = quotasMapping[cleanId] || quotasMapping[rawId.trim()];
+                                                        return result;
+                                                    })()
+                                                }}
+                                                specsMapping={specsMapping}
+                                                onViewSpec={onViewSpec}
+                                            />
+                                        );
+                                    })}
                                 </div>
                                 {parsedData.afterTable && (
                                     <div className="markdown-content" style={{ marginTop: '10px' }}>

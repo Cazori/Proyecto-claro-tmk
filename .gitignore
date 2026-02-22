@@ -55,4 +55,15 @@ backend/storage/*.json
 !backend/storage/quota_mapping.json
 !backend/storage/specs_mapping.json
 !backend/expert_knowledge.json
-# (Add other specific exclusions if needed)
+
+# Backend auto-generated / debug artifacts
+backend/storage/image_embeddings.json
+backend/*.log
+backend/chat_debug.log
+backend/debug_log.txt
+backend/full_model_list.txt
+backend/inventory_text.txt
+backend/model_report.txt
+backend/response_cleaned.txt
+backend/response_strict.txt
+cuotas.xlsx
