@@ -2,6 +2,7 @@ import pdfplumber
 import pandas as pd
 import os
 import glob
+import asyncio
 import re
 from datetime import datetime
 from dotenv import load_dotenv
@@ -12,6 +13,11 @@ load_dotenv()
 
 # AI Pool will be injected from main.py
 _ai_pool = None
+
+# Global In-Memory Cache for performance
+_inventory_cache = None
+_inventory_cache_mtime = 0
+_inventory_lock = asyncio.Lock()
 
 # Import Supabase logic
 from supabase_db import save_inventory_to_db, get_inventory_from_db
@@ -29,49 +35,10 @@ MAX_FILES = 5
 
 async def normalize_products_batch(descriptions):
     """
-    Uses AI Pool to categorize and extract attributes from a list of unique product descriptions.
-    Robust to 429 Quota errors through multi-provider fallback.
+    Uses AIService to categorize and extract attributes from a list of unique product descriptions.
     """
-    if not descriptions:
-        return {}
-    
-    if not _ai_pool:
-        print("WARNING: AI Pool not initialized, skipping normalization for this batch")
-        return {}
-
-    prompt = """
-    Analiza esta lista de descripciones de productos tecnológicos.
-    Para cada uno, extrae:
-    - categoria: (TV, Celular, Laptop, Reloj, Audífonos, Parlante, Patineta, Tablet, Accesorio, Otro)
-    - marca: La marca (Samsung, Huawei, etc.)
-    - modelo_limpio: Nombre del modelo
-    - especificaciones: Características clave
-    - tip_venta: Un argumento de venta breve (máx 15 palabras) resaltando una ventaja técnica clave.
-    Responde ÚNICAMENTE en JSON con las descripciones originales como llaves.
-    LISTA: """ + json.dumps(descriptions)
-
-    # Retry logic with AI Pool
-    import time
-    for attempt in range(3):
-        try:
-            response_text = await _ai_pool.generate(prompt)
-            # Clean markdown if present
-            raw_text = response_text
-            if "```json" in raw_text:
-                raw_text = raw_text.split("```json")[1].split("```")[0].strip()
-            elif "```" in raw_text:
-                raw_text = raw_text.split("```")[1].split("```")[0].strip()
-            
-            return json.loads(raw_text)
-        except Exception as e:
-            err_msg = str(e)
-            if "429" in err_msg or "quota" in err_msg.lower():
-                print(f"Quota exceeded on attempt {attempt+1}/3. AI Pool will try next provider...")
-                time.sleep(5)  # Shorter wait since pool handles rotation
-            else:
-                print(f"Error AI Pool: {err_msg}")
-                break
-    return {}
+    from services.ai_service import ai_service
+    return await ai_service.normalize_products_batch(descriptions)
 
 def rule_based_normalization(desc):
     """Fallback logic for common brands and categories using keywords"""
@@ -220,6 +187,10 @@ async def process_inventory_pdf(file_path):
 
         df.to_json(PROCESSED_DATA_FILE, orient="records", force_ascii=False, indent=4)
         
+        # Invalidate cache so it's reloaded on next call
+        global _inventory_cache
+        _inventory_cache = None
+        
         # PERSISTENCE: Save to Supabase (Wait for it)
         await save_inventory_to_db(df)
         
@@ -250,50 +221,54 @@ def rotate_inventories():
 
 async def get_latest_inventory():
     """
-    Returns the most recent processed DataFrame. 
-    Priority: 
-    1. Local JSON (if it matches the latest local PDF timestamp)
-    2. Supabase (Cloud Memory)
-    3. Local PDF processing
+    Returns the most recent processed DataFrame with in-memory caching and request deduplication.
     """
-    # Get latest local PDF info
-    local_pdfs = glob.glob(os.path.join(STORAGE_DIR, "*.pdf"))
-    latest_pdf = max(local_pdfs, key=os.path.getmtime) if local_pdfs else None
+    global _inventory_cache, _inventory_cache_mtime
     
-    # 1. LOCAL JSON (Primary source if it matches latest PDF)
-    if os.path.exists(PROCESSED_DATA_FILE) and latest_pdf:
+    async with _inventory_lock:
+        # Check in-memory cache first
+        local_pdfs = glob.glob(os.path.join(STORAGE_DIR, "*.pdf"))
+        latest_pdf = max(local_pdfs, key=os.path.getmtime) if local_pdfs else None
+        
+        if _inventory_cache is not None:
+            # If we have a cache, check if it's still valid (matches latest PDF)
+            if latest_pdf:
+                pdf_mtime = os.path.getmtime(latest_pdf)
+                if _inventory_cache_mtime >= pdf_mtime:
+                    return _inventory_cache
+
+        # 1. LOCAL JSON (Primary source if it matches latest PDF)
+        if os.path.exists(PROCESSED_DATA_FILE) and latest_pdf:
+            try:
+                json_mtime = os.path.getmtime(PROCESSED_DATA_FILE)
+                pdf_mtime = os.path.getmtime(latest_pdf)
+                if json_mtime >= pdf_mtime:
+                    print("✓ Cargando inventario local (Caché disco).")
+                    _inventory_cache = pd.read_json(PROCESSED_DATA_FILE)
+                    _inventory_cache_mtime = json_mtime
+                    return _inventory_cache
+            except Exception as e:
+                print(f"Error cargando JSON local: {e}")
+
+        # 2. SUPABASE (Cloud Backup)
         try:
-            json_mtime = os.path.getmtime(PROCESSED_DATA_FILE)
-            pdf_mtime = os.path.getmtime(latest_pdf)
-            # If JSON is newer than PDF, it's already processed the latest data
-            if json_mtime >= pdf_mtime:
-                print("✓ Cargando inventario local (Caché actualizada).")
-                return pd.read_json(PROCESSED_DATA_FILE)
+            cloud_df = await get_inventory_from_db()
+            if cloud_df is not None and not cloud_df.empty:
+                print("✓ Cargando inventario desde Supabase.")
+                # Cache locally and in memory
+                cloud_df.to_json(PROCESSED_DATA_FILE, orient="records", force_ascii=False, indent=4)
+                _inventory_cache = cloud_df
+                _inventory_cache_mtime = time.time() # Use current time for sync
+                return _inventory_cache
         except Exception as e:
-            print(f"Error cargando JSON local: {e}")
+            print(f"! Supabase no disponible o vacío: {e}")
 
-    # 2. SUPABASE (Cloud Backup)
-    try:
-        cloud_df = await get_inventory_from_db()
-        if cloud_df is not None and not cloud_df.empty:
-            print("✓ Cargando inventario desde Supabase (Sincronización en la nube).")
-            # Cache locally
-            cloud_df.to_json(PROCESSED_DATA_FILE, orient="records", force_ascii=False, indent=4)
-            return cloud_df
-    except Exception as e:
-        print(f"! Supabase no disponible o vacío: {e}")
+        # 3. LOCAL PDF PROCESSING (Fallback/First run)
+        if latest_pdf:
+            print(f"Procesando PDF local más reciente: {latest_pdf}")
+            _inventory_cache = await process_inventory_pdf(latest_pdf)
+            if _inventory_cache is not None:
+                _inventory_cache_mtime = os.path.getmtime(latest_pdf)
+            return _inventory_cache
 
-    # 3. LOCAL PDF PROCESSING (Fallback/First run)
-    if latest_pdf:
-        print(f"Procesando PDF local más reciente: {latest_pdf}")
-        return await process_inventory_pdf(latest_pdf)
-
-    return None
-
-    # 4. CLOUD PDF FALLBACK (Last Resort)
-    print("Buscando PDF en la nube como último recurso...")
-    cloud_pdf_path = await download_latest_inventory_pdf_from_supabase(STORAGE_DIR)
-    if cloud_pdf_path:
-        return await process_inventory_pdf(cloud_pdf_path)
-
-    return None
+        return None
