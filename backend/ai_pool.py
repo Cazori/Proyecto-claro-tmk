@@ -233,6 +233,7 @@ class AIPool:
         self.strategy = strategy
         self.current_index = 0
         self.stats_file = "performance_tracker.json"
+        self._quota_blacklist: set = set()  # Providers with 429 in current request cycle
         
         # Load providers from environment
         self._load_providers()
@@ -337,43 +338,50 @@ class AIPool:
         except Exception as e:
             print(f"Warning: Could not save stats: {e}")
     
-    def _get_next_provider(self) -> AIProvider:
-        """Get next provider based on rotation strategy"""
+    def _get_next_provider(self, exclude: set = None) -> AIProvider:
+        """Get next provider based on rotation strategy, skipping excluded ones."""
+        excluded = exclude or set()
+        available = [p for p in self.providers if p.name not in excluded]
+        if not available:
+            return None
+
         if self.strategy == RotationStrategy.ROUND_ROBIN:
-            provider = self.providers[self.current_index]
-            self.current_index = (self.current_index + 1) % len(self.providers)
-            return provider
-            
+            # Pick next available provider in circular order
+            for _ in range(len(self.providers)):
+                provider = self.providers[self.current_index]
+                self.current_index = (self.current_index + 1) % len(self.providers)
+                if provider.name not in excluded:
+                    return provider
+            return available[0]
+
         elif self.strategy == RotationStrategy.FASTEST_FIRST:
-            # Sort by average latency (lower is better)
+            # Sort by average latency; providers with no success go last
             sorted_providers = sorted(
-                self.providers,
+                available,
                 key=lambda p: p.stats["avg_latency_ms"] if p.stats["successful"] > 0 else float('inf')
             )
             return sorted_providers[0]
-            
-        else:  # FALLBACK
-            return self.providers[self.current_index]
+
+        else:  # FALLBACK — try in list order, skipping excluded
+            return available[0]
     
     async def generate(self, prompt: str, max_retries: int = None) -> str:
         """
-        Generate response using AI pool with automatic fallback
-        
-        Args:
-            prompt: The prompt to send to the AI
-            max_retries: Maximum number of providers to try (default: all)
-        
-        Returns:
-            Generated text response
+        Generate response using AI pool with automatic fallback.
+        Tries each provider at most once per call; skips providers on 429.
         """
         if max_retries is None:
             max_retries = len(self.providers)
         
         last_error = None
-        attempts = 0
-        
-        while attempts < max_retries:
-            provider = self._get_next_provider()
+        tried: set = set()  # Track providers tried in this call
+
+        while len(tried) < len(self.providers):
+            provider = self._get_next_provider(exclude=tried)
+            if provider is None:
+                break
+
+            tried.add(provider.name)
             
             try:
                 print(f"🤖 Trying {provider.name}...")
@@ -384,17 +392,8 @@ class AIPool:
             except Exception as e:
                 last_error = str(e)
                 print(f"⚠️  {provider.name} failed: {last_error}")
-                
-                # If this was a quota error and we're in fallback mode, try next provider
-                if "429" in last_error or "quota" in last_error.lower():
-                    if self.strategy == RotationStrategy.FALLBACK:
-                        self.current_index = (self.current_index + 1) % len(self.providers)
-                    attempts += 1
-                    continue
-                else:
-                    # For other errors, try next provider immediately
-                    attempts += 1
-                    continue
+                # Always continue to next provider regardless of error type
+                continue
         
         # All providers failed
         self._save_stats()
