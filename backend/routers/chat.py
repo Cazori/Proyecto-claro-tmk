@@ -8,6 +8,17 @@ from services.inventory_service import inventory_service
 
 router = APIRouter()
 
+# Synonym/code mapping: user terms → internal inventory codes
+# CRITICAL: Must match the normalized codes used in the processed inventory
+SYNONYMS = {
+    "port": "portatil", "portatil": "prt", "portatiles": "prt", "laptop": "prt", "laptops": "prt",
+    "hp": "hewp", "hewlett": "hewp", "packard": "hewp", "ng": "negro", "ngr": "negro",
+    "bl": "blanco", "blnc": "blanco", "cel": "celular", "celulares": "celular",
+    "tel": "telefono", "telefonos": "celular", "aud": "audifonos", "audifono": "audifonos",
+    "smrt": "smart", "watch": "reloj", "sw": "reloj",
+    "ryzen": "rzn", "intel": "ic", "core": "ic", "ram": "g", "gb": "g"
+}
+
 @router.get("/api/pool-stats")
 async def get_pool_stats():
     """Get AI pool performance statistics"""
@@ -56,7 +67,9 @@ async def chat(query: str):
             continue
             
         k_norm = k.rstrip('s') if k.endswith('s') and len(k) >= 3 else k
-        if len(k_norm) >= 2 or k_norm.isdigit() or '\"' in k_norm or k_norm in ["tv", "sw", "bt", "tab", "ptn"]:
+        # Apply synonym mapping (laptop→prt, hp→hewp, etc.)
+        k_norm = SYNONYMS.get(k_norm, SYNONYMS.get(k, k_norm))
+        if len(k_norm) >= 2 or k_norm.isdigit() or '"' in k_norm or k_norm in ["tv", "sw", "bt", "tab", "ptn"]:
             valid_keywords.append(k_norm)
     
     if "tv" in valid_keywords:
