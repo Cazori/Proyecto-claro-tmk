@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 from fastapi import APIRouter, HTTPException
 from config import CLEO_PROMPT
 from utils import log_debug
