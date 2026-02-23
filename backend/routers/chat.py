@@ -1,23 +1,12 @@
 import os
 import pandas as pd
 from fastapi import APIRouter, HTTPException
-from config import CLEO_PROMPT
+from config import CLEO_PROMPT, SYNONYMS
 from utils import log_debug
 from services.ai_service import ai_service
 from services.inventory_service import inventory_service
 
 router = APIRouter()
-
-# Synonym/code mapping: user terms → internal inventory codes
-# CRITICAL: Must match the normalized codes used in the processed inventory
-SYNONYMS = {
-    "port": "portatil", "portatil": "prt", "portatiles": "prt", "laptop": "prt", "laptops": "prt",
-    "hp": "hewp", "hewlett": "hewp", "packard": "hewp", "ng": "negro", "ngr": "negro",
-    "bl": "blanco", "blnc": "blanco", "cel": "celular", "celulares": "celular",
-    "tel": "telefono", "telefonos": "celular", "aud": "audifonos", "audifono": "audifonos",
-    "smrt": "smart", "watch": "reloj", "sw": "reloj",
-    "ryzen": "rzn", "intel": "ic", "core": "ic", "ram": "g", "gb": "g"
-}
 
 @router.get("/api/pool-stats")
 async def get_pool_stats():
@@ -100,7 +89,19 @@ async def chat(query: str):
 
     # 3. Format context and generate response
     inventory_context = inventory_service.format_inventory_context(results)
-    full_prompt = f"{CLEO_PROMPT}\n\nDATOS DEL INVENTARIO ENCONTRADO:\n{inventory_context}\n\nPREGUNTA DEL USUARIO: \"{query}\"\n"
+    
+    # Restore the v1.9.0 recommendation rule
+    full_prompt = f"""
+    {CLEO_PROMPT}
+
+    DATOS DEL INVENTARIO ENCONTRADO:
+    {inventory_context}
+
+    PREGUNTA DEL USUARIO:
+    "{query}"
+    
+    REGLA: Si no hay inventario, sugiere productos similares si los ves, o di que no hay stock disponible.
+    """
 
     try:
         response_text = await ai_service.generate_response(full_prompt)

@@ -226,44 +226,47 @@ async def get_latest_inventory():
     global _inventory_cache, _inventory_cache_mtime
     
     async with _inventory_lock:
-        # Check in-memory cache first
         local_pdfs = glob.glob(os.path.join(STORAGE_DIR, "*.pdf"))
         latest_pdf = max(local_pdfs, key=os.path.getmtime) if local_pdfs else None
         
         if _inventory_cache is not None:
-            # If we have a cache, check if it's still valid (matches latest PDF)
             if latest_pdf:
                 pdf_mtime = os.path.getmtime(latest_pdf)
                 if _inventory_cache_mtime >= pdf_mtime:
                     return _inventory_cache
 
-        # 1. LOCAL JSON (Primary source if it matches latest PDF)
-        if os.path.exists(PROCESSED_DATA_FILE) and latest_pdf:
+        # 1. LOCAL JSON (Primary source for speed)
+        if os.path.exists(PROCESSED_DATA_FILE):
             try:
                 json_mtime = os.path.getmtime(PROCESSED_DATA_FILE)
-                pdf_mtime = os.path.getmtime(latest_pdf)
-                if json_mtime >= pdf_mtime:
-                    print("✓ Cargando inventario local (Caché disco).")
+                if latest_pdf:
+                    pdf_mtime = os.path.getmtime(latest_pdf)
+                    if json_mtime >= pdf_mtime:
+                        print("✓ Cargando inventario local (Caché disco instantáneo).")
+                        _inventory_cache = pd.read_json(PROCESSED_DATA_FILE)
+                        _inventory_cache_mtime = json_mtime
+                        return _inventory_cache
+                else:
+                    print("✓ Cargando inventario local (Solo JSON disponible).")
                     _inventory_cache = pd.read_json(PROCESSED_DATA_FILE)
                     _inventory_cache_mtime = json_mtime
                     return _inventory_cache
             except Exception as e:
                 print(f"Error cargando JSON local: {e}")
 
-        # 2. SUPABASE (Cloud Backup)
+        # 2. SUPABASE (Cloud Backup / Sync)
         try:
             cloud_df = await get_inventory_from_db()
             if cloud_df is not None and not cloud_df.empty:
                 print("✓ Cargando inventario desde Supabase.")
-                # Cache locally and in memory
                 cloud_df.to_json(PROCESSED_DATA_FILE, orient="records", force_ascii=False, indent=4)
                 _inventory_cache = cloud_df
-                _inventory_cache_mtime = time.time() # Use current time for sync
+                _inventory_cache_mtime = datetime.now().timestamp()
                 return _inventory_cache
         except Exception as e:
-            print(f"! Supabase no disponible o vacío: {e}")
+            print(f"! Supabase no disponible: {e}")
 
-        # 3. LOCAL PDF PROCESSING (Fallback/First run)
+        # 3. LOCAL PDF PROCESSING (Fallback)
         if latest_pdf:
             print(f"Procesando PDF local más reciente: {latest_pdf}")
             _inventory_cache = await process_inventory_pdf(latest_pdf)

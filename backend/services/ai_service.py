@@ -14,16 +14,31 @@ class AIService:
         """Analyzes the user's search intent."""
         intent_prompt = f"""
         Eres un experto en clasificar intenciones de búsqueda para un inventario de tecnología.
+        
         CAMPOS DISPONIBLES EN BD:
         - categoria: (TV, Celular, Laptop, Reloj, Audífonos, Parlante, Patineta, Tablet, Accesorio, Otro)
         - marca: (Samsung, Apple, HP, Lenovo, Xiaomi, Huawei, Honor, Sony, etc.)
         - modelo: (Referencia específica o palabras clave del producto)
         
         CONSULTA USUARIO: "{query}"
-        TU TAREA: Extrae los valores para filtrar. 
-        REGLA CRÍTICA PARA TV: Si el usuario busca pulgadas, el campo 'modelo' DEBE incluir el número seguido de comilla doble (ej: '50"').
-        EJEMPLOS: "iphone 15" -> {{"marca": "Apple", "modelo": "iphone 15", "categoria": "Celular"}}
-        Responde ÚNICAMENTE en JSON.
+        
+        TU TAREA:
+        Extrae los valores para filtrar el DataFrame. 
+        REGLA CRÍTICA PARA TV: Si el usuario busca pulgadas (ej: "50 pulgadas", "de 43", "55"), el campo 'modelo' DEBE incluir el número seguido de comilla doble (ej: '50"', '43"', '55"') para coincidir con la nomenclatura del inventario.
+        
+        EJEMPLOS:
+        - "televisores samsung 50 pulgadas" -> {{"categoria": "TV", "marca": "Samsung", "modelo": "50\\""}}
+        - "smart tv 43" -> {{"categoria": "TV", "marca": null, "modelo": "43\\""}}
+        - "iphone 15" -> {{"marca": "Apple", "modelo": "iphone 15", "categoria": "Celular"}}
+        - "laptop hp ryzen" -> {{"categoria": "Laptop", "marca": "HP", "modelo": "ryzen"}}
+        
+        Responde ÚNICAMENTE en JSON con esta estructura:
+        {{
+            "categoria": "Valor exacto de la lista o null",
+            "marca": "Valor o null",
+            "modelo": "Valor o null",
+            "intencion_general": "Resumen breve"
+        }}
         """
         
         try:
