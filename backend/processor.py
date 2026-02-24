@@ -101,39 +101,61 @@ async def process_inventory_pdf(file_path):
                 lines = text.split('\n')
                 page_count = 0
                 for line in lines:
-                    # Robust Pattern 1 (Strict): ID -> Name -> Total -> Disponible -> ... -> Aplica $ -> Price (or -)
-                    # We make the price part more flexible to catch hyphens or No Aplica
-                    pattern_strict = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+).*?Aplica\s+\$.*?([\d\.\s-]*\d|[-])"
+                    # Robust Pattern 2-step: ID -> Name -> Total -> Disponible -> everything after "Aplica $"
+                    # This allows identifying the LAST value as the Total Price, as requested by USER.
+                    pattern_v3 = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+).*?Aplica\s+\$(.*)"
                     
-                    # Robust Pattern 2 (Flexible): ID -> Name -> Total -> Disponible -> Price (digits or -)
+                    # Fallback for lines without "Aplica $" but still looking like product entries
                     pattern_flex = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+).*?\$?\s?(\d{1,3}(?:\.\d{3})*(?:,\d+)?|[-])"
 
-                    match = re.search(pattern_strict, line)
-                    if not match:
-                        match = re.search(pattern_flex, line)
-                    
+                    match = re.search(pattern_v3, line)
                     if match:
                         material = match.group(1)
                         subproducto = match.group(2).strip()
                         stock = match.group(3) 
-                        price_raw = match.group(5).strip()
+                        tail = match.group(5)
                         
-                        # Handle hyphenated prices
-                        if price_raw == "-":
-                            precio_clean = "0"
+                        # Find all number sequences in the tail (including single digits)
+                        # We prioritize the LAST one as the Total Value
+                        prices = re.findall(r"(\d[\d\.\s,]*\d|\d)", tail)
+                        if prices:
+                            price_raw = prices[-1]
                         else:
-                            precio_clean = re.sub(r'[^\d]', '', price_raw)
-                            if len(precio_clean) > 8:
-                                precio_clean = precio_clean[:7]
+                            price_raw = "-" if "-" in tail else "0"
+                    else:
+                        match = re.search(pattern_flex, line)
+                        if match:
+                            material = match.group(1)
+                            subproducto = match.group(2).strip()
+                            stock = match.group(3)
+                            price_raw = match.group(5).strip()
+                        else:
+                            continue
+                    
+                    # Handle hyphenated prices
+                    if price_raw == "-":
+                        precio_clean = "0"
+                    else:
+                        # Clean spaces and handle decimals (commas)
+                        # Example: "3 .299.900,0" -> "3.299.900"
+                        p_no_spaces = price_raw.replace(" ", "")
+                        if "," in p_no_spaces:
+                            p_no_spaces = p_no_spaces.split(",")[0]
                         
-                        data.append({
-                            "Bodega": page_bodega,
-                            "Material": material,
-                            "Subproducto": subproducto,
-                            "CantDisponible": float(stock) if stock else 0,
-                            "Precio Contado": float(precio_clean) if precio_clean else 0
-                        })
-                        page_count += 1
+                        precio_clean = re.sub(r'[^\d]', '', p_no_spaces)
+                        
+                        # Safety check for concatenated values (standard price is ~7 digits)
+                        if len(precio_clean) > 8:
+                            precio_clean = precio_clean[:7]
+                    
+                    data.append({
+                        "Bodega": page_bodega,
+                        "Material": material,
+                        "Subproducto": subproducto,
+                        "CantDisponible": float(stock) if stock else 0,
+                        "Precio Contado": float(precio_clean) if precio_clean else 0
+                    })
+                    page_count += 1
                 
                 if page_count > 0:
                     print(f"📄 Página {i+1}: Encontrados {page_count} productos ({page_bodega})")
