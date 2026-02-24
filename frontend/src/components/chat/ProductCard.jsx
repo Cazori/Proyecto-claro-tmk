@@ -120,6 +120,19 @@ const ProductCard = ({ product, specsMapping = {}, onViewSpec }) => {
                     )}
 
                     <button
+                        className={`premium-btn premium-btn-primary ${tip ? 'tip-glow' : ''} ${showTip ? 'active' : ''}`}
+                        onClick={() => {
+                            setShowTip(!showTip);
+                            setShowQuotas(false);
+                        }}
+                    >
+                        <svg style={{ width: '14px', height: '14px' }} fill={showTip ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                        </svg>
+                        <span className="btn-label">{showTip ? 'Cerrar' : 'Info'}</span>
+                    </button>
+
+                    <button
                         className="premium-btn premium-btn-tertiary"
                         onClick={(e) => {
                             e.stopPropagation();
@@ -132,19 +145,6 @@ const ProductCard = ({ product, specsMapping = {}, onViewSpec }) => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                         </svg>
                         <span className="btn-label">AI Search</span>
-                    </button>
-
-                    <button
-                        className={`premium-btn premium-btn-primary ${tip ? 'tip-glow' : ''} ${showTip ? 'active' : ''}`}
-                        onClick={() => {
-                            setShowTip(!showTip);
-                            setShowQuotas(false);
-                        }}
-                    >
-                        <svg style={{ width: '14px', height: '14px' }} fill={showTip ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                        </svg>
-                        <span className="btn-label">{showTip ? 'Cerrar' : 'Info'}</span>
                     </button>
                 </div>
 
