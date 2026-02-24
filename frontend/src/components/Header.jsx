@@ -4,7 +4,6 @@ const Header = ({ activeTab, setSidebarOpen, isSidebarOpen }) => {
     const getTitle = () => {
         switch (activeTab) {
             case 'chat': return 'Asistente de Inventario';
-            case 'dashboard': return 'Estadísticas Generales';
             case 'upload': return 'Cargar Inventario';
             case 'fichas': return 'Fichas Técnicas';
             case 'expert': return 'Enseñale a Cleo';
@@ -22,7 +21,6 @@ const Header = ({ activeTab, setSidebarOpen, isSidebarOpen }) => {
                     {getTitle()}
                 </h2>
             </div>
-            <div className="avatar-circle">U</div>
         </header>
     );
 };

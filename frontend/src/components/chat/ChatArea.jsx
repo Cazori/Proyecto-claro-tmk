@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import MessageBubble from './MessageBubble';
 import useFuzzySearch from '../../hooks/useFuzzySearch';
 
-const ChatArea = ({ messages, chatEndRef, input, setInput, handleSend, specsList, specsMapping, quotasMapping, onViewSpec, isBotLoading }) => {
+const ChatArea = ({ messages, chatEndRef, lastMessageRef, input, setInput, handleSend, specsList, specsMapping, quotasMapping, onViewSpec, isBotLoading }) => {
     const [suggestion, setSuggestion] = useState(null);
 
     const dictionary = useMemo(() => {
@@ -42,9 +42,10 @@ const ChatArea = ({ messages, chatEndRef, input, setInput, handleSend, specsList
         <>
             <div className="chat-area">
                 <div className="messages-wrapper">
-                    {messages.map((msg) => (
+                    {messages.map((msg, index) => (
                         <MessageBubble
                             key={msg.id}
+                            ref={index === messages.length - 1 ? lastMessageRef : null}
                             msg={msg}
                             specsList={specsList}
                             specsMapping={specsMapping}

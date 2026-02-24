@@ -787,3 +787,20 @@
 [2026-02-22 16:06:21.837353] FAST PATH: Found 16 matches
 [2026-02-22 16:06:21.838191] FAST PATH: EXECUTED
 [2026-02-22 16:06:21.842194] After deduplication: 14 unique materials
+[2026-02-23 23:59:38.760068] QUERY RECIBIDA (Original): laptop hp
+[2026-02-23 23:59:38.760672] Keywords procesadas: ['prt', 'hewp']
+[2026-02-23 23:59:38.764414] FAST PATH: 8 coincidencias directas.
+[2026-02-24 00:23:35.717639] QUERY RECIBIDA (Original): hola
+[2026-02-24 00:23:35.718014] Keywords procesadas: ['hola']
+[2026-02-24 00:23:35.720675] AI PATH: Analizando intención de búsqueda...
+[2026-02-24 00:23:36.542329] Intención: {'categoria': None, 'marca': None, 'modelo': None, 'intencion_general': 'Saludo inicial'}
+[2026-02-24 00:23:36.542851] AI PATH: 184 resultados encontrados.
+[2026-02-24 00:30:18.019935] QUERY RECIBIDA (Original): TABLETS
+[2026-02-24 00:30:18.020312] Keywords procesadas: ['tab']
+[2026-02-24 00:30:18.023193] FAST PATH: 16 coincidencias directas.
+[2026-02-24 00:42:56.956348] QUERY RECIBIDA (Original): tablets
+[2026-02-24 00:42:56.956765] Keywords procesadas: ['tab']
+[2026-02-24 00:42:56.960668] FAST PATH: 16 coincidencias directas.
+[2026-02-24 00:53:12.538107] QUERY RECIBIDA (Original): tablets
+[2026-02-24 00:53:12.538609] Keywords procesadas: ['tab']
+[2026-02-24 00:53:12.541415] FAST PATH: 16 coincidencias directas.

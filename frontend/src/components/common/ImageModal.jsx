@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
+import QuickPinchZoom, { make3dTransformValue } from 'react-quick-pinch-zoom';
 
 const ImageModal = ({ imageUrl, onClose }) => {
     if (!imageUrl) return null;
 
+    const imgRef = useRef();
     const urls = Array.isArray(imageUrl) ? imageUrl : [imageUrl];
     const [currentIndex, setCurrentIndex] = React.useState(0);
     const currentUrl = urls[currentIndex];
@@ -11,6 +13,13 @@ const ImageModal = ({ imageUrl, onClose }) => {
     React.useEffect(() => {
         setCurrentIndex(0);
     }, [imageUrl]);
+
+    const onUpdate = useCallback(({ x, y, scale }) => {
+        if (imgRef.current) {
+            const value = make3dTransformValue({ x, y, scale });
+            imgRef.current.style.setProperty('transform', value);
+        }
+    }, []);
 
     const handleShare = async (e) => {
         e.stopPropagation();
@@ -55,36 +64,44 @@ const ImageModal = ({ imageUrl, onClose }) => {
 
     return (
         <div
+            className="modal-overlay"
             style={{
                 position: 'fixed', inset: 0, zIndex: 100, background: 'rgba(0,0,0,0.95)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                backdropFilter: 'blur(10px)', overflow: 'auto'
+                backdropFilter: 'blur(10px)'
             }}
             onClick={onClose}
         >
-            <div style={{ position: 'relative', maxWidth: '100%', maxHeight: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <img
-                    src={currentUrl}
-                    alt="Ficha ampliada"
-                    style={{
-                        maxWidth: '95vw', maxHeight: '95vh', borderRadius: '4px',
-                        boxShadow: '0 20px 50px rgba(0,0,0,0.8)', transition: 'transform 0.2s ease-out',
-                        touchAction: 'pinch-zoom'
-                    }}
-                    onClick={(e) => e.stopPropagation()}
-                />
+            <div className="modal-content" style={{ width: '100vw', height: '100vh' }}>
+                <QuickPinchZoom onUpdate={onUpdate} wheelScaleFactor={1.1}>
+                    <div ref={imgRef} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', width: '100%' }}>
+                        <img
+                            src={currentUrl}
+                            alt="Ficha ampliada"
+                            style={{
+                                maxWidth: '95vw',
+                                maxHeight: '95vh',
+                                objectFit: 'contain',
+                                borderRadius: '4px',
+                                boxShadow: '0 20px 50px rgba(0,0,0,0.8)'
+                            }}
+                        />
+                    </div>
+                </QuickPinchZoom>
 
                 {urls.length > 1 && (
                     <>
                         {/* Navigation Arrows */}
                         <button
                             onClick={prevImage}
+                            className="nav-btn-modal"
                             style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: '50%', width: '50px', height: '50px', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 105, backdropFilter: 'blur(5px)' }}
                         >
                             <svg style={{ width: '30px', height: '30px' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M15 19l-7-7 7-7" strokeWidth={2} /></svg>
                         </button>
                         <button
                             onClick={nextImage}
+                            className="nav-btn-modal"
                             style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.1)', border: 'none', borderRadius: '50%', width: '50px', height: '50px', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 105, backdropFilter: 'blur(5px)' }}
                         >
                             <svg style={{ width: '30px', height: '30px' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 5l7 7-7 7" strokeWidth={2} /></svg>
@@ -100,7 +117,8 @@ const ImageModal = ({ imageUrl, onClose }) => {
 
             {/* Top Close Button */}
             <button
-                style={{ position: 'absolute', top: '24px', right: '24px', background: 'white', border: 'none', borderRadius: '50%', width: '40px', height: '40px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 101 }}
+                className="close-btn-modal"
+                style={{ position: 'absolute', top: '24px', right: '24px', background: 'white', border: 'none', borderRadius: '50%', width: '40px', height: '40px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 110 }}
                 onClick={onClose}
             >
                 <svg style={{ width: '24px', height: '24px', color: '#111827' }} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
@@ -108,7 +126,8 @@ const ImageModal = ({ imageUrl, onClose }) => {
 
             {/* Share Button */}
             <button
-                style={{ position: 'absolute', bottom: '24px', right: '24px', background: 'white', border: 'none', borderRadius: '50%', width: '56px', height: '56px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 101, boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}
+                className="share-btn-modal"
+                style={{ position: 'absolute', bottom: '24px', right: '24px', background: 'white', border: 'none', borderRadius: '50%', width: '56px', height: '56px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 110, boxShadow: '0 4px 15px rgba(0,0,0,0.3)' }}
                 onClick={handleShare}
                 title="Compartir ficha"
             >

@@ -63,7 +63,7 @@ const ProductCard = ({ product, specsMapping = {}, onViewSpec }) => {
 
     return (
         <div className="product-card-premium">
-            <div className="product-badge" style={{ background: stockStatus.color }}>
+            <div className="product-badge" style={{ background: stockStatus.color, boxShadow: `0 2px 10px ${stockStatus.color}44` }}>
                 {stockStatus.label}
             </div>
 
@@ -73,6 +73,7 @@ const ProductCard = ({ product, specsMapping = {}, onViewSpec }) => {
                         src={thumbUrl}
                         alt={Subproducto}
                         className="product-thumb-image"
+                        loading="lazy"
                         onError={(e) => {
                             e.target.style.display = 'none';
                             e.target.nextSibling.style.display = 'flex';
@@ -90,9 +91,9 @@ const ProductCard = ({ product, specsMapping = {}, onViewSpec }) => {
                 </h4>
 
                 <div className="product-meta-row">
-                    <span>REF: <strong>{Material}</strong></span>
-                    <span>•</span>
-                    <span>Stock: <strong>{CantDisponible}</strong></span>
+                    <span className="ref-tag">REF: <strong>{Material}</strong></span>
+                    <span className="divider">•</span>
+                    <span className="stock-tag">Unidades: <strong style={{ color: stockStatus.color }}>{CantDisponible}</strong></span>
                 </div>
 
                 <div className="product-price-box">
@@ -114,45 +115,46 @@ const ProductCard = ({ product, specsMapping = {}, onViewSpec }) => {
                             <svg style={{ width: '14px', height: '14px' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            {showQuotas ? 'Ocultar' : 'Cuotas'}
+                            <span className="btn-label">{showQuotas ? 'Cerrar' : 'Cuotas'}</span>
                         </button>
                     )}
 
                     <button
-                        className={`premium-btn premium-btn-primary ${tip ? 'tip-glow' : ''}`}
+                        className={`premium-btn premium-btn-primary ${tip ? 'tip-glow' : ''} ${showTip ? 'active' : ''}`}
                         onClick={() => {
                             setShowTip(!showTip);
                             setShowQuotas(false);
                         }}
                     >
-                        <svg style={{ width: '14px', height: '14px' }} fill={tip ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor">
+                        <svg style={{ width: '14px', height: '14px' }} fill={showTip ? 'currentColor' : 'none'} viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                         </svg>
-                        {tip ? 'Descripción' : 'Descripción'}
+                        <span className="btn-label">{showTip ? 'Cerrar' : 'Info'}</span>
                     </button>
                 </div>
 
                 {(showTip || showQuotas) && (
-                    <div style={{
+                    <div className="product-details-dropdown" style={{
                         marginTop: '12px',
                         padding: '12px',
-                        background: 'rgba(0,0,0,0.2)',
-                        borderRadius: '12px',
-                        border: '1px solid rgba(255,255,255,0.05)',
-                        animation: 'fadeIn 0.3s ease'
+                        background: 'rgba(0,0,0,0.3)',
+                        borderRadius: '16px',
+                        border: '1px solid rgba(255,255,255,0.08)',
+                        animation: 'fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                        boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.2)'
                     }}>
                         {showTip && (
-                            <div style={{ fontSize: '13px', color: '#D1D5DB', lineHeight: '1.4' }}>
-                                <strong style={{ color: '#A78BFA', display: 'block', fontSize: '11px', marginBottom: '4px' }}>SPEECH DE VENTA:</strong>
+                            <div className="tip-content" style={{ fontSize: '13px', color: '#E5E7EB', lineHeight: '1.5' }}>
+                                <strong style={{ color: '#A78BFA', display: 'block', fontSize: '11px', marginBottom: '6px', letterSpacing: '0.05em' }}>SPEECH DE VENTA:</strong>
                                 {tip || 'Producto de alta demanda con garantía extendida Claro.'}
                             </div>
                         )}
                         {showQuotas && quotas && (
-                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', justifyContent: 'center' }}>
+                            <div className="quotas-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(60px, 1fr))', gap: '8px' }}>
                                 {[6, 12, 18, 24, 36].map(m => quotas[String(m)] != null && (
-                                    <div key={m} style={{ textAlign: 'center', flex: '1 1 18%', minWidth: '52px' }}>
-                                        <div style={{ fontSize: '10px', color: '#9CA3AF' }}>{m}m.</div>
-                                        <div style={{ fontSize: '12px', fontWeight: 'bold', color: '#FCD34D' }}>
+                                    <div key={m} className="quota-item" style={{ textAlign: 'center', background: 'rgba(255,255,255,0.03)', padding: '6px', borderRadius: '8px' }}>
+                                        <div style={{ fontSize: '10px', color: '#9CA3AF', marginBottom: '2px' }}>{m}m</div>
+                                        <div style={{ fontSize: '12px', fontWeight: '800', color: '#FCD34D' }}>
                                             ${new Intl.NumberFormat('es-CO').format(quotas[String(m)])}
                                         </div>
                                     </div>

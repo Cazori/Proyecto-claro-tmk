@@ -27,13 +27,13 @@
     "last_used": null
   },
   "groq-1": {
-    "total_requests": 221,
-    "successful": 218,
+    "total_requests": 227,
+    "successful": 224,
     "failed": 3,
-    "total_latency_ms": 255776.04293823242,
-    "avg_latency_ms": 1173.2846006340937,
+    "total_latency_ms": 266128.6971569061,
+    "avg_latency_ms": 1188.0745408790451,
     "last_error": "",
-    "last_used": "2026-02-23T22:53:40.418048"
+    "last_used": "2026-02-24T00:53:15.041838"
   },
   "groq-2": {
     "total_requests": 0,

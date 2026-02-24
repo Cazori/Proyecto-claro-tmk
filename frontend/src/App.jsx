@@ -5,7 +5,6 @@ import './App.css';
 import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import ChatArea from './components/chat/ChatArea';
-import Dashboard from './components/dashboard/Dashboard';
 import InventoryUpload from './components/upload/InventoryUpload';
 import FichasGrid from './components/fichas/FichasGrid';
 import ExpertKnowledge from './components/expert/ExpertKnowledge';
@@ -34,11 +33,6 @@ const ChatApp = () => {
   const [uploadStatus, setUploadStatus] = useState('');
   const [specUploadStatus, setSpecUploadStatus] = useState('');
   const [knowledge, setKnowledge] = useState([]);
-  const [dashboardStats, setDashboardStats] = useState({
-    lastUpdate: 'Hoy',
-    totalItems: 0,
-    criticalStock: 0
-  });
   const [specsList, setSpecsList] = useState([]);
   const [specsMapping, setSpecsMapping] = useState({});
   const [quotasMapping, setQuotasMapping] = useState({});
@@ -47,14 +41,23 @@ const ChatApp = () => {
   const [isBotLoading, setIsBotLoading] = useState(false);
 
   const chatEndRef = useRef(null);
+  const lastMessageRef = useRef(null);
+  const prevLoading = useRef(false);
 
   // Effects
   useEffect(() => {
-    const scrollToBottom = () => {
+    const isNowFinished = prevLoading.current && !isBotLoading;
+
+    if (isNowFinished && lastMessageRef.current) {
+      // Scroll to the start of the response
+      lastMessageRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else if (messages.length > 0) {
+      // Normal scroll to bottom for new messages or loading states
       chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    };
-    scrollToBottom();
-  }, [messages, activeTab]);
+    }
+
+    prevLoading.current = isBotLoading;
+  }, [messages, activeTab, isBotLoading]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -271,11 +274,12 @@ const ChatApp = () => {
           setSidebarOpen={setSidebarOpen}
         />
 
-        <div className="chat-area-container" style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+        <div className="chat-area-container" style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column', minHeight: 0 }}>
           {activeTab === 'chat' && (
             <ChatArea
               messages={messages}
               chatEndRef={chatEndRef}
+              lastMessageRef={lastMessageRef}
               input={input}
               setInput={setInput}
               handleSend={handleSend}
@@ -287,9 +291,6 @@ const ChatApp = () => {
             />
           )}
 
-          {activeTab === 'dashboard' && (
-            <Dashboard stats={dashboardStats} />
-          )}
 
           {activeTab === 'upload' && (
             <InventoryUpload
