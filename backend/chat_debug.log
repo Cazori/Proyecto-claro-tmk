@@ -804,3 +804,15 @@
 [2026-02-24 00:53:12.538107] QUERY RECIBIDA (Original): tablets
 [2026-02-24 00:53:12.538609] Keywords procesadas: ['tab']
 [2026-02-24 00:53:12.541415] FAST PATH: 16 coincidencias directas.
+[2026-02-24 01:55:51.847283] QUERY RECIBIDA (Original): laptops hp
+[2026-02-24 01:55:51.847873] Keywords procesadas: ['prt', 'hewp']
+[2026-02-24 01:55:51.858557] FAST PATH: 7 coincidencias directas.
+[2026-02-24 01:58:01.515435] QUERY RECIBIDA (Original): gt6
+[2026-02-24 01:58:01.515842] Keywords procesadas: ['gt6']
+[2026-02-24 01:58:01.518874] FAST PATH: 10 coincidencias directas.
+[2026-02-24 01:58:35.759633] QUERY RECIBIDA (Original): laptop
+[2026-02-24 01:58:35.760052] Keywords procesadas: ['prt']
+[2026-02-24 01:58:35.764132] FAST PATH: 19 coincidencias directas.
+[2026-02-24 02:02:42.664634] QUERY RECIBIDA (Original): gt6
+[2026-02-24 02:02:42.665061] Keywords procesadas: ['gt6']
+[2026-02-24 02:02:42.668984] FAST PATH: 10 coincidencias directas.

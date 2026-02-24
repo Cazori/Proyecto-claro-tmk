@@ -1,12 +1,12 @@
 {
   "gemini-1": {
-    "total_requests": 68,
-    "successful": 39,
+    "total_requests": 69,
+    "successful": 40,
     "failed": 29,
-    "total_latency_ms": 961248.2757568359,
-    "avg_latency_ms": 24647.391686072715,
+    "total_latency_ms": 1024747.9331493378,
+    "avg_latency_ms": 25618.698328733444,
     "last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3-flash\nPlease retry in 33.261364213s. [links {\n  description: \"Learn more about Gemini API quotas\"\n  url: \"https://ai.google.dev/gemini-api/docs/rate-limits\"\n}\n, violations {\n  quota_metric: \"generativelanguage.googleapis.com/generate_content_free_tier_requests\"\n  quota_id: \"GenerateRequestsPerDayPerProjectPerModel-FreeTier\"\n  quota_dimensions {\n    key: \"model\"\n    value: \"gemini-3-flash\"\n  }\n  quota_dimensions {\n    key: \"location\"\n    value: \"global\"\n  }\n  quota_value: 20\n}\n, retry_delay {\n  seconds: 33\n}\n]",
-    "last_used": "2026-02-16T23:01:26.755387"
+    "last_used": "2026-02-24T01:59:39.736515"
   },
   "gemini-2": {
     "total_requests": 0,
@@ -27,13 +27,13 @@
     "last_used": null
   },
   "groq-1": {
-    "total_requests": 227,
-    "successful": 224,
-    "failed": 3,
-    "total_latency_ms": 266128.6971569061,
-    "avg_latency_ms": 1188.0745408790451,
-    "last_error": "",
-    "last_used": "2026-02-24T00:53:15.041838"
+    "total_requests": 231,
+    "successful": 227,
+    "failed": 4,
+    "total_latency_ms": 272826.1914253235,
+    "avg_latency_ms": 1201.8774952657423,
+    "last_error": "Groq API Error 429: {\"error\":{\"message\":\"Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kf2fex5veq8810jt3thr8h29` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 97612, Requested 2606. Please try again in 3m8.352s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing\",\"type\":\"tokens\",\"code\":\"rate_limit_exceeded\"}}\n",
+    "last_used": "2026-02-24T02:02:44.973161"
   },
   "groq-2": {
     "total_requests": 0,
