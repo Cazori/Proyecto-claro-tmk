@@ -1,13 +1,14 @@
 import json
-from config import ai_pool
+from config import get_ai_pool
 
 class AIService:
     @staticmethod
     async def generate_response(prompt: str) -> str:
         """Generates a response using the AI pool."""
-        if not ai_pool:
+        pool = get_ai_pool()
+        if not pool:
             return ""
-        return await ai_pool.generate(prompt)
+        return await pool.generate(prompt)
 
     @staticmethod
     async def analyze_intent(query: str) -> dict:
@@ -42,8 +43,9 @@ class AIService:
         """
         
         try:
-            if ai_pool:
-                response_text = await ai_pool.generate(intent_prompt)
+            pool = get_ai_pool()
+            if pool:
+                response_text = await pool.generate(intent_prompt)
                 if "```json" in response_text:
                     response_text = response_text.split("```json")[1].split("```")[0].strip()
                 elif "```" in response_text:
@@ -68,8 +70,9 @@ class AIService:
         """
         
         try:
-            if ai_pool:
-                response = await ai_pool.generate(prompt)
+            pool = get_ai_pool()
+            if pool:
+                response = await pool.generate(prompt)
                 return response.strip()
         except Exception as e:
             print(f"Error AIService.generate_sales_tip: {e}")
@@ -79,7 +82,8 @@ class AIService:
     @staticmethod
     async def normalize_products_batch(descriptions: list) -> dict:
         """Normalizes product descriptions in batch."""
-        if not descriptions or not ai_pool:
+        pool = get_ai_pool()
+        if not descriptions or not pool:
             return {}
 
         prompt = """
@@ -94,7 +98,8 @@ class AIService:
         LISTA: """ + json.dumps(descriptions)
 
         try:
-            response_text = await ai_pool.generate(prompt)
+            pool = get_ai_pool()
+            response_text = await pool.generate(prompt)
             if "```json" in response_text:
                 response_text = response_text.split("```json")[1].split("```")[0].strip()
             elif "```" in response_text:

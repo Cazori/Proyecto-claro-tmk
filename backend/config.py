@@ -23,12 +23,21 @@ if not os.path.exists(KNOWLEDGE_FILE):
     with open(KNOWLEDGE_FILE, "w", encoding="utf-8") as f:
         json.dump([], f)
 
-# Global AI Pool initialization
-try:
-    ai_pool = AIPool(strategy=RotationStrategy.FASTEST_FIRST)
-except Exception as e:
-    print(f"✗ CRITICAL: Failed to initialize AI Pool: {e}")
-    ai_pool = None
+# Global AI Pool (Lazy Initialization)
+_ai_pool = None
+
+def get_ai_pool():
+    """Lazily initializes and returns the AI Pool"""
+    global _ai_pool
+    if _ai_pool is None:
+        try:
+            from ai_pool import AIPool, RotationStrategy
+            print("🚀 Initializing AI Pool (Lazy Load)...")
+            _ai_pool = AIPool(strategy=RotationStrategy.FASTEST_FIRST)
+        except Exception as e:
+            print(f"✗ CRITICAL: Failed to initialize AI Pool: {e}")
+            _ai_pool = None
+    return _ai_pool
 
 # Shared Nomenclature & Constants
 SYNONYMS = {

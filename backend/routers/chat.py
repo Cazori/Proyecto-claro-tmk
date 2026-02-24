@@ -11,9 +11,10 @@ router = APIRouter()
 @router.get("/api/pool-stats")
 async def get_pool_stats():
     """Get AI pool performance statistics"""
-    from config import ai_pool
-    if ai_pool:
-        return ai_pool.get_stats()
+    from config import get_ai_pool
+    pool = get_ai_pool()
+    if pool:
+        return pool.get_stats()
     return {"error": "AI Pool not initialized", "fallback_mode": "single_gemini_model"}
 
 @router.post("/generate-tip")
