@@ -1,6 +1,7 @@
 import pandas as pd
 import json
 import os
+import gc
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STORAGE_DIR = os.path.join(BASE_DIR, "storage")
@@ -10,12 +11,6 @@ OUTPUT_MAPPING = os.path.join(STORAGE_DIR, "quota_mapping.json")
 
 def process_quotas():
     print("🚀 Iniciando procesamiento de cuotas (Versión Refinada)...")
-    
-    # 1. Load current inventory
-    if not os.path.exists(INVENTORY_FILE):
-        print(f"❌ Error: No se encontró el inventario en {INVENTORY_FILE}")
-        return
-        
     with open(INVENTORY_FILE, "r", encoding="utf-8") as f:
         inventory = json.load(f)
     
@@ -128,6 +123,10 @@ def process_quotas():
 
         print(f"✅ Proceso completado. Se mapearon cuotas para {matched_count} equipos.")
         print(f"📁 Resultado guardado en {OUTPUT_MAPPING}")
+        
+        # Explicit cleanup to save memory on Render
+        del df
+        gc.collect()
 
     except Exception as e:
         print(f"❌ Error procesando Excel: {e}")

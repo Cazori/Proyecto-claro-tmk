@@ -19,7 +19,7 @@ async def save_inventory_to_db(df: pd.DataFrame):
     
     # 1. Prepare safe records (only send columns that exist in the remote schema)
     # Based on discovery, remote only has: Material, Subproducto, categoria, marca, modelo_limpio, especificaciones
-    verified_cols = ['Material', 'Subproducto', 'categoria', 'marca', 'modelo_limpio', 'especificaciones']
+    verified_cols = ['Material', 'Subproducto', 'CantDisponible', 'Precio Contado', 'categoria', 'marca', 'modelo_limpio', 'especificaciones', 'tip_venta']
     
     safe_df = df.copy()
     available_cols = [c for c in verified_cols if c in safe_df.columns]

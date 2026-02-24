@@ -57,14 +57,13 @@ async def upload_spec(file: UploadFile = File(...)):
 @router.get("/specs-mapping")
 async def get_specs_mapping():
     """Endpoint for frontend to get the resolved MaterialID -> Filename map."""
-    async with _mapping_lock:
-        df = await get_latest_inventory()
-        if df is None: return {}
+    df = await get_latest_inventory()
+    if df is None: return {}
     
     cache_file = os.path.join(STORAGE_DIR, "specs_resolved_cache.json")
     inv_file = os.path.join(STORAGE_DIR, "processed_inventory.json")
     
-    # 1. Try persistent disk cache first (fastest)
+    # 1. Try persistent disk cache first (fastest) - OUTSIDE LOCK
     if os.path.exists(cache_file) and os.path.exists(inv_file):
         try:
             if os.path.getmtime(cache_file) >= os.path.getmtime(inv_file):
@@ -73,8 +72,14 @@ async def get_specs_mapping():
         except Exception as e:
             print(f"Cache read error: {e}")
 
-    # 2. Re-calculate if cache is stale or missing
-    print("Recalculando mapeo de imágenes (Caché vencido)...")
+    # 2. Re-calculate if cache is stale or missing - INSIDE LOCK
+    async with _mapping_lock:
+        # Re-check cache in case someone else just filled it
+        if os.path.exists(cache_file) and os.path.getmtime(cache_file) >= os.path.getmtime(inv_file):
+            with open(cache_file, "r", encoding="utf-8") as f:
+                return json.load(f)
+
+        print("Recalculando mapeo de imágenes (Caché vencido)...")
     try:
         available_specs = os.listdir(SPECS_DIR) if os.path.exists(SPECS_DIR) else []
         manual_map = {}

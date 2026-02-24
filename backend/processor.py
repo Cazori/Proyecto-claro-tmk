@@ -289,9 +289,8 @@ async def get_latest_inventory():
                         should_sync = True
                 
                 if should_sync:
-                    # Optimized fetch: only essential columns for search/display
-                    cols = "Material,Subproducto,CantDisponible,Precio Contado,categoria,marca,modelo_limpio,especificaciones,tip_venta"
-                    cloud_df = await get_inventory_from_db(columns=cols)
+                    # Fetching all columns to ensure data integrity during sync
+                    cloud_df = await get_inventory_from_db(columns="*")
                     if cloud_df is not None and not cloud_df.empty:
                         cloud_df.to_json(PROCESSED_DATA_FILE, orient="records", force_ascii=False, indent=4)
                         _inventory_cache = cloud_df
