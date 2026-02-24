@@ -17,16 +17,21 @@ supabase: Client = create_client(url, key) if url and key else None
 async def save_inventory_to_db(df: pd.DataFrame):
     if supabase is None: return
     
-    # 1. Convert DataFrame to records
-    records = df.to_dict('records')
+    # 1. Prepare safe records (only send columns that exist in the remote schema)
+    # Based on discovery, remote only has: Material, Subproducto, categoria, marca, modelo_limpio, especificaciones
+    verified_cols = ['Material', 'Subproducto', 'categoria', 'marca', 'modelo_limpio', 'especificaciones']
     
-    # 2. Clear previous inventory (optional, or version it)
-    # For now, we simple-replace for the 'Cleo' experience
+    safe_df = df.copy()
+    available_cols = [c for c in verified_cols if c in safe_df.columns]
+    safe_df = safe_df[available_cols]
+    
+    records = safe_df.to_dict('records')
+    
+    # 2. Clear previous inventory
     try:
         supabase.table('inventory').delete().neq('Material', '0').execute()
         
-        # 3. Batch insert (Supabase handles large inserts well)
-        # We split in chunks just in case
+        # 3. Batch insert
         chunk_size = 500
         for i in range(0, len(records), chunk_size):
             chunk = records[i:i + chunk_size]
@@ -34,7 +39,7 @@ async def save_inventory_to_db(df: pd.DataFrame):
             
         # 4. Update metadata
         await update_metadata_db()
-        print(f"✓ {len(records)} productos guardados en Supabase.")
+        print(f"✓ {len(records)} productos persistidos en Supabase DB.")
     except Exception as e:
         print(f"✗ Error guardando en Supabase: {e}")
 

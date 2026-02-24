@@ -104,22 +104,23 @@ def process_quotas():
         for _, row in df.iterrows():
             raw_mat = str(row[material_col]).split('.')[0].strip()
             
-            if raw_mat in active_materials:
-                plans = {}
-                for months, real_col in column_map.items():
-                    val = row[real_col]
-                    if pd.notna(val) and val != "No Aplica":
-                        try:
-                            # Cleanup currency if it's a string
-                            if isinstance(val, str):
-                                val = val.replace("$", "").replace(",", "").strip()
-                            plans[months] = int(float(val))
-                        except:
-                            continue
-                
-                if plans:
-                    final_mapping[raw_mat] = plans
-                    matched_count += 1
+            # We remove the 'if raw_mat in active_materials' check to be more inclusive
+            # and allow the system to have prices ready even for items not currently in stock
+            plans = {}
+            for months, real_col in column_map.items():
+                val = row[real_col]
+                if pd.notna(val) and val != "No Aplica":
+                    try:
+                        # Cleanup currency if it's a string
+                        if isinstance(val, str):
+                            val = val.replace("$", "").replace(",", "").strip()
+                        plans[months] = int(float(val))
+                    except:
+                        continue
+            
+            if plans:
+                final_mapping[raw_mat] = plans
+                matched_count += 1
 
         # 4. Save results
         with open(OUTPUT_MAPPING, "w", encoding="utf-8") as f:

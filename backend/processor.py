@@ -88,7 +88,7 @@ async def process_inventory_pdf(file_path):
         with pdfplumber.open(file_path) as pdf:
             page_bodega = "CEM Bogotá - ZF" # Default
             
-            for page in pdf.pages:
+            for i, page in enumerate(pdf.pages):
                 text = page.extract_text()
                 if not text: continue
                 
@@ -97,14 +97,16 @@ async def process_inventory_pdf(file_path):
                 if bodega_match:
                     page_bodega = bodega_match.group(1).strip()
                 
-                # Process line by line to allow greedy name capture safely
+                # Process line by line
                 lines = text.split('\n')
+                page_count = 0
                 for line in lines:
-                    # Robust Pattern 1 (Strict): ID (7-8 digits) -> Name -> Total -> Disponible -> ... -> Aplica $
-                    pattern_strict = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+).*?Aplica\s+\$.*?(\d[\d\.\s-]*(?:\d|$))"
+                    # Robust Pattern 1 (Strict): ID -> Name -> Total -> Disponible -> ... -> Aplica $ -> Price (or -)
+                    # We make the price part more flexible to catch hyphens or No Aplica
+                    pattern_strict = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+).*?Aplica\s+\$.*?([\d\.\s-]*\d|[-])"
                     
-                    # Robust Pattern 2 (Flexible): ID (7-8 digits) -> Name -> Total -> Disponible -> Price (digits only)
-                    pattern_flex = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+).*?\$?\s?(\d{1,3}(?:\.\d{3})*(?:,\d+)?)"
+                    # Robust Pattern 2 (Flexible): ID -> Name -> Total -> Disponible -> Price (digits or -)
+                    pattern_flex = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+).*?\$?\s?(\d{1,3}(?:\.\d{3})*(?:,\d+)?|[-])"
 
                     match = re.search(pattern_strict, line)
                     if not match:
@@ -113,12 +115,16 @@ async def process_inventory_pdf(file_path):
                     if match:
                         material = match.group(1)
                         subproducto = match.group(2).strip()
-                        stock = match.group(3) # Group 3 (Total)
-                        price_raw = match.group(5)
+                        stock = match.group(3) 
+                        price_raw = match.group(5).strip()
                         
-                        precio_clean = re.sub(r'[^\d]', '', price_raw)
-                        if len(precio_clean) > 8:
-                            precio_clean = precio_clean[:7]
+                        # Handle hyphenated prices
+                        if price_raw == "-":
+                            precio_clean = "0"
+                        else:
+                            precio_clean = re.sub(r'[^\d]', '', price_raw)
+                            if len(precio_clean) > 8:
+                                precio_clean = precio_clean[:7]
                         
                         data.append({
                             "Bodega": page_bodega,
@@ -127,18 +133,25 @@ async def process_inventory_pdf(file_path):
                             "CantDisponible": float(stock) if stock else 0,
                             "Precio Contado": float(precio_clean) if precio_clean else 0
                         })
+                        page_count += 1
+                
+                if page_count > 0:
+                    print(f"📄 Página {i+1}: Encontrados {page_count} productos ({page_bodega})")
         
-
-        print(f"DEBUG: Total items pre-filter: {len(data)}")
+        print(f"📊 DEBUG: Total items extraídos del PDF: {len(data)}")
         if not data:
             return None
 
         df = pd.DataFrame(data)
         
-        # FILTER: STRICT BOGOTA ONLY (Ingestion Level)
+        # CENSUS - Global before filter
+        bodega_census = df["Bodega"].value_counts().to_dict()
+        print(f"📈 Resumen por Bodega (Pre-filtro): {bodega_census}")
+
+        # FILTER: STRICT BOGOTA ONLY (Non-negotiable as per USER)
         if not df.empty and "Bodega" in df.columns:
             df = df[df["Bodega"].astype(str).str.upper().str.contains("BOGOT")]
-            print(f"Filtrado estricto: BOGOTÁ. Items restantes: {len(df)}")
+            print(f"⚖️ Filtrado estricto: BOGOTÁ. Items finales: {len(df)}")
         
         df = df.drop_duplicates(subset=["Material", "Subproducto", "CantDisponible"])
         

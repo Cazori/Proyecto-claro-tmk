@@ -1012,5 +1012,19 @@
         "marca": "AWPOH",
         "modelo_limpio": "AWPOH5D",
         "especificaciones": "800W, LED, BT5.0, NGR, AIWA"
+    },
+    "MINICMPNTE SC-TMAX15 BT5.0 300W NGR PNSC": {
+        "categoria": "Parlante",
+        "marca": "MINICMPNTE",
+        "modelo_limpio": "SC-TMAX15",
+        "especificaciones": "BT5.0, 300W",
+        "tip_venta": "Sonido potente"
+    },
+    "PTNETA": {
+        "categoria": "Patineta",
+        "marca": "PTNETA",
+        "modelo_limpio": "",
+        "especificaciones": "",
+        "tip_venta": "Dise\u00f1o innovador"
     }
 }
