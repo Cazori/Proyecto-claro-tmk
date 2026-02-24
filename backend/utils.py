@@ -72,6 +72,8 @@ def resolve_spec_match(mat_id, subprod, available_specs, manual_map):
                     if size_key in subprod_upper:
                         _spec_match_cache[cache_key] = fname
                         return fname
+                # If it's a dict but no specific key matched, don't return the dict!
+                continue 
             _spec_match_cache[cache_key] = val
             return val
             

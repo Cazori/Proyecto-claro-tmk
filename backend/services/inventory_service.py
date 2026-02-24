@@ -100,7 +100,7 @@ class InventoryService:
         for _, item in results.iterrows():
             match = resolve_spec_match(item['Material'], item['Subproducto'], available_specs, manual_map)
             has_image = "NO"
-            if match:
+            if match and isinstance(match, str):
                 if any(match.lower().endswith(ext) for ext in [".jpg", ".jpeg", ".png", ".webp"]):
                     has_image = "SI"
             
