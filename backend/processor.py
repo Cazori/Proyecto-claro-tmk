@@ -7,6 +7,8 @@ import re
 from datetime import datetime
 from dotenv import load_dotenv
 import json
+import gc
+import sys
 
 # Load environment variables
 load_dotenv()
@@ -231,6 +233,11 @@ async def process_inventory_pdf(file_path):
         await save_inventory_to_db(df)
         
         print(f"Éxito: {len(df)} ítems procesados.")
+        
+        # Explicitly clear temporary objects
+        del data
+        gc.collect()
+        
         return df
 
     except Exception as e:
@@ -282,7 +289,9 @@ async def get_latest_inventory():
                         should_sync = True
                 
                 if should_sync:
-                    cloud_df = await get_inventory_from_db()
+                    # Optimized fetch: only essential columns for search/display
+                    cols = "Material,Subproducto,CantDisponible,Precio Contado,categoria,marca,modelo_limpio,especificaciones,tip_venta"
+                    cloud_df = await get_inventory_from_db(columns=cols)
                     if cloud_df is not None and not cloud_df.empty:
                         cloud_df.to_json(PROCESSED_DATA_FILE, orient="records", force_ascii=False, indent=4)
                         _inventory_cache = cloud_df

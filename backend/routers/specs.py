@@ -10,6 +10,7 @@ from utils import resolve_spec_match
 from supabase_db import get_spec_url_supabase, list_specs_supabase, upload_spec_to_supabase
 
 router = APIRouter()
+_mapping_lock = asyncio.Lock()
 
 @router.get("/specs/{filename}")
 async def get_spec_image(filename: str):
@@ -56,8 +57,9 @@ async def upload_spec(file: UploadFile = File(...)):
 @router.get("/specs-mapping")
 async def get_specs_mapping():
     """Endpoint for frontend to get the resolved MaterialID -> Filename map."""
-    df = await get_latest_inventory()
-    if df is None: return {}
+    async with _mapping_lock:
+        df = await get_latest_inventory()
+        if df is None: return {}
     
     cache_file = os.path.join(STORAGE_DIR, "specs_resolved_cache.json")
     inv_file = os.path.join(STORAGE_DIR, "processed_inventory.json")

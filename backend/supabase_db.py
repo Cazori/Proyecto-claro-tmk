@@ -43,10 +43,11 @@ async def save_inventory_to_db(df: pd.DataFrame):
     except Exception as e:
         print(f"✗ Error guardando en Supabase: {e}")
 
-async def get_inventory_from_db():
+async def get_inventory_from_db(columns: str = "*"):
     if supabase is None: return None
     try:
-        response = supabase.table('inventory').select("*").execute()
+        # Optimization: Fetching only what we need reduces memory usage on Render
+        response = supabase.table('inventory').select(columns).execute()
         if response.data:
             return pd.DataFrame(response.data)
     except Exception as e:
