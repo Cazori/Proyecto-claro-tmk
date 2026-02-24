@@ -128,6 +128,7 @@ async def process_inventory_pdf(file_path):
                             "Precio Contado": float(precio_clean) if precio_clean else 0
                         })
         
+
         print(f"DEBUG: Total items pre-filter: {len(data)}")
         if not data:
             return None
@@ -229,44 +230,58 @@ async def get_latest_inventory():
         local_pdfs = glob.glob(os.path.join(STORAGE_DIR, "*.pdf"))
         latest_pdf = max(local_pdfs, key=os.path.getmtime) if local_pdfs else None
         
+        # 1. SUPABASE SYNC CHECK (Source of Truth)
+        # Check if Supabase has a newer version than our local JSON
+        from supabase_db import get_metadata_db, get_inventory_from_db
+        try:
+            metadata = await get_metadata_db()
+            if metadata and metadata.get("last_update"):
+                cloud_mtime = datetime.fromisoformat(metadata["last_update"]).timestamp()
+                
+                # If cloud is newer OR we are missing local JSON, sync it
+                should_sync = not os.path.exists(PROCESSED_DATA_FILE)
+                if not should_sync:
+                    local_json_mtime = os.path.getmtime(PROCESSED_DATA_FILE)
+                    if cloud_mtime > local_json_mtime + 5: # 5s buffer
+                        print("☁ Supabase tiene una versión más reciente. Sincronizando...")
+                        should_sync = True
+                
+                if should_sync:
+                    cloud_df = await get_inventory_from_db()
+                    if cloud_df is not None and not cloud_df.empty:
+                        cloud_df.to_json(PROCESSED_DATA_FILE, orient="records", force_ascii=False, indent=4)
+                        _inventory_cache = cloud_df
+                        _inventory_cache_mtime = cloud_mtime
+                        return _inventory_cache
+        except Exception as e:
+            print(f"! Error sincronizando con Supabase: {e}")
+
+        # 2. IN-MEMORY CACHE
         if _inventory_cache is not None:
             if latest_pdf:
                 pdf_mtime = os.path.getmtime(latest_pdf)
                 if _inventory_cache_mtime >= pdf_mtime:
                     return _inventory_cache
 
-        # 1. LOCAL JSON (Primary source for speed)
+        # 3. LOCAL JSON (Disk Cache)
         if os.path.exists(PROCESSED_DATA_FILE):
             try:
                 json_mtime = os.path.getmtime(PROCESSED_DATA_FILE)
                 if latest_pdf:
                     pdf_mtime = os.path.getmtime(latest_pdf)
                     if json_mtime >= pdf_mtime:
-                        print("✓ Cargando inventario local (Caché disco instantáneo).")
+                        print("✓ Cargando inventario local (Caché disco).")
                         _inventory_cache = pd.read_json(PROCESSED_DATA_FILE)
                         _inventory_cache_mtime = json_mtime
                         return _inventory_cache
                 else:
-                    print("✓ Cargando inventario local (Solo JSON disponible).")
                     _inventory_cache = pd.read_json(PROCESSED_DATA_FILE)
                     _inventory_cache_mtime = json_mtime
                     return _inventory_cache
             except Exception as e:
                 print(f"Error cargando JSON local: {e}")
 
-        # 2. SUPABASE (Cloud Backup / Sync)
-        try:
-            cloud_df = await get_inventory_from_db()
-            if cloud_df is not None and not cloud_df.empty:
-                print("✓ Cargando inventario desde Supabase.")
-                cloud_df.to_json(PROCESSED_DATA_FILE, orient="records", force_ascii=False, indent=4)
-                _inventory_cache = cloud_df
-                _inventory_cache_mtime = datetime.now().timestamp()
-                return _inventory_cache
-        except Exception as e:
-            print(f"! Supabase no disponible: {e}")
-
-        # 3. LOCAL PDF PROCESSING (Fallback)
+        # 4. LOCAL PDF PROCESSING (Last resort)
         if latest_pdf:
             print(f"Procesando PDF local más reciente: {latest_pdf}")
             _inventory_cache = await process_inventory_pdf(latest_pdf)

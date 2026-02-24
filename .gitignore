@@ -50,9 +50,7 @@ pylintrc
 
 # Project specific
 backend/storage/*.json
-!backend/storage/processed_inventory.json
 !backend/storage/normalization_cache.json
-!backend/storage/quota_mapping.json
 !backend/storage/specs_mapping.json
 !backend/storage/image_embeddings.json
 !backend/storage/specs_resolved_cache.json

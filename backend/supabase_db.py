@@ -66,6 +66,28 @@ async def get_metadata_db():
         print(f"✗ Error obteniendo metadata: {e}")
     return None
 
+async def save_quotas_to_db(mapping: dict):
+    if supabase is None: return
+    try:
+        # We store the quota mapping as a single JSON object in a dedicated table 'quotas'
+        # with id=1 for simplicity (or we could store it as records per SKU)
+        # Let's use a simple key-value approach for the whole JSON for speed
+        payload = {"id": 1, "data": mapping, "updated_at": datetime.now().isoformat()}
+        supabase.table('quotas').upsert(payload).execute()
+        print(f"✓ Mapeo de cuotas ({len(mapping)} equipos) guardado en Supabase.")
+    except Exception as e:
+        print(f"✗ Error guardando cuotas en Supabase: {e}")
+
+async def get_quotas_from_db():
+    if supabase is None: return None
+    try:
+        response = supabase.table('quotas').select("data").eq("id", 1).execute()
+        if response.data:
+            return response.data[0]["data"]
+    except Exception as e:
+        print(f"✗ Error leyendo cuotas de Supabase: {e}")
+    return None
+
 # --- STORAGE LOGIC (SPECS) ---
 
 async def upload_spec_to_supabase(file_path: str, filename: str):

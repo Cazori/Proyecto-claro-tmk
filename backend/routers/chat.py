@@ -55,9 +55,11 @@ async def chat(query: str):
             valid_keywords.append("ptn")
             continue
             
+        # Generic plural removal
         k_norm = k.rstrip('s') if k.endswith('s') and len(k) >= 3 else k
-        # Apply synonym mapping (laptop→prt, hp→hewp, etc.)
+        # Apply mapping (laptop->prt, hp->hewp)
         k_norm = SYNONYMS.get(k_norm, SYNONYMS.get(k, k_norm))
+        
         if len(k_norm) >= 2 or k_norm.isdigit() or '"' in k_norm or k_norm in ["tv", "sw", "bt", "tab", "ptn"]:
             valid_keywords.append(k_norm)
     
@@ -66,7 +68,7 @@ async def chat(query: str):
             if k.isdigit() and '\"' not in k:
                 valid_keywords[i] = k + '\"'
     
-    log_debug(f"Keywords válidas final: {valid_keywords}")
+    log_debug(f"Keywords procesadas: {valid_keywords}")
     
     results = pd.DataFrame()
     fast_path_used = False
@@ -75,17 +77,23 @@ async def chat(query: str):
     if valid_keywords:
         direct_matches = inventory_service.filter_inventory(df, valid_keywords)
         if 0 < len(direct_matches) < 100:
+            log_debug(f"FAST PATH: {len(direct_matches)} coincidencias directas.")
             results = direct_matches
             fast_path_used = True
 
     # 2. AI Path: Intent analysis
     if not fast_path_used:
+        log_debug("AI PATH: Analizando intención de búsqueda...")
         intent = await ai_service.analyze_intent(query)
+        log_debug(f"Intención: {intent}")
         results = inventory_service.apply_intent_filters(df, intent)
+        log_debug(f"AI PATH: {len(results)} resultados encontrados.")
 
         # Fallback if AI filtering fails but we have keywords
         if results.empty and valid_keywords:
+            log_debug("AI PATH VACÍO: Aplicando fallback a palabras clave.")
             results = inventory_service.filter_inventory(df, valid_keywords)
+            log_debug(f"Fallback: {len(results)} resultados.")
 
     # 3. Format context and generate response
     inventory_context = inventory_service.format_inventory_context(results)
