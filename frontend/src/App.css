@@ -178,15 +178,18 @@ html {
 
 /* HEADER */
 .top-bar {
-  height: 70px;
+  height: calc(70px + env(safe-area-inset-top));
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  background: rgba(11, 15, 25, 0.8);
+  background: rgba(11, 15, 25, 0.95);
+  /* More opaque to hide content behind status bar */
   backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 32px;
+  padding: env(safe-area-inset-top) 32px 0 32px;
   z-index: 10;
+  flex-shrink: 0;
+  /* PREVENT DISAPPEARING ON VIEWPORT RESIZE */
 }
 
 .toggle-btn {
