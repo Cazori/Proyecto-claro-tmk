@@ -94,6 +94,46 @@ async def get_quotas_from_db():
         print(f"✗ Error leyendo cuotas de Supabase: {e}")
     return None
 
+# --- CUSTOM MAPPINGS PERSISTENCE (JSON) ---
+
+async def save_specs_mapping_to_db(mapping: dict):
+    if supabase is None: return
+    try:
+        payload = {"id": 1, "data": mapping, "updated_at": datetime.now().isoformat()}
+        supabase.table('specs_mapping').upsert(payload).execute()
+        print(f"✓ Mapeo de imágenes sincronizado con Supabase.")
+    except Exception as e:
+        print(f"✗ Error sincronizando mapeo de imágenes: {e}")
+
+async def get_specs_mapping_from_db():
+    if supabase is None: return None
+    try:
+        response = supabase.table('specs_mapping').select("data").eq("id", 1).execute()
+        if response.data:
+            return response.data[0]["data"]
+    except Exception as e:
+        print(f"✗ Error leyendo mapeo de imágenes de Supabase: {e}")
+    return None
+
+async def save_knowledge_to_db(knowledge: list):
+    if supabase is None: return
+    try:
+        payload = {"id": 1, "data": knowledge, "updated_at": datetime.now().isoformat()}
+        supabase.table('expert_knowledge').upsert(payload).execute()
+        print(f"✓ Conocimiento experto sincronizado con Supabase.")
+    except Exception as e:
+        print(f"✗ Error sincronizando conocimiento experto: {e}")
+
+async def get_knowledge_from_db():
+    if supabase is None: return None
+    try:
+        response = supabase.table('expert_knowledge').select("data").eq("id", 1).execute()
+        if response.data:
+            return response.data[0]["data"]
+    except Exception as e:
+        print(f"✗ Error leyendo conocimiento experto de Supabase: {e}")
+    return None
+
 # --- STORAGE LOGIC (SPECS) ---
 
 async def upload_spec_to_supabase(file_path: str, filename: str):

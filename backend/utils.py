@@ -8,6 +8,11 @@ from embeddings_service import embeddings_service
 # In-request cache for spec resolution to avoid redundant calls
 _spec_match_cache = {}
 
+def clear_spec_cache():
+    """Clear the in-memory spec resolution cache."""
+    global _spec_match_cache
+    _spec_match_cache = {}
+
 def log_debug(msg):
     """Log debug information to a local file"""
     try:
@@ -64,20 +69,31 @@ def resolve_spec_match(mat_id, subprod, available_specs, manual_map):
     if cache_key in _spec_match_cache:
         return _spec_match_cache[cache_key]
 
-    # 1. Manual Mapping (Priority 1)
+    # 1. Manual Mapping (Priority 1: Exact ID)
+    if mat_id_str in manual_map:
+        val = manual_map[mat_id_str]
+        if isinstance(val, dict):
+            for size_key, fname in val.items():
+                if size_key in subprod_upper:
+                    _spec_match_cache[cache_key] = fname
+                    return fname
+        else:
+            _spec_match_cache[cache_key] = val
+            return val
+
+    # 1b. Manual Mapping (Priority 2: Substring)
     for key, val in manual_map.items():
-        if key.upper() in subprod_upper or key == mat_id_str:
+        if key.upper() in subprod_upper:
             if isinstance(val, dict):
                 for size_key, fname in val.items():
                     if size_key in subprod_upper:
                         _spec_match_cache[cache_key] = fname
                         return fname
-                # If it's a dict but no specific key matched, don't return the dict!
                 continue 
             _spec_match_cache[cache_key] = val
             return val
             
-    # 2. Exact Material ID Match (Priority 2)
+    # 2. Exact Material ID Match (Priority 3)
     if len(mat_id_str) >= 4:
         for f in available_specs:
             if re.search(rf"\b{mat_id_str}\b", f):

@@ -103,12 +103,18 @@ const ChatApp = () => {
     }
   };
 
-  const refreshKnowledge = async () => {
+  const refreshData = async () => {
     try {
-      const knowledgeData = await chatService.getKnowledge();
+      const [knowledgeData, specsData, mappingData] = await Promise.all([
+        chatService.getKnowledge(),
+        chatService.getSpecsList(),
+        chatService.getSpecsMapping()
+      ]);
       setKnowledge(knowledgeData);
+      setSpecsList(specsData);
+      setSpecsMapping(mappingData);
     } catch (e) {
-      console.error("Error refreshing knowledge", e);
+      console.error("Error refreshing data", e);
     }
   };
 
@@ -323,7 +329,8 @@ const ChatApp = () => {
               handleSpecUpload={handleSpecUpload}
               specUploadStatus={specUploadStatus}
               knowledge={knowledge}
-              refreshKnowledge={refreshKnowledge}
+              specsList={specsList}
+              refreshData={refreshData}
             />
           )}
         </div>

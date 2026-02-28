@@ -93,6 +93,15 @@ export const chatService = {
         return response.json();
     },
 
+    async linkSpec(materialId, filename) {
+        const response = await fetch(`${BASE_URL}/link-spec`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ material_id: materialId, filename: filename })
+        });
+        return response.json();
+    },
+
     getSpecImageUrl(filename) {
         return `${BASE_URL}/specs/${filename}`;
     }

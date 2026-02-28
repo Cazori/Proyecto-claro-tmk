@@ -6,8 +6,14 @@ from fastapi import APIRouter, UploadFile, File, HTTPException
 from fastapi.responses import FileResponse, RedirectResponse
 from config import STORAGE_DIR, SPECS_DIR, SPECS_MAPPING_FILE
 from processor import get_latest_inventory
-from utils import resolve_spec_match
-from supabase_db import get_spec_url_supabase, list_specs_supabase, upload_spec_to_supabase
+from utils import resolve_spec_match, clear_spec_cache
+from supabase_db import (
+    get_spec_url_supabase, 
+    list_specs_supabase, 
+    upload_spec_to_supabase,
+    save_specs_mapping_to_db,
+    get_specs_mapping_from_db
+)
 
 router = APIRouter()
 _mapping_lock = asyncio.Lock()
@@ -54,6 +60,41 @@ async def upload_spec(file: UploadFile = File(...)):
     
     return {"message": "Ficha técnica recibida y sincronizada con la nube."}
 
+@router.post("/link-spec")
+async def link_spec(data: dict):
+    """Manually link a Material ID or model name to an image filename."""
+    material_id = data.get("material_id")
+    filename = data.get("filename")
+    
+    if not material_id or not filename:
+        raise HTTPException(status_code=400, detail="Faltan material_id o filename.")
+    
+    async with _mapping_lock:
+        try:
+            mapping = {}
+            if os.path.exists(SPECS_MAPPING_FILE):
+                with open(SPECS_MAPPING_FILE, "r", encoding="utf-8") as f:
+                    mapping = json.load(f)
+            
+            mapping[material_id] = filename
+            
+            with open(SPECS_MAPPING_FILE, "w", encoding="utf-8") as f:
+                json.dump(mapping, f, indent=4, ensure_ascii=False)
+                
+            # Invalidate caches
+            clear_spec_cache()
+            
+            # Persist to Supabase
+            await save_specs_mapping_to_db(mapping)
+            
+            cache_file = os.path.join(STORAGE_DIR, "specs_resolved_cache.json")
+            if os.path.exists(cache_file):
+                os.remove(cache_file)
+                
+            return {"message": f"Material {material_id} vinculado correctamente a {filename}"}
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Error al guardar el vínculo: {str(e)}")
+
 @router.get("/specs-mapping")
 async def get_specs_mapping():
     """Endpoint for frontend to get the resolved MaterialID -> Filename map."""
@@ -82,6 +123,14 @@ async def get_specs_mapping():
         print("Recalculando mapeo de imágenes (Caché vencido)...")
     try:
         available_specs = os.listdir(SPECS_DIR) if os.path.exists(SPECS_DIR) else []
+        
+        # Pull from Supabase if local is missing
+        if not os.path.exists(SPECS_MAPPING_FILE):
+             cloud_manual = await get_specs_mapping_from_db()
+             if cloud_manual:
+                 with open(SPECS_MAPPING_FILE, "w", encoding="utf-8") as f:
+                     json.dump(cloud_manual, f, indent=4, ensure_ascii=False)
+        
         manual_map = {}
         if os.path.exists(SPECS_MAPPING_FILE):
             with open(SPECS_MAPPING_FILE, "r", encoding="utf-8") as f:

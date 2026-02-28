@@ -44,7 +44,8 @@ SYNONYMS = {
     "port": "portatil", "portatil": "prt", "portatiles": "prt", "laptop": "prt", "laptops": "prt",
     "hp": "hewp", "hewlett": "hewp", "packard": "hewp", "ng": "negro", "ngr": "negro",
     "bl": "blanco", "blnc": "blanco", "cel": "celular", "celulares": "celular",
-    "tel": "telefono", "telefonos": "celular", "aud": "audifonos", "audifono": "audifonos",
+    "tel": "telefono", "telefonos": "celular", "aud": "aud", "audifono": "aud", "audifonos": "aud",
+    "auricular": "aud", "auriculares": "aud", "cascos": "aud", "buds": "aud",
     "smrt": "smart", "watch": "reloj", "sw": "reloj", "tablet": "tab", "tablets": "tab",
     "ryzen": "rzn", "intel": "ic", "core": "ic", "ram": "g", "gb": "g"
 }

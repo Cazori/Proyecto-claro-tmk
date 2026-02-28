@@ -34,7 +34,7 @@ const CategoryIcon = ({ subproducto = '' }) => {
 };
 
 const ProductCard = ({ product, specsMapping = {}, onViewSpec }) => {
-    let { Material, Subproducto, CantDisponible, "Precio Contado": Precio, hasImage, quotas, tip } = product;
+    let { Material, Subproducto, CantDisponible, "Precio Contado": Precio, hasImage, quotas, tip, Marca } = product;
     const [showQuotas, setShowQuotas] = React.useState(false);
     const [showTip, setShowTip] = React.useState(false);
 
@@ -90,7 +90,20 @@ const ProductCard = ({ product, specsMapping = {}, onViewSpec }) => {
                     {localizedTitle}
                 </h4>
 
-                <div className="product-meta-row">
+                <div className="product-meta-row" style={{ flexWrap: 'wrap', gap: '4px' }}>
+                    {Marca && Marca !== 'N/A' && (
+                        <span className="brand-tag" style={{
+                            background: 'rgba(255,255,255,0.1)',
+                            padding: '2px 8px',
+                            borderRadius: '4px',
+                            fontSize: '10px',
+                            fontWeight: 'bold',
+                            color: '#e5e7eb',
+                            textTransform: 'uppercase'
+                        }}>
+                            {Marca}
+                        </span>
+                    )}
                     <span className="ref-tag">REF: <strong>{Material}</strong></span>
                     <span className="divider">•</span>
                     <span className="stock-tag">Unidades: <strong style={{ color: stockStatus.color }}>{CantDisponible}</strong></span>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { chatService } from '../../services/api';
 
-const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleSpecUpload, specUploadStatus, knowledge, refreshKnowledge }) => {
+const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleSpecUpload, specUploadStatus, knowledge, specsList, refreshData }) => {
     const [unlocked, setUnlocked] = useState(false);
     const [passwordInput, setPasswordInput] = useState('');
     const [passwordError, setPasswordError] = useState(false);
@@ -14,6 +14,11 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
     const [editTip, setEditTip] = useState('');
     const [saveStatus, setSaveStatus] = useState('');
     const [isGenerating, setIsGenerating] = useState(false);
+
+    // New state for linking images
+    const [linkMaterial, setLinkMaterial] = useState('');
+    const [selectedImageFile, setSelectedImageFile] = useState('');
+    const [linkStatus, setLinkStatus] = useState('');
 
     const handleUnlock = () => {
         if (passwordInput === 'TEC123') {
@@ -63,7 +68,7 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
             const entry = { ...foundItem, tip_venta: editTip };
             await chatService.updateKnowledge(entry);
             setSaveStatus('✓ Tip guardado correctamente.');
-            if (refreshKnowledge) await refreshKnowledge();
+            if (refreshData) await refreshData();
         } catch (e) {
             setSaveStatus('Error al guardar el tip.');
         }
@@ -97,6 +102,22 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
             setQuotasStatus('Error al subir el archivo.');
         } finally {
             setQuotasLoading(false);
+        }
+    };
+
+    const handleLinkImage = async () => {
+        if (!linkMaterial || !selectedImageFile) return;
+        setLinkStatus('Vinculando...');
+        try {
+            const result = await chatService.linkSpec(linkMaterial, selectedImageFile);
+            if (result.message) {
+                setLinkStatus('✓ ' + result.message);
+                if (refreshData) await refreshData();
+            } else {
+                setLinkStatus('Error al vincular.');
+            }
+        } catch (e) {
+            setLinkStatus('Error de conexión.');
         }
     };
 
@@ -240,11 +261,52 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
                     {specUploadStatus && <p style={{ marginTop: '10px', fontSize: '13px', color: '#A78BFA' }}>{specUploadStatus}</p>}
                 </div>
 
-                <div style={{ flex: 1, background: 'rgba(124, 58, 237, 0.05)', padding: '24px', borderRadius: '20px', border: '1px solid rgba(124, 58, 237, 0.1)' }}>
-                    <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#C4B5FD', marginBottom: '8px' }}>Optimización de Datos</h3>
-                    <p style={{ fontSize: '14px', color: '#9CA3AF', lineHeight: '1.5' }}>
-                        Usa esta sección para que Cleo sea más inteligente. Las fichas técnicas le dan specs detallados, y los tips le dan argumentos de venta para convencer al cliente.
-                    </p>
+                <div style={{ flex: 1, background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                    <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px', color: '#C4B5FD' }}>🔗 Vincular Material a Imagen Existente</h3>
+                    <p style={{ fontSize: '13px', color: '#9CA3AF', marginBottom: '16px' }}>Si la imagen ya está subida, búscala aquí y asígnala a un código de material.</p>
+
+                    <div style={{ marginBottom: '15px' }}>
+                        <label style={{ display: 'block', fontSize: '13px', color: '#9CA3AF', marginBottom: '8px' }}>Código de Material o Modelo:</label>
+                        <input
+                            type="text"
+                            placeholder="Ej: 100234"
+                            value={linkMaterial}
+                            onChange={(e) => setLinkMaterial(e.target.value)}
+                            style={{ width: '100%', background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white', outline: 'none' }}
+                        />
+                    </div>
+
+                    <div style={{ marginBottom: '15px' }}>
+                        <label style={{ display: 'block', fontSize: '13px', color: '#9CA3AF', marginBottom: '8px' }}>Seleccionar Imagen:</label>
+                        <select
+                            value={selectedImageFile}
+                            onChange={(e) => setSelectedImageFile(e.target.value)}
+                            style={{ width: '100%', background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white', outline: 'none' }}
+                        >
+                            <option value="">Selecciona una imagen...</option>
+                            {specsList.map((f, i) => (
+                                <option key={i} value={f}>{f}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <button
+                        onClick={handleLinkImage}
+                        disabled={!linkMaterial || !selectedImageFile}
+                        style={{
+                            background: (!linkMaterial || !selectedImageFile) ? '#374151' : 'linear-gradient(135deg, #10B981, #059669)',
+                            border: 'none',
+                            padding: '12px',
+                            borderRadius: '10px',
+                            color: 'white',
+                            fontWeight: '700',
+                            cursor: (!linkMaterial || !selectedImageFile) ? 'not-allowed' : 'pointer',
+                            width: '100%'
+                        }}
+                    >
+                        Vincular Ahora
+                    </button>
+                    {linkStatus && <p style={{ marginTop: '10px', fontSize: '13px', color: linkStatus.includes('✓') ? '#10B981' : '#F87171' }}>{linkStatus}</p>}
                 </div>
             </div>
 

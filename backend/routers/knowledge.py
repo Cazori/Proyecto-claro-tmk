@@ -3,11 +3,20 @@ import pandas as pd
 from fastapi import APIRouter, HTTPException
 from config import KNOWLEDGE_FILE
 from processor import get_latest_inventory
+from supabase_db import save_knowledge_to_db, get_knowledge_from_db
 
 router = APIRouter()
 
 @router.get("/knowledge")
 async def get_knowledge():
+    if not os.path.exists(KNOWLEDGE_FILE):
+        try:
+            cloud_knowledge = await get_knowledge_from_db()
+            if cloud_knowledge:
+                with open(KNOWLEDGE_FILE, "w", encoding="utf-8") as f:
+                    json.dump(cloud_knowledge, f, indent=4, ensure_ascii=False)
+        except: pass
+        
     try:
         with open(KNOWLEDGE_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
@@ -33,6 +42,9 @@ async def update_knowledge(entry: dict):
             
         with open(KNOWLEDGE_FILE, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
+            
+        # Sync to Supabase
+        await save_knowledge_to_db(data)
             
         return {"message": "Conocimiento actualizado correctamente."}
     except Exception as e:
@@ -72,6 +84,9 @@ async def apply_auto_tips(data: dict):
         
         with open(KNOWLEDGE_FILE, "w", encoding="utf-8") as f:
             json.dump(expert_data, f, indent=4, ensure_ascii=False)
+            
+        # Sync to Supabase
+        await save_knowledge_to_db(expert_data)
             
         return {"message": "Tips aplicados correctamente.", "applied": applied_count}
     except Exception as e:
