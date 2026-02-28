@@ -113,6 +113,11 @@ const ChatApp = () => {
       setKnowledge(knowledgeData);
       setSpecsList(specsData);
       setSpecsMapping(mappingData);
+
+      // Force cache-busting for images by incrementing session version
+      const currentV = parseInt(sessionStorage.getItem('cleo_mapping_v') || '1');
+      sessionStorage.setItem('cleo_mapping_v', (currentV + 1).toString());
+
     } catch (e) {
       console.error("Error refreshing data", e);
     }

@@ -69,7 +69,10 @@ def resolve_spec_match(mat_id, subprod, available_specs, manual_map):
     if cache_key in _spec_match_cache:
         return _spec_match_cache[cache_key]
 
-    # 1. Manual Mapping (Priority 1: Exact ID)
+    # 1. Manual Mapping (Priority 1: Exact ID or Normalized Match)
+    # Normalize current mat_id (strip leading zeros/spaces)
+    mat_id_norm = mat_id_str.strip().lstrip('0')
+    
     if mat_id_str in manual_map:
         val = manual_map[mat_id_str]
         if isinstance(val, dict):
@@ -80,6 +83,12 @@ def resolve_spec_match(mat_id, subprod, available_specs, manual_map):
         else:
             _spec_match_cache[cache_key] = val
             return val
+            
+    # Check normalized mat_id in manual_map keys
+    for k, v in manual_map.items():
+        if k.strip().lstrip('0') == mat_id_norm:
+             _spec_match_cache[cache_key] = v
+             return v
 
     # 1b. Manual Mapping (Priority 2: Substring)
     for key, val in manual_map.items():

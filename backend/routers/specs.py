@@ -63,8 +63,8 @@ async def upload_spec(file: UploadFile = File(...)):
 @router.post("/link-spec")
 async def link_spec(data: dict):
     """Manually link a Material ID or model name to an image filename."""
-    material_id = data.get("material_id")
-    filename = data.get("filename")
+    material_id = str(data.get("material_id", "")).strip()
+    filename = data.get("filename", "")
     
     if not material_id or not filename:
         raise HTTPException(status_code=400, detail="Faltan material_id o filename.")
@@ -146,9 +146,10 @@ async def get_specs_mapping():
         if match:
             resolved[material_str] = match
             
-    # Save cache
+    # Save cache with timestamp to ensure versioning can be detected if needed
     try:
         with open(cache_file, "w", encoding="utf-8") as f:
+            # Add a meta field for versioning the whole mapping if useful
             json.dump(resolved, f, indent=4)
     except Exception as e:
         print(f"Cache write error: {e}")

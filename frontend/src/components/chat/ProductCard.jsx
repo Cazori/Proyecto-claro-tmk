@@ -54,11 +54,17 @@ const ProductCard = ({ product, specsMapping = {}, onViewSpec }) => {
                 : { label: 'DISPONIBLE', color: '#10B981' };
 
     // Resolve the real spec filename from specsMapping (backend resolved match)
-    // This gives us the correct filename to load the actual thumbnail image
-    const resolvedFilename = specsMapping[String(Material)];
+    // We normalize the Material ID to handle potential leading zeros and whitespace
+    const normMaterial = String(Material || '').trim().replace(/^0+/, '');
+
+    const resolvedFilename = specsMapping[String(Material)] || specsMapping[normMaterial];
+
+    // Add a cache-buster timestamp if we have a mapping update
+    const cacheBuster = sessionStorage.getItem('cleo_mapping_v') || '1';
+
     const thumbUrl = resolvedFilename
-        ? chatService.getSpecImageUrl(resolvedFilename)
-        : chatService.getSpecImageUrl(`${Material}.jpg`);
+        ? `${chatService.getSpecImageUrl(resolvedFilename)}?v=${cacheBuster}`
+        : `${chatService.getSpecImageUrl(`${Material}.jpg`)}?v=${cacheBuster}`;
     const showThumb = hasImage || !!resolvedFilename;
 
     return (
