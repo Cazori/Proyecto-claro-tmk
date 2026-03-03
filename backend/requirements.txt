@@ -11,3 +11,4 @@ httpx
 gunicorn
 groq
 supabase
+openpyxl
