@@ -51,10 +51,16 @@ const MessageBubble = React.forwardRef(({ msg, specsList = [], specsMapping = {}
                                                     "Precio Contado": parseFloat(String(product['Precio Contado'] || 0).replace(/[^\d]/g, '')) || 0,
                                                     hasSpec: checkHasSpec(product.Material, product.Subproducto),
                                                     quotas: (() => {
-                                                        const rawId = String(product.Material || '');
+                                                        const rawId = String(product.Material || '').trim();
                                                         const cleanId = rawId.replace(/[^\d]/g, '');
+                                                        const normalizedId = cleanId.replace(/^0+/, ''); // Strip leading zeros
+
                                                         if (!cleanId) return null;
-                                                        const result = quotasMapping[cleanId] || quotasMapping[rawId.trim()];
+
+                                                        // Priority lookup: Exact -> Cleaned -> Normalized (No leading zeros)
+                                                        const result = quotasMapping[rawId] ||
+                                                            quotasMapping[cleanId] ||
+                                                            quotasMapping[normalizedId];
                                                         return result;
                                                     })()
                                                 }}

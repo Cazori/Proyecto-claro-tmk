@@ -1,7 +1,7 @@
 import os
 import json
 import pandas as pd
-from config import STORAGE_DIR, SPECS_DIR, KNOWLEDGE_FILE, SPECS_MAPPING_FILE
+from config import STORAGE_DIR, SPECS_DIR, KNOWLEDGE_FILE, SPECS_MAPPING_FILE, QUOTA_MAPPING_FILE
 from utils import normalize_str, resolve_spec_match, log_debug
 
 class InventoryService:
@@ -88,8 +88,13 @@ class InventoryService:
             with open(KNOWLEDGE_FILE, "r", encoding="utf-8") as f:
                 expert_data = json.load(f)
                 expert_tips = {item['sku']: item.get('tip_venta') for item in expert_data if item.get('tip_venta')}
+            
+            quotas_map = {}
+            if os.path.exists(QUOTA_MAPPING_FILE):
+                with open(QUOTA_MAPPING_FILE, "r", encoding="utf-8") as f:
+                    quotas_map = json.load(f)
         except:
-            available_specs, manual_map, expert_tips = [], {}, {}
+            available_specs, manual_map, expert_tips, quotas_map = [], {}, {}, {}
 
         # Sort and limit
         results = results.sort_values(by=["CantDisponible"], ascending=False)
@@ -117,7 +122,15 @@ class InventoryService:
             try: stock_val = int(float(item.get('CantDisponible', 0)))
             except: stock_val = 0
 
-            line = f"- [ID: {item['Material']}] MODELO: {item['Subproducto']} | FICHA: {ficha_tag} | IMG: {has_image} | CATEGORIA: {item['categoria']} | MARCA: {item['marca']} | DESC: {item.get('especificaciones', '-')} | STOCK: {stock_val} | PRECIO CONTADO: {precio} | TIP: {final_tip}\n"
+            # Get quotas for this material
+            mat_id_str = str(item['Material'])
+            item_quotas = quotas_map.get(mat_id_str) or quotas_map.get(mat_id_str.strip().lstrip('0'))
+            quotas_info = "N/A"
+            if item_quotas:
+                # Format: 6:$X, 12:$Y...
+                quotas_info = ", ".join([f"{m}m: ${val:,.0f}" for m, val in item_quotas.items()])
+
+            line = f"- [ID: {item['Material']}] MODELO: {item['Subproducto']} | FICHA: {ficha_tag} | IMG: {has_image} | CATEGORIA: {item['categoria']} | MARCA: {item['marca']} | DESC: {item.get('especificaciones', '-')} | STOCK: {stock_val} | PRECIO CONTADO: {precio} | CUOTAS: {quotas_info} | TIP: {final_tip}\n"
             inventory_context += line
             
         return inventory_context

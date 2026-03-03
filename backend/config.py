@@ -12,6 +12,7 @@ STORAGE_DIR = os.path.join(BASE_DIR, "storage")
 SPECS_DIR = os.path.join(BASE_DIR, "specs")
 KNOWLEDGE_FILE = os.path.join(BASE_DIR, "expert_knowledge.json")
 SPECS_MAPPING_FILE = os.path.join(STORAGE_DIR, "specs_mapping.json")
+QUOTA_MAPPING_FILE = os.path.join(STORAGE_DIR, "quota_mapping.json")
 
 # Ensure directories exist
 for d in [STORAGE_DIR, SPECS_DIR]:

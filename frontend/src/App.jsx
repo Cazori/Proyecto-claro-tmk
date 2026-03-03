@@ -105,14 +105,16 @@ const ChatApp = () => {
 
   const refreshData = async () => {
     try {
-      const [knowledgeData, specsData, mappingData] = await Promise.all([
+      const [knowledgeData, specsData, mappingData, quotasData] = await Promise.all([
         chatService.getKnowledge(),
         chatService.getSpecsList(),
-        chatService.getSpecsMapping()
+        chatService.getSpecsMapping(),
+        chatService.getQuotas()
       ]);
       setKnowledge(knowledgeData);
       setSpecsList(specsData);
       setSpecsMapping(mappingData);
+      setQuotasMapping(quotasData);
 
       // Force cache-busting for images by incrementing session version
       const currentV = parseInt(sessionStorage.getItem('cleo_mapping_v') || '1');
