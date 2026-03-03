@@ -223,7 +223,14 @@ async def process_inventory_pdf(file_path):
         df["especificaciones"] = df["Subproducto"].apply(lambda x: get_attr(x, "especificaciones"))
         df["tip_venta"] = df["Subproducto"].apply(lambda x: get_attr(x, "tip_venta"))
 
-        df.to_json(PROCESSED_DATA_FILE, orient="records", force_ascii=False, indent=4)
+        # Save in new format with metadata
+        now = datetime.now().isoformat()
+        inventory_payload = {
+            "last_update": now,
+            "records": df.to_dict('records')
+        }
+        with open(PROCESSED_DATA_FILE, "w", encoding="utf-8") as f:
+            json.dump(inventory_payload, f, ensure_ascii=False, indent=4)
         
         # Invalidate cache so it's reloaded on next call
         global _inventory_cache
@@ -283,16 +290,30 @@ async def get_latest_inventory():
                 # If cloud is newer OR we are missing local JSON, sync it
                 should_sync = not os.path.exists(PROCESSED_DATA_FILE)
                 if not should_sync:
-                    local_json_mtime = os.path.getmtime(PROCESSED_DATA_FILE)
-                    if cloud_mtime > local_json_mtime + 5: # 5s buffer
-                        print("☁ Supabase tiene una versión más reciente. Sincronizando...")
+                    try:
+                        with open(PROCESSED_DATA_FILE, "r", encoding="utf-8") as f:
+                            local_data = json.load(f)
+                            if isinstance(local_data, dict) and "last_update" in local_data:
+                                local_mtime = datetime.fromisoformat(local_data["last_update"]).timestamp()
+                            else:
+                                local_mtime = os.path.getmtime(PROCESSED_DATA_FILE)
+                            
+                            if cloud_mtime > local_mtime + 5: # 5s buffer
+                                print("☁ Supabase tiene una versión más reciente. Sincronizando...")
+                                should_sync = True
+                    except:
                         should_sync = True
                 
                 if should_sync:
-                    # Fetching all columns to ensure data integrity during sync
+                    print("☁ Sincronizando inventario desde Supabase DB...")
                     cloud_df = await get_inventory_from_db(columns="*")
                     if cloud_df is not None and not cloud_df.empty:
-                        cloud_df.to_json(PROCESSED_DATA_FILE, orient="records", force_ascii=False, indent=4)
+                        inventory_payload = {
+                            "last_update": metadata.get("last_update"),
+                            "records": cloud_df.to_dict('records')
+                        }
+                        with open(PROCESSED_DATA_FILE, "w", encoding="utf-8") as f:
+                            json.dump(inventory_payload, f, ensure_ascii=False, indent=4)
                         _inventory_cache = cloud_df
                         _inventory_cache_mtime = cloud_mtime
                         return _inventory_cache
@@ -309,16 +330,26 @@ async def get_latest_inventory():
         # 3. LOCAL JSON (Disk Cache)
         if os.path.exists(PROCESSED_DATA_FILE):
             try:
-                json_mtime = os.path.getmtime(PROCESSED_DATA_FILE)
+                with open(PROCESSED_DATA_FILE, "r", encoding="utf-8") as f:
+                    local_data = json.load(f)
+                
+                if isinstance(local_data, dict) and "records" in local_data:
+                    local_df = pd.DataFrame(local_data["records"])
+                    json_mtime = datetime.fromisoformat(local_data.get("last_update", datetime.now().isoformat())).timestamp()
+                else:
+                    local_df = pd.DataFrame(local_data) # Legacy support
+                    json_mtime = os.path.getmtime(PROCESSED_DATA_FILE)
+
                 if latest_pdf:
                     pdf_mtime = os.path.getmtime(latest_pdf)
                     if json_mtime >= pdf_mtime:
                         print("✓ Cargando inventario local (Caché disco).")
-                        _inventory_cache = pd.read_json(PROCESSED_DATA_FILE)
+                        _inventory_cache = local_df
                         _inventory_cache_mtime = json_mtime
                         return _inventory_cache
                 else:
-                    _inventory_cache = pd.read_json(PROCESSED_DATA_FILE)
+                    print("✓ Cargando inventario local (Caché disco - sin PDF).")
+                    _inventory_cache = local_df
                     _inventory_cache_mtime = json_mtime
                     return _inventory_cache
             except Exception as e:

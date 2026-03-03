@@ -23,39 +23,34 @@ def process_quotas():
         return
 
     try:
-        # Load the sheet 'Lista' which seems to be the main one
-        sheet_name = 'Lista'
-        # Skip the metadata rows (based on inspection, headers are around row 13)
-        # We'll load the whole thing and then slice
-        df = pd.read_excel(QUOTAS_EXCEL, sheet_name=sheet_name, header=None)
+        # 1. Load the Excel file to inspect sheets
+        xl = pd.ExcelFile(QUOTAS_EXCEL)
+        sheet_names = xl.sheet_names
+        print(f"📄 Hojas encontradas en el Excel: {sheet_names}")
         
-        # Based on inspection:
-        # Row 13 has the headers
-        # Col 4 has 'Material'
-        # Col 15 -> 6 meses
-        # Col 16 -> 12 meses
-        # Col 17 -> 18 meses
-        # Col 18 -> 24 meses
-        # Col 19 -> 36 meses (approx indices, let's verify)
-        
-        # We search for the row containing 'Material'
+        df = None
+        target_sheet = None
         header_row_idx = None
-        for i, row in df.iterrows():
-            if "Material" in str(row.values):
-                header_row_idx = i
-                break
         
-        if header_row_idx is None:
-            print("❌ No se encontró la fila de encabezados 'Material'.")
-            return
+        # 2. Iterate through sheets to find the one with 'Material'
+        for sheet in sheet_names:
+            temp_df = pd.read_excel(QUOTAS_EXCEL, sheet_name=sheet, header=None).head(30) # Only check top rows
+            for i, row in temp_df.iterrows():
+                if "Material" in [str(v).strip() for v in row.values if pd.notna(v)]:
+                    target_sheet = sheet
+                    header_row_idx = i
+                    print(f"🎯 Hoja detectada: '{target_sheet}' (Encabezados en fila {header_row_idx})")
+                    break
+            if target_sheet: break
             
-        print(f"🎯 Encabezados encontrados en fila {header_row_idx}")
+        if not target_sheet:
+            print("❌ No se encontró ninguna hoja con la columna 'Material'.")
+            return
+
+        # 3. Load full target sheet
+        df = pd.read_excel(QUOTAS_EXCEL, sheet_name=target_sheet, header=header_row_idx)
         
-        # Set headers and slice
-        df.columns = df.iloc[header_row_idx]
-        df = df.iloc[header_row_idx + 1:]
-        
-        # Cleanup columns
+        # Cleanup column names
         df.columns = [str(c).strip() for c in df.columns]
         
         # Find critical columns
@@ -68,30 +63,22 @@ def process_quotas():
             "36": "36 Meses"
         }
         
-        # Actually in the Excel they might have different names. Let's look for "meses"
-        # FIX: Check strictly or ordered to avoid "36" matching "6"
         column_map = {}
         for col in df.columns:
             str_col = str(col).lower()
             if "mes" not in str_col:
                 continue
                 
-            # Check for specific numbers with word boundaries or explicit checks
-            # We iterate in reverse order of length/value to avoid subsets? 
-            # or just explicit strict checks
-            
-            if "36" in str_col:
-                column_map["36"] = col
-            elif "24" in str_col:
-                column_map["24"] = col
-            elif "18" in str_col:
-                column_map["18"] = col
-            elif "12" in str_col:
-                column_map["12"] = col
-            elif "6" in str_col and "36" not in str_col: # Explicitly exclude 36 for 6
+            if "36" in str_col: column_map["36"] = col
+            elif "24" in str_col: column_map["24"] = col
+            elif "18" in str_col: column_map["18"] = col
+            elif "12" in str_col: column_map["12"] = col
+            elif "6" in str_col and "36" not in str_col:
                 column_map["6"] = col
 
-        print(f"🔍 Columnas detectadas: {column_map}")
+        print(f"🔍 Columnas de cuotas detectadas: {column_map}")
+        if not column_map:
+            print("⚠️ No se detectaron columnas de meses (ej. '6 Meses', '12 Meses'). Verifique el formato.")
 
         final_mapping = {}
         matched_count = 0

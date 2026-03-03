@@ -66,11 +66,42 @@ async def startup_event():
                 
     # 3. Sync Inventory (Try DB first, it's faster than PDF)
     inv_file = os.path.join(STORAGE_DIR, "processed_inventory.json")
-    if not os.path.exists(inv_file):
+    
+    from supabase_db import get_metadata_db
+    cloud_meta = await get_metadata_db()
+    should_sync = not os.path.exists(inv_file)
+    
+    if cloud_meta and cloud_meta.get("last_update"):
+        cloud_mtime = datetime.fromisoformat(cloud_meta["last_update"]).timestamp()
+        if os.path.exists(inv_file):
+            # Check internal timestamp if possible, or file mtime as fallback
+            try:
+                with open(inv_file, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    # If it's a list (old format), we compare file mtime
+                    # If it's a dict with 'last_update' (new format), we compare dates
+                    if isinstance(data, dict) and "last_update" in data:
+                        local_mtime = datetime.fromisoformat(data["last_update"]).timestamp()
+                    else:
+                        local_mtime = os.path.getmtime(inv_file)
+                
+                if cloud_mtime > local_mtime + 5: # 5s buffer
+                    print(f"☁ Cloud version ({cloud_meta['last_update']}) is newer than local. Syncing...")
+                    should_sync = True
+            except: 
+                should_sync = True
+
+    if should_sync:
         print("☁ Attempting to restore inventory from Supabase DB...")
         df = await get_inventory_from_db()
         if df is not None and not df.empty:
-            df.to_json(inv_file, orient="records", force_ascii=False, indent=4)
+            # Store in new format with metadata
+            inventory_payload = {
+                "last_update": cloud_meta.get("last_update") if cloud_meta else datetime.now().isoformat(),
+                "records": df.to_dict('records')
+            }
+            with open(inv_file, "w", encoding="utf-8") as f:
+                json.dump(inventory_payload, f, force_ascii=False, indent=4)
             print(f"✓ Restored {len(df)} items from DB.")
         else:
             # Try PDF as last resort
