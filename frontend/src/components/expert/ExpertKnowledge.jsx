@@ -124,80 +124,82 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
     // --- PASSWORD GATE ---
     if (!unlocked) {
         return (
-            <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                minHeight: '60vh',
-                gap: '24px',
-                color: 'white',
-                textAlign: 'center',
-                padding: '40px'
-            }}>
+            <div className="chat-area">
                 <div style={{
-                    background: 'rgba(239, 68, 68, 0.1)',
-                    border: '1px solid rgba(239, 68, 68, 0.3)',
-                    borderRadius: '20px',
-                    padding: '40px 48px',
-                    maxWidth: '420px',
-                    width: '100%'
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    minHeight: '100%',
+                    gap: '24px',
+                    color: 'white',
+                    textAlign: 'center',
+                    padding: '40px'
                 }}>
-                    <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔒</div>
-                    <h2 style={{ fontSize: '22px', fontWeight: '700', marginBottom: '8px', color: '#F87171' }}>
-                        Zona Restringida
-                    </h2>
-                    <p style={{ fontSize: '14px', color: '#9CA3AF', marginBottom: '28px', lineHeight: '1.6' }}>
-                        ⚠️ Esta es una interfaz exclusiva para <strong style={{ color: '#FCD34D' }}>desarrolladores</strong>.<br />
-                        Ingresa la contraseña de acceso para continuar.
-                    </p>
-
-                    <input
-                        type="password"
-                        placeholder="Contraseña de desarrollador"
-                        value={passwordInput}
-                        onChange={(e) => { setPasswordInput(e.target.value); setPasswordError(false); }}
-                        onKeyDown={(e) => e.key === 'Enter' && handleUnlock()}
-                        style={{
-                            width: '100%',
-                            background: '#1F2937',
-                            border: `1px solid ${passwordError ? '#EF4444' : 'rgba(255,255,255,0.1)'}`,
-                            padding: '12px 16px',
-                            borderRadius: '10px',
-                            color: 'white',
-                            outline: 'none',
-                            fontSize: '15px',
-                            marginBottom: '12px',
-                            boxSizing: 'border-box',
-                            letterSpacing: '2px'
-                        }}
-                    />
-
-                    {passwordError && (
-                        <p style={{ color: '#EF4444', fontSize: '13px', marginBottom: '12px' }}>
-                            ❌ Contraseña incorrecta. Inténtalo nuevamente.
+                    <div style={{
+                        background: 'rgba(239, 68, 68, 0.1)',
+                        border: '1px solid rgba(239, 68, 68, 0.3)',
+                        borderRadius: '20px',
+                        padding: '40px 48px',
+                        maxWidth: '420px',
+                        width: '100%'
+                    }}>
+                        <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔒</div>
+                        <h2 style={{ fontSize: '22px', fontWeight: '700', marginBottom: '8px', color: '#F87171' }}>
+                            Zona Restringida
+                        </h2>
+                        <p style={{ fontSize: '14px', color: '#9CA3AF', marginBottom: '28px', lineHeight: '1.6' }}>
+                            ⚠️ Esta es una interfaz exclusiva para <strong style={{ color: '#FCD34D' }}>desarrolladores</strong>.<br />
+                            Ingresa la contraseña de acceso para continuar.
                         </p>
-                    )}
 
-                    <button
-                        onClick={handleUnlock}
-                        style={{
-                            width: '100%',
-                            background: 'linear-gradient(135deg, #7C3AED, #5B21B6)',
-                            border: 'none',
-                            padding: '12px',
-                            borderRadius: '10px',
-                            color: 'white',
-                            fontWeight: '700',
-                            fontSize: '15px',
-                            cursor: 'pointer',
-                            transition: 'opacity 0.2s'
-                        }}
-                        onMouseEnter={e => e.target.style.opacity = '0.85'}
-                        onMouseLeave={e => e.target.style.opacity = '1'}
-                    >
-                        Acceder
-                    </button>
+                        <input
+                            type="password"
+                            placeholder="Contraseña de desarrollador"
+                            value={passwordInput}
+                            onChange={(e) => { setPasswordInput(e.target.value); setPasswordError(false); }}
+                            onKeyDown={(e) => e.key === 'Enter' && handleUnlock()}
+                            style={{
+                                width: '100%',
+                                background: '#1F2937',
+                                border: `1px solid ${passwordError ? '#EF4444' : 'rgba(255,255,255,0.1)'}`,
+                                padding: '12px 16px',
+                                borderRadius: '10px',
+                                color: 'white',
+                                outline: 'none',
+                                fontSize: '15px',
+                                marginBottom: '12px',
+                                boxSizing: 'border-box',
+                                letterSpacing: '2px'
+                            }}
+                        />
+
+                        {passwordError && (
+                            <p style={{ color: '#EF4444', fontSize: '13px', marginBottom: '12px' }}>
+                                ❌ Contraseña incorrecta. Inténtalo nuevamente.
+                            </p>
+                        )}
+
+                        <button
+                            onClick={handleUnlock}
+                            style={{
+                                width: '100%',
+                                background: 'linear-gradient(135deg, #7C3AED, #5B21B6)',
+                                border: 'none',
+                                padding: '12px',
+                                borderRadius: '10px',
+                                color: 'white',
+                                fontWeight: '700',
+                                fontSize: '15px',
+                                cursor: 'pointer',
+                                transition: 'opacity 0.2s'
+                            }}
+                            onMouseEnter={e => e.target.style.opacity = '0.85'}
+                            onMouseLeave={e => e.target.style.opacity = '1'}
+                        >
+                            Acceder
+                        </button>
+                    </div>
                 </div>
             </div>
         );
@@ -205,7 +207,7 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
 
     // --- MAIN CONTENT (unlocked) ---
     return (
-        <div style={{ color: 'white', padding: '20px' }}>
+        <div className="chat-area" style={{ color: 'white', padding: '20px' }}>
             <div style={{ display: 'flex', gap: '20px', marginBottom: '32px', flexWrap: 'wrap' }}>
                 <div style={{ flex: 1, background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
                     <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px' }}>Subir Ficha Técnica / Imagen</h3>

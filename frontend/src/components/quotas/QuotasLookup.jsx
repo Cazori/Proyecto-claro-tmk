@@ -29,7 +29,7 @@ const QuotasLookup = () => {
     const totalEquipos = Object.keys(quotasMapping).length;
 
     return (
-        <div style={{ color: 'white', padding: '24px', maxWidth: '700px', margin: '0 auto' }}>
+        <div className="chat-area" style={{ color: 'white', padding: '24px', maxWidth: '700px', margin: '0 auto' }}>
             {/* Header */}
             <div style={{ marginBottom: '32px' }}>
                 <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '6px' }}>

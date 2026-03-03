@@ -816,3 +816,40 @@
 [2026-02-24 02:02:42.664634] QUERY RECIBIDA (Original): gt6
 [2026-02-24 02:02:42.665061] Keywords procesadas: ['gt6']
 [2026-02-24 02:02:42.668984] FAST PATH: 10 coincidencias directas.
+[2026-02-28 11:42:16.811035] QUERY RECIBIDA (Original): hola cleo
+[2026-02-28 11:42:16.812134] Keywords procesadas: ['hola', 'cleo']
+[2026-02-28 11:42:16.841820] AI PATH: Analizando intención de búsqueda...
+[2026-02-28 11:42:17.601891] Intención: {'categoria': None, 'marca': None, 'modelo': None, 'intencion_general': 'Saludo sin intención de búsqueda específica'}
+[2026-02-28 11:42:17.602399] AI PATH: 184 resultados encontrados.
+[2026-02-28 12:25:13.770110] QUERY RECIBIDA (Original): aud
+[2026-02-28 12:25:13.770522] Keywords procesadas: ['audifonos']
+[2026-02-28 12:25:13.773522] AI PATH: Analizando intención de búsqueda...
+[2026-02-28 12:25:14.445026] Intención: {'categoria': 'Audífonos', 'marca': None, 'modelo': None, 'intencion_general': 'Búsqueda de audífonos'}
+[2026-02-28 12:25:14.447343] AI PATH: 13 resultados encontrados.
+[2026-02-28 13:43:51.998303] QUERY RECIBIDA (Original): GT6PRO
+[2026-02-28 13:43:51.998922] Keywords procesadas: ['gt6pro']
+[2026-02-28 13:43:52.007190] FAST PATH: 2 coincidencias directas.
+[2026-02-28 13:45:13.599060] QUERY RECIBIDA (Original): GT6PRO
+[2026-02-28 13:45:13.599409] Keywords procesadas: ['gt6pro']
+[2026-02-28 13:45:13.601925] FAST PATH: 2 coincidencias directas.
+[2026-02-28 13:55:13.020117] QUERY RECIBIDA (Original): GT6PRO
+[2026-02-28 13:55:13.020501] Keywords procesadas: ['gt6pro']
+[2026-02-28 13:55:13.023427] FAST PATH: 2 coincidencias directas.
+[2026-02-28 13:55:46.658399] QUERY RECIBIDA (Original): GT6PRO
+[2026-02-28 13:55:46.658776] Keywords procesadas: ['gt6pro']
+[2026-02-28 13:55:46.662261] FAST PATH: 2 coincidencias directas.
+[2026-02-28 14:01:54.785891] QUERY RECIBIDA (Original): GT6PRO
+[2026-02-28 14:01:54.786213] Keywords procesadas: ['gt6pro']
+[2026-02-28 14:01:54.788788] FAST PATH: 2 coincidencias directas.
+[2026-02-28 14:02:58.496682] QUERY RECIBIDA (Original): GT6PRO
+[2026-02-28 14:02:58.497408] Keywords procesadas: ['gt6pro']
+[2026-02-28 14:02:58.501813] FAST PATH: 2 coincidencias directas.
+[2026-02-28 14:55:21.798520] QUERY RECIBIDA (Original): gt6
+[2026-02-28 14:55:21.798934] Keywords procesadas: ['gt6']
+[2026-02-28 14:55:21.802405] FAST PATH: 10 coincidencias directas.
+[2026-02-28 14:55:43.165330] QUERY RECIBIDA (Original): laptops
+[2026-02-28 14:55:43.165745] Keywords procesadas: ['prt']
+[2026-02-28 14:55:43.168781] FAST PATH: 19 coincidencias directas.
+[2026-02-28 17:50:05.054993] QUERY RECIBIDA (Original): gt6
+[2026-02-28 17:50:05.055454] Keywords procesadas: ['gt6']
+[2026-02-28 17:50:05.065208] FAST PATH: 10 coincidencias directas.
