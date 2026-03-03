@@ -10,19 +10,19 @@ QUOTAS_EXCEL = os.path.join(STORAGE_DIR, "cuotas.xlsx")
 OUTPUT_MAPPING = os.path.join(STORAGE_DIR, "quota_mapping.json")
 
 def process_quotas():
-    print("🚀 Iniciando procesamiento de cuotas (Versión Refinada)...")
-    with open(INVENTORY_FILE, "r", encoding="utf-8") as f:
-        inventory = json.load(f)
-    
-    active_materials = {str(item["Material"]).split('.')[0].strip() for item in inventory}
-    print(f"📦 Inventario cargado: {len(active_materials)} materiales activos.")
-
-    # 2. Load Excel without headers first to skip metadata rows
-    if not os.path.exists(QUOTAS_EXCEL):
-        print(f"❌ Error: No se encontró el archivo de cuotas en {QUOTAS_EXCEL}")
-        return
-
     try:
+        with open(INVENTORY_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        
+        # Handle new format {last_update, records} or legacy list
+        inventory_items = data.get("records", data) if isinstance(data, dict) else data
+        
+        active_materials = {str(item["Material"]).split('.')[0].strip() for item in inventory_items if "Material" in item}
+        print(f"📦 Inventario cargado: {len(active_materials)} materiales activos.")
+
+        if not os.path.exists(QUOTAS_EXCEL):
+            raise FileNotFoundError(f"No se encontró el archivo de cuotas en {QUOTAS_EXCEL}")
+
         # 1. Load the Excel file to inspect sheets
         xl = pd.ExcelFile(QUOTAS_EXCEL)
         sheet_names = xl.sheet_names
@@ -34,7 +34,7 @@ def process_quotas():
         
         # 2. Iterate through sheets to find the one with 'Material'
         for sheet in sheet_names:
-            temp_df = pd.read_excel(QUOTAS_EXCEL, sheet_name=sheet, header=None).head(30) # Only check top rows
+            temp_df = pd.read_excel(QUOTAS_EXCEL, sheet_name=sheet, header=None).head(30)
             for i, row in temp_df.iterrows():
                 if "Material" in [str(v).strip() for v in row.values if pd.notna(v)]:
                     target_sheet = sheet
@@ -44,8 +44,7 @@ def process_quotas():
             if target_sheet: break
             
         if not target_sheet:
-            print("❌ No se encontró ninguna hoja con la columna 'Material'.")
-            return
+            raise ValueError("No se encontró ninguna hoja con la columna 'Material'.")
 
         # 3. Load full target sheet
         df = pd.read_excel(QUOTAS_EXCEL, sheet_name=target_sheet, header=header_row_idx)
@@ -54,51 +53,36 @@ def process_quotas():
         df.columns = [str(c).strip() for c in df.columns]
         
         # Find critical columns
-        material_col = "Material"
-        quota_mapping = {
-            "6": "6 Meses",
-            "12": "12 Meses",
-            "18": "18 Meses",
-            "24": "24 Meses",
-            "36": "36 Meses"
-        }
-        
         column_map = {}
         for col in df.columns:
             str_col = str(col).lower()
-            if "mes" not in str_col:
-                continue
-                
+            if "mes" not in str_col: continue
             if "36" in str_col: column_map["36"] = col
             elif "24" in str_col: column_map["24"] = col
             elif "18" in str_col: column_map["18"] = col
             elif "12" in str_col: column_map["12"] = col
-            elif "6" in str_col and "36" not in str_col:
-                column_map["6"] = col
+            elif "6" in str_col and "36" not in str_col: column_map["6"] = col
 
         print(f"🔍 Columnas de cuotas detectadas: {column_map}")
         if not column_map:
-            print("⚠️ No se detectaron columnas de meses (ej. '6 Meses', '12 Meses'). Verifique el formato.")
+            print("⚠️ No se detectaron columnas de meses.")
 
         final_mapping = {}
         matched_count = 0
 
         for _, row in df.iterrows():
-            raw_mat = str(row[material_col]).split('.')[0].strip()
+            if "Material" not in row or pd.isna(row["Material"]): continue
+            raw_mat = str(row["Material"]).split('.')[0].strip()
             
-            # We remove the 'if raw_mat in active_materials' check to be more inclusive
-            # and allow the system to have prices ready even for items not currently in stock
             plans = {}
             for months, real_col in column_map.items():
                 val = row[real_col]
                 if pd.notna(val) and val != "No Aplica":
                     try:
-                        # Cleanup currency if it's a string
                         if isinstance(val, str):
                             val = val.replace("$", "").replace(",", "").strip()
                         plans[months] = int(float(val))
-                    except:
-                        continue
+                    except: continue
             
             if plans:
                 final_mapping[raw_mat] = plans
@@ -109,9 +93,6 @@ def process_quotas():
             json.dump(final_mapping, f, indent=2)
 
         print(f"✅ Proceso completado. Se mapearon cuotas para {matched_count} equipos.")
-        print(f"📁 Resultado guardado en {OUTPUT_MAPPING}")
-        
-        # Explicit cleanup to save memory on Render
         del df
         gc.collect()
 
@@ -119,6 +100,7 @@ def process_quotas():
         print(f"❌ Error procesando Excel: {e}")
         import traceback
         traceback.print_exc()
+        raise e
 
 if __name__ == "__main__":
     process_quotas()
