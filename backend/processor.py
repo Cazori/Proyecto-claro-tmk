@@ -53,8 +53,9 @@ def rule_based_normalization(desc):
     elif any(k in desc_upper for k in ["TAB", "IPAD"]): res["categoria"] = "Tablet"
     elif any(k in desc_upper for k in ["CEL", "SMARTPHONE", "MOTO", "IPHONE"]): res["categoria"] = "Celular"
     elif any(k in desc_upper for k in ["PATINETA"]): res["categoria"] = "Patineta"
-    elif any(k in desc_upper for k in ["AUD", "BUDS", "AURIC"]): res["categoria"] = "Audífonos"
+    elif any(k in desc_upper for k in ["AUD", "BUDS", "AURIC", "AUDF", "AUDIF"]): res["categoria"] = "Audífonos"
     elif any(k in desc_upper for k in ["WATCH", "SMRT", "CLOCK"]): res["categoria"] = "Reloj"
+    elif any(k in desc_upper for k in ["TRRE", "TORRE"]): res["categoria"] = "Torre Sonido"
     
     # Brand detection
     brands = {
