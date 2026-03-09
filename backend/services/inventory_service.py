@@ -42,25 +42,45 @@ class InventoryService:
         results = df.copy()
         
         if intent.get("categoria"):
-            cat_filter = intent["categoria"].lower()
+            cat_raw = intent["categoria"].lower()
+            # Standardize filter for known categories
+            cat_filter = cat_raw
+            if any(k in cat_raw for k in ["port", "laptop", "comp", "pc"]): cat_filter = "laptop"
+            if any(k in cat_raw for k in ["tv", "televis"]): cat_filter = "tv"
+            if any(k in cat_raw for k in ["aud", "auric", "buds", "casco"]): cat_filter = "audífonos"
+            if any(k in cat_raw for k in ["cel", "tel"]): cat_filter = "celular"
+            
             def matches_category(row):
                 item_cat = normalize_str(row["categoria"])
                 item_name = normalize_str(row["Subproducto"])
-                if cat_filter in item_cat or item_cat in cat_filter: return True
-                if item_cat in ["n/a", "otro", "", "none"]:
-                    synonyms = [cat_filter]
-                    if cat_filter == "tv": synonyms.extend(["tv", "televis", "smart"])
-                    if cat_filter == "audífonos": synonyms.extend(["aud", "auric", "buds"])
-                    if cat_filter == "celular": synonyms.extend(["cel", "tel", "phone", "iphone", "galaxy"])
-                    if cat_filter == "tablet": synonyms.extend(["tablet", "tab", "ipad"])
-                    if cat_filter == "patineta": synonyms.extend(["patine", "ptnta", "ptneta", "scter", "scooter"])
-                    return any(s in item_name for s in synonyms)
+                item_brand = normalize_str(row["marca"])
+                
+                # 1. Direct or partial match on category field
+                if cat_filter in item_cat or item_cat in cat_filter or cat_raw in item_cat: 
+                    return True
+                
+                # 2. Broad synonym matching (even if cat is not N/A)
+                synonyms = [cat_filter, cat_raw]
+                if cat_filter == "tv": synonyms.extend(["tv", "televis", "smart"])
+                if cat_filter == "audífonos": synonyms.extend(["aud", "auric", "buds", "audf", "audif"])
+                if cat_filter == "celular": synonyms.extend(["cel", "tel", "phone", "iphone", "galaxy"])
+                if cat_filter == "tablet": synonyms.extend(["tablet", "tab", "ipad"])
+                if cat_filter == "laptop": synonyms.extend(["prt", "port", "laptop", "comp", "hp", "leno", "acer", "hewp"])
+                if any(k in cat_filter for k in ["torre", "sonido", "parlante"]): 
+                    synonyms.extend(["trre", "torre", "spkr", "speaker", "parl", "snd"])
+                
+                if any(s in item_name or s in item_brand for s in synonyms):
+                    return True
+                    
                 return False
+            
             results = results[results.apply(matches_category, axis=1)]
+            log_debug(f"AI PATH: After Categoria ({cat_filter}): {len(results)}")
 
         if intent.get("marca") and not results.empty:
             brand_filter = intent["marca"].lower()
             results = results[results["marca"].apply(lambda x: brand_filter in normalize_str(x) or normalize_str(x) in brand_filter)]
+            log_debug(f"AI PATH: After Marca ({brand_filter}): {len(results)}")
 
         if intent.get("modelo") and not results.empty:
             mod_raw = normalize_str(intent["modelo"]).replace("pulgadas", "\"").replace("pulgada", "\"").replace("pulgs", "\"")
@@ -70,9 +90,11 @@ class InventoryService:
                                      all(k in normalize_str(row["Subproducto"]) or 
                                          k in normalize_str(row["Material"]) or
                                          k in normalize_str(row["modelo_limpio"]) or
+                                         k in normalize_str(row["marca"]) or # Added brand to model too
                                          k in normalize_str(row["especificaciones"]) for k in mod_keywords), axis=1)
                 results = results[mask]
         
+        log_debug(f"AI PATH: Final results: {len(results)}")
         return results
 
     @staticmethod
@@ -99,7 +121,7 @@ class InventoryService:
         # Sort and limit
         results = results.sort_values(by=["CantDisponible"], ascending=False)
         results = results.drop_duplicates(subset=["Material"], keep="first")
-        results = results.sort_values(by=["CantDisponible", "Precio Contado"], ascending=[False, False]).head(100)
+        results = results.sort_values(by=["CantDisponible", "Precio Contado"], ascending=[False, False]).head(500)
         
         inventory_context = ""
         for _, item in results.iterrows():

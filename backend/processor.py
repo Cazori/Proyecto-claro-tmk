@@ -95,10 +95,12 @@ async def process_inventory_pdf(file_path):
                 text = page.extract_text()
                 if not text: continue
                 
-                # Find bodega name in page header
-                bodega_match = re.search(r"CEM\s+([\w\s-]+?)(?:\s+[CH]\d{3}|\d{7})", text)
-                if bodega_match:
-                    page_bodega = bodega_match.group(1).strip()
+                # Robust Bodega detection
+                text_upper = text.upper()
+                if any(k in text_upper for k in ["ZF", "BOGOTÁ", "BOGOTA", "CEM BOG"]):
+                    page_bodega = "CEM Bogotá - ZF"
+                elif any(k in text_upper for k in ["CAVA", "MEDELLÍN", "MEDELLIN"]):
+                    page_bodega = "CAVA Medellín"
                 
                 # Process line by line
                 lines = text.split('\n')
@@ -173,10 +175,10 @@ async def process_inventory_pdf(file_path):
         bodega_census = df["Bodega"].value_counts().to_dict()
         print(f"📈 Resumen por Bodega (Pre-filtro): {bodega_census}")
 
-        # FILTER: STRICT BOGOTA ONLY (Non-negotiable as per USER)
         if not df.empty and "Bodega" in df.columns:
-            df = df[df["Bodega"].astype(str).str.upper().str.contains("BOGOT")]
-            print(f"⚖️ Filtrado estricto: BOGOTÁ. Items finales: {len(df)}")
+            # Allow "BOGOT", "ZF", or "CEM BOG"
+            df = df[df["Bodega"].astype(str).str.upper().str.contains("BOGOT|ZF|BOG")]
+            print(f"⚖️ Filtrado estricto: BOGOTÁ/ZF. Items finales: {len(df)}")
         
         df = df.drop_duplicates(subset=["Material", "Subproducto", "CantDisponible"])
         
