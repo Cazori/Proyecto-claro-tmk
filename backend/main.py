@@ -49,70 +49,76 @@ async def startup_event():
     )
     
     # 1. Sync Mappings (Cloud-First Sync)
-    print("☁ Syncing specs_mapping from Cloud...")
-    mapping = await get_specs_mapping_from_db()
-    if mapping:
-        with open(SPECS_MAPPING_FILE, "w", encoding="utf-8") as f:
-            json.dump(mapping, f, indent=4, ensure_ascii=False)
-        print(f"✅ Synced {len(mapping)} image mappings from Supabase.")
-    else:
-        print("⚠ Cloud mapping empty or unreachable. Keeping local if exists.")
+    try:
+        print("☁ Syncing specs_mapping from Cloud...")
+        mapping = await get_specs_mapping_from_db()
+        if mapping:
+            with open(SPECS_MAPPING_FILE, "w", encoding="utf-8") as f:
+                json.dump(mapping, f, indent=4, ensure_ascii=False)
+            print(f"✅ Synced {len(mapping)} image mappings from Supabase.")
+        else:
+            print("⚠ Cloud mapping empty. Keeping local if exists.")
+    except Exception as e:
+        print(f"✗ Error syncing mapping: {e}")
     
     # 2. Sync Knowledge (Cloud-First Sync)
-    print("☁ Syncing expert_knowledge from Cloud...")
-    knowledge = await get_knowledge_from_db()
-    if knowledge:
-        with open(KNOWLEDGE_FILE, "w", encoding="utf-8") as f:
-            json.dump(knowledge, f, indent=4, ensure_ascii=False)
-        print(f"✅ Synced {len(knowledge)} expert knowledge items from Supabase.")
-    else:
-        print("⚠ Cloud knowledge empty or unreachable. Keeping local if exists.")
+    try:
+        print("☁ Syncing expert_knowledge from Cloud...")
+        knowledge = await get_knowledge_from_db()
+        if knowledge:
+            with open(KNOWLEDGE_FILE, "w", encoding="utf-8") as f:
+                json.dump(knowledge, f, indent=4, ensure_ascii=False)
+            print(f"✅ Synced {len(knowledge)} expert knowledge items from Supabase.")
+        else:
+            print("⚠ Cloud knowledge empty. Keeping local if exists.")
+    except Exception as e:
+        print(f"✗ Error syncing knowledge: {e}")
                 
     # 3. Sync Inventory (Try DB first, it's faster than PDF)
-    inv_file = os.path.join(STORAGE_DIR, "processed_inventory.json")
-    
-    from supabase_db import get_metadata_db
-    cloud_meta = await get_metadata_db()
-    should_sync = not os.path.exists(inv_file)
-    
-    if cloud_meta and cloud_meta.get("last_update"):
-        cloud_mtime = datetime.fromisoformat(cloud_meta["last_update"]).timestamp()
-        if os.path.exists(inv_file):
-            # Check internal timestamp if possible, or file mtime as fallback
-            try:
-                with open(inv_file, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                    # If it's a list (old format), we compare file mtime
-                    # If it's a dict with 'last_update' (new format), we compare dates
-                    if isinstance(data, dict) and "last_update" in data:
-                        local_mtime = datetime.fromisoformat(data["last_update"]).timestamp()
-                    else:
-                        local_mtime = os.path.getmtime(inv_file)
-                
-                if cloud_mtime > local_mtime + 5: # 5s buffer
-                    print(f"☁ Cloud version ({cloud_meta['last_update']}) is newer than local. Syncing...")
+    try:
+        inv_file = os.path.join(STORAGE_DIR, "processed_inventory.json")
+        from supabase_db import get_metadata_db
+        cloud_meta = await get_metadata_db()
+        should_sync = not os.path.exists(inv_file)
+        
+        if cloud_meta and cloud_meta.get("last_update"):
+            cloud_mtime = datetime.fromisoformat(cloud_meta["last_update"]).timestamp()
+            if os.path.exists(inv_file):
+                try:
+                    with open(inv_file, "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                        if isinstance(data, dict) and "last_update" in data:
+                            local_mtime = datetime.fromisoformat(data["last_update"]).timestamp()
+                        else:
+                            local_mtime = os.path.getmtime(inv_file)
+                    
+                    if cloud_mtime > local_mtime + 5: # 5s buffer
+                        print(f"☁ Cloud version ({cloud_meta['last_update']}) is newer than local. Syncing...")
+                        should_sync = True
+                except: 
                     should_sync = True
-            except: 
-                should_sync = True
 
-    if should_sync:
-        print("☁ Attempting to restore inventory from Supabase DB...")
-        df = await get_inventory_from_db()
-        if df is not None and not df.empty:
-            # Store in new format with metadata
-            inventory_payload = {
-                "last_update": cloud_meta.get("last_update") if cloud_meta else datetime.now().isoformat(),
-                "records": df.to_dict('records')
-            }
-            with open(inv_file, "w", encoding="utf-8") as f:
-                json.dump(inventory_payload, f, force_ascii=False, indent=4)
-            print(f"✓ Restored {len(df)} items from DB.")
-        else:
-            # Try PDF as last resort
-            print("☁ No DB inventory found. Attempting PDF download...")
-            await download_latest_inventory_pdf_from_supabase(STORAGE_DIR)
+        if should_sync:
+            print("☁ Attempting to restore inventory from Supabase DB...")
+            df = await get_inventory_from_db()
+            if df is not None and not df.empty:
+                # Store in new format with metadata
+                inventory_payload = {
+                    "last_update": cloud_meta.get("last_update") if cloud_meta else datetime.now().isoformat(),
+                    "records": df.to_dict('records')
+                }
+                with open(inv_file, "w", encoding="utf-8") as f:
+                    # FIX: ensure_ascii instead of force_ascii
+                    json.dump(inventory_payload, f, ensure_ascii=False, indent=4)
+                print(f"✓ Restored {len(df)} items from DB.")
+            else:
+                # Try PDF as last resort
+                print("☁ No DB inventory found. Attempting PDF download...")
+                await download_latest_inventory_pdf_from_supabase(STORAGE_DIR)
+    except Exception as e:
+        print(f"✗ Error syncing inventory: {e}")
     
-    print("✅ Cleo AI Cloud Sync Complete.")
+    print("✅ Cleo AI Cloud Sync Process Finished.")
 
 # Register Routers
 app.include_router(inventory.router, tags=["Inventory"])
