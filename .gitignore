@@ -50,11 +50,7 @@ pylintrc
 
 # Project specific
 backend/storage/*.json
-!backend/storage/normalization_cache.json
-!backend/storage/specs_mapping.json
-!backend/storage/image_embeddings.json
-!backend/storage/specs_resolved_cache.json
-!backend/expert_knowledge.json
+backend/expert_knowledge.json
 backend/*.log
 backend/chat_debug.log
 backend/debug_log.txt
@@ -64,3 +60,7 @@ backend/model_report.txt
 backend/response_cleaned.txt
 backend/response_strict.txt
 cuotas.xlsx
+recover_inventory.py
+*.tmp
+temp_*
+*.log

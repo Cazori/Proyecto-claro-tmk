@@ -48,21 +48,25 @@ async def startup_event():
         download_latest_inventory_pdf_from_supabase
     )
     
-    # 1. Sync Mappings
-    if not os.path.exists(SPECS_MAPPING_FILE):
-        print("☁ Syncing specs_mapping from Cloud...")
-        mapping = await get_specs_mapping_from_db()
-        if mapping:
-            with open(SPECS_MAPPING_FILE, "w", encoding="utf-8") as f:
-                json.dump(mapping, f, indent=4)
+    # 1. Sync Mappings (Cloud-First Sync)
+    print("☁ Syncing specs_mapping from Cloud...")
+    mapping = await get_specs_mapping_from_db()
+    if mapping:
+        with open(SPECS_MAPPING_FILE, "w", encoding="utf-8") as f:
+            json.dump(mapping, f, indent=4, ensure_ascii=False)
+        print(f"✅ Synced {len(mapping)} image mappings from Supabase.")
+    else:
+        print("⚠ Cloud mapping empty or unreachable. Keeping local if exists.")
     
-    # 2. Sync Knowledge
-    if not os.path.exists(KNOWLEDGE_FILE):
-        print("☁ Syncing expert_knowledge from Cloud...")
-        knowledge = await get_knowledge_from_db()
-        if knowledge:
-            with open(KNOWLEDGE_FILE, "w", encoding="utf-8") as f:
-                json.dump(knowledge, f, indent=4)
+    # 2. Sync Knowledge (Cloud-First Sync)
+    print("☁ Syncing expert_knowledge from Cloud...")
+    knowledge = await get_knowledge_from_db()
+    if knowledge:
+        with open(KNOWLEDGE_FILE, "w", encoding="utf-8") as f:
+            json.dump(knowledge, f, indent=4, ensure_ascii=False)
+        print(f"✅ Synced {len(knowledge)} expert knowledge items from Supabase.")
+    else:
+        print("⚠ Cloud knowledge empty or unreachable. Keeping local if exists.")
                 
     # 3. Sync Inventory (Try DB first, it's faster than PDF)
     inv_file = os.path.join(STORAGE_DIR, "processed_inventory.json")
