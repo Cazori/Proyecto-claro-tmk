@@ -104,5 +104,20 @@ export const chatService = {
 
     getSpecImageUrl(filename) {
         return `${BASE_URL}/specs/${filename}`;
+    },
+
+    async uploadSalesFile(file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        const response = await fetch(`${BASE_URL}/upload-sales`, {
+            method: 'POST',
+            body: formData
+        });
+        return response.json();
+    },
+
+    async searchSales(query) {
+        const response = await fetch(`${BASE_URL}/sales/search?q=${encodeURIComponent(query)}`);
+        return response.json();
     }
 };

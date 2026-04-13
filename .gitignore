@@ -50,6 +50,8 @@ pylintrc
 
 # Project specific
 backend/storage/*.json
+backend/storage/*.csv
+backend/storage/*.xlsx
 backend/expert_knowledge.json
 backend/*.log
 backend/chat_debug.log

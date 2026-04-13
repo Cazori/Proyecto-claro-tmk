@@ -9,6 +9,7 @@ import InventoryUpload from './components/upload/InventoryUpload';
 import FichasGrid from './components/fichas/FichasGrid';
 import ExpertKnowledge from './components/expert/ExpertKnowledge';
 import QuotasLookup from './components/quotas/QuotasLookup';
+import SalesLookup from './components/sales/SalesLookup';
 import ImageModal from './components/common/ImageModal';
 
 // Services
@@ -19,7 +20,7 @@ const ChatApp = () => {
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: "Hola. Soy Cleo. Tu sistema de inventario está en línea.",
+      text: "Hola! no tengo conexion a internet, parece que algo no anda bien, lo siento!! D:",
       sender: 'bot',
       timestamp: new Date()
     }
@@ -98,7 +99,10 @@ const ChatApp = () => {
       const date = new Date(inventoryMeta.last_update);
       const day = date.getDate();
       const month = date.toLocaleString('es-ES', { month: 'long' });
-      const dynamicText = `Hola. Soy Cleo. Tu sistema de inventario está en línea, inventario actualizado al día ${day} de ${month}.`;
+      const dynamicText = `Hola soy Cleo, estoy disponible para ti!, ultimo inventario registrado: ${day} de ${month}.`;
+      setMessages(prev => prev.map(m => m.id === 1 ? { ...m, text: dynamicText } : m));
+    } else if (knowledgeData || specsData) {
+      const dynamicText = `Hola soy Cleo, estoy disponible para ti!`;
       setMessages(prev => prev.map(m => m.id === 1 ? { ...m, text: dynamicText } : m));
     }
   };
@@ -325,6 +329,10 @@ const ChatApp = () => {
 
           {activeTab === 'quotas' && (
             <QuotasLookup />
+          )}
+
+          {activeTab === 'sales' && (
+            <SalesLookup />
           )}
 
           {activeTab === 'expert' && (
