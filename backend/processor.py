@@ -69,7 +69,8 @@ def rule_based_normalization(desc):
         "APPL": "Apple", "IPHONE": "Apple", "IPAD": "Apple", "APPLE": "Apple",
         "TCL": "TCL",
         "NIU": "NIU",
-        "HONOR": "Honor"
+        "HONOR": "Honor",
+        "HSSN": "Hisense", "HISENSE": "Hisense"
     }
     for k, v in brands.items():
         if f" {k}" in f" {desc_upper}" or f"{k} " in f"{desc_upper} " or desc_upper.endswith(k):
@@ -108,17 +109,22 @@ async def process_inventory_pdf(file_path):
                 for line in lines:
                     # Robust Pattern 2-step: ID -> Name -> Total -> Disponible -> everything after "Aplica $"
                     # This allows identifying the LAST value as the Total Price, as requested by USER.
-                    pattern_v3 = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+).*?Aplica\s+\$(.*)"
+                    # Clean up common mangled words before trying regex
+                    line_clean = line.replace("ATpElica", " Aplica")
+                    line_clean = re.sub(r'([A-Za-z]+)Aplica', r'\1 Aplica', line_clean)
+                    pattern_v3 = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+).*?(?:\s|\d)([A-Za-z]+)\s*Aplica\s+\$(.*)"
                     
                     # Fallback for lines without "Aplica $" but still looking like product entries
                     pattern_flex = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+).*?\$?\s?(\d{1,3}(?:\.\d{3})*(?:,\d+)?|[-])"
 
-                    match = re.search(pattern_v3, line)
+                    match = re.search(pattern_v3, line_clean)
+                    cat_pdf = "N/A"
                     if match:
                         material = match.group(1)
                         subproducto = match.group(2).strip()
                         stock = match.group(3) 
-                        tail = match.group(5)
+                        cat_pdf = match.group(5).strip().capitalize()
+                        tail = match.group(6)
                         
                         # Find all number sequences in the tail (including single digits)
                         # We prioritize the LAST one as the Total Value
@@ -128,7 +134,7 @@ async def process_inventory_pdf(file_path):
                         else:
                             price_raw = "-" if "-" in tail else "0"
                     else:
-                        match = re.search(pattern_flex, line)
+                        match = re.search(pattern_flex, line_clean)
                         if match:
                             material = match.group(1)
                             subproducto = match.group(2).strip()
@@ -158,7 +164,8 @@ async def process_inventory_pdf(file_path):
                         "Material": material,
                         "Subproducto": subproducto,
                         "CantDisponible": float(stock) if stock else 0,
-                        "Precio Contado": float(precio_clean) if precio_clean else 0
+                        "Precio Contado": float(precio_clean) if precio_clean else 0,
+                        "categoria_pdf": cat_pdf
                     })
                     page_count += 1
                 
@@ -220,7 +227,8 @@ async def process_inventory_pdf(file_path):
                         json.dump(normalization_cache, f, indent=4)
                     
         # Final mapping
-        df["categoria"] = df["Subproducto"].apply(lambda x: get_attr(x, "categoria"))
+        # Final mapping: Prefer PDF category if valid, fallback to AI extraction
+        df["categoria"] = df.apply(lambda row: row.get("categoria_pdf") if row.get("categoria_pdf") and row.get("categoria_pdf") != "N/A" else get_attr(row["Subproducto"], "categoria"), axis=1)
         df["marca"] = df["Subproducto"].apply(lambda x: get_attr(x, "marca"))
         df["modelo_limpio"] = df["Subproducto"].apply(lambda x: get_attr(x, "modelo_limpio"))
         df["especificaciones"] = df["Subproducto"].apply(lambda x: get_attr(x, "especificaciones"))

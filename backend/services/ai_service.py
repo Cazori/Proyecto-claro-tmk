@@ -17,8 +17,8 @@ class AIService:
         Eres un experto en clasificar intenciones de búsqueda para un inventario de tecnología.
         
         CAMPOS DISPONIBLES EN BD:
-        - categoria: (TV, Celular, Laptop, Reloj, Audífonos, Parlante, Patineta, Tablet, Accesorio, Otro)
-        - marca: (Samsung, Apple, HP, Lenovo, Xiaomi, Huawei, Honor, Sony, etc.)
+        - categoria: (Categoría principal: TV, Celular, Laptop, Audífonos, Parlante, Patineta, Consola, Cámara, Aspiradora, etc. ¡No te limites a esta lista, extrae la categoría real que pide el usuario!)
+        - marca: (Samsung, Apple, HP, Lenovo, Xiaomi, Huawei, Honor, Sony, Hisense, etc.)
         - modelo: (Referencia específica o palabras clave del producto)
         
         CONSULTA USUARIO: "{query}"
@@ -32,6 +32,7 @@ class AIService:
         - "smart tv 43" -> {{"categoria": "TV", "marca": null, "modelo": "43\\""}}
         - "iphone 15" -> {{"marca": "Apple", "modelo": "iphone 15", "categoria": "Celular"}}
         - "laptop hp ryzen" -> {{"categoria": "Laptop", "marca": "HP", "modelo": "ryzen"}}
+        - "aspiradora robot" -> {{"categoria": "Aspiradora", "marca": null, "modelo": "robot"}}
         
         Responde ÚNICAMENTE en JSON con esta estructura:
         {{

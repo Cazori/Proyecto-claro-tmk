@@ -474,8 +474,8 @@ html {
   }
 
   .top-bar {
-    padding: 0 16px;
-    height: 60px;
+    padding: env(safe-area-inset-top) 16px 0 16px;
+    height: calc(60px + env(safe-area-inset-top));
   }
 
   .chat-area {

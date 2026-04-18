@@ -42,34 +42,37 @@ class InventoryService:
         results = df.copy()
         
         if intent.get("categoria"):
-            cat_raw = intent["categoria"].lower()
+            cat_raw = normalize_str(intent["categoria"])
             # Standardize filter for known categories
             cat_filter = cat_raw
-            if any(k in cat_raw for k in ["port", "laptop", "comp", "pc"]): cat_filter = "laptop"
-            if any(k in cat_raw for k in ["tv", "televis"]): cat_filter = "tv"
-            if any(k in cat_raw for k in ["aud", "auric", "buds", "casco"]): cat_filter = "audífonos"
-            if any(k in cat_raw for k in ["cel", "tel"]): cat_filter = "celular"
+            if any(k in cat_raw for k in ["portat", "laptop", "comp", "pc"]): cat_filter = "portatil"
+            elif any(k in cat_raw for k in ["tv", "televis"]): cat_filter = "tv"
+            elif any(k in cat_raw for k in ["audif", "auric", "buds", "casco"]): cat_filter = "audifono"
+            elif any(k in cat_raw for k in ["cel", "tel"]): cat_filter = "celular"
+            elif any(k in cat_raw for k in ["reloj", "smartwatch", "watch"]): cat_filter = "smartwatch"
             
             def matches_category(row):
-                item_cat = normalize_str(row["categoria"])
-                item_name = normalize_str(row["Subproducto"])
-                item_brand = normalize_str(row["marca"])
+                item_cat = normalize_str(row.get("categoria", ""))
+                item_name = normalize_str(row.get("Subproducto", ""))
+                item_brand = normalize_str(row.get("marca", ""))
                 
                 # 1. Direct or partial match on category field
                 if cat_filter in item_cat or item_cat in cat_filter or cat_raw in item_cat: 
                     return True
                 
-                # 2. Broad synonym matching (even if cat is not N/A)
+                # 2. Broad synonym matching fallback on name/brand
                 synonyms = [cat_filter, cat_raw]
                 if cat_filter == "tv": synonyms.extend(["tv", "televis", "smart"])
-                if cat_filter == "audífonos": synonyms.extend(["aud", "auric", "buds", "audf", "audif"])
-                if cat_filter == "celular": synonyms.extend(["cel", "tel", "phone", "iphone", "galaxy"])
-                if cat_filter == "tablet": synonyms.extend(["tablet", "tab", "ipad"])
-                if cat_filter == "laptop": synonyms.extend(["prt", "port", "laptop", "comp", "hp", "leno", "acer", "hewp"])
-                if any(k in cat_filter for k in ["torre", "sonido", "parlante"]): 
+                elif "audifono" in cat_filter: synonyms.extend(["aud", "auric", "buds", "audf", "audif"])
+                elif "celular" in cat_filter: synonyms.extend(["cel", "tel", "phone", "iphone", "galaxy"])
+                elif "tablet" in cat_filter: synonyms.extend(["tablet", "tab", "ipad"])
+                elif "portatil" in cat_filter: synonyms.extend(["prt", "port", "laptop", "comp", "hp", "leno", "acer", "hewp"])
+                elif "smartwatch" in cat_filter: synonyms.extend(["watch", "reloj", "smrt", "smrtw"])
+                elif any(k in cat_filter for k in ["torre", "sonido", "parlante"]): 
                     synonyms.extend(["trre", "torre", "spkr", "speaker", "parl", "snd"])
                 
-                if any(s in item_name or s in item_brand for s in synonyms):
+                # match only if synonym is at least 3 chars
+                if any(len(s) >= 3 and (s in item_name or s in item_brand) for s in synonyms):
                     return True
                     
                 return False
