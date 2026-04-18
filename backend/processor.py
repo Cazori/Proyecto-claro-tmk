@@ -112,7 +112,7 @@ async def process_inventory_pdf(file_path):
                     # Clean up common mangled words before trying regex
                     line_clean = line.replace("ATpElica", " Aplica")
                     line_clean = re.sub(r'([A-Za-z]+)Aplica', r'\1 Aplica', line_clean)
-                    pattern_v3 = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+).*?(?:\s|\d)([A-Za-z]+)\s*Aplica\s+\$(.*)"
+                    pattern_v3 = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+).*?([A-Za-z]+)\s*Aplica\s+\$(.*)"
                     
                     # Fallback for lines without "Aplica $" but still looking like product entries
                     pattern_flex = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+).*?\$?\s?(\d{1,3}(?:\.\d{3})*(?:,\d+)?|[-])"
@@ -203,14 +203,16 @@ async def process_inventory_pdf(file_path):
         unique_products = df["Subproducto"].unique().tolist()
         
         def get_attr(desc, attr):
-            norm = normalization_cache.get(desc, {})
-            val = norm.get(attr.lower()) or norm.get(attr.capitalize()) or norm.get(attr)
+            # Prefer rule-based normalization first to prevent AI hallucinations
+            rb = rule_based_normalization(desc)
+            val = rb.get(attr.lower()) or rb.get(attr)
             
             if not val or val == "N/A":
-                # Fallback to rule-based
-                rb = rule_based_normalization(desc)
-                val = rb.get(attr.lower()) or "N/A"
-            return str(val)
+                # Fallback to AI cache
+                norm = normalization_cache.get(desc, {})
+                val = norm.get(attr.lower()) or norm.get(attr.capitalize()) or norm.get(attr)
+            
+            return str(val) if val else "N/A"
 
         # Only normalize what's NOT in the cache
         to_normalize = [p for p in unique_products if p not in normalization_cache]
