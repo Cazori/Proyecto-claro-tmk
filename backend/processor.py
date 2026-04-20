@@ -37,10 +37,9 @@ MAX_FILES = 5
 
 async def normalize_products_batch(descriptions):
     """
-    Uses AIService to categorize and extract attributes from a list of unique product descriptions.
+    Desactivado a petición del usuario para evitar gastos de API y lentitud.
     """
-    from services.ai_service import ai_service
-    return await ai_service.normalize_products_batch(descriptions)
+    return {}
 
 def rule_based_normalization(desc):
     """Fallback logic for common brands and categories using keywords"""
@@ -69,8 +68,7 @@ def rule_based_normalization(desc):
         "APPL": "Apple", "IPHONE": "Apple", "IPAD": "Apple", "APPLE": "Apple",
         "TCL": "TCL",
         "NIU": "NIU",
-        "HONOR": "Honor",
-        "HSSN": "Hisense", "HISENSE": "Hisense"
+        "HONOR": "Honor"
     }
     for k, v in brands.items():
         if f" {k}" in f" {desc_upper}" or f"{k} " in f"{desc_upper} " or desc_upper.endswith(k):
@@ -107,23 +105,19 @@ async def process_inventory_pdf(file_path):
                 lines = text.split('\n')
                 page_count = 0
                 for line in lines:
-                    # Robust Pattern 2-step: ID -> Name -> Total -> Disponible -> everything after "Aplica $"
-                    # This allows identifying the LAST value as the Total Price, as requested by USER.
-                    # Clean up common mangled words before trying regex
-                    line_clean = line.replace("ATpElica", " Aplica")
-                    line_clean = re.sub(r'([A-Za-z]+)Aplica', r'\1 Aplica', line_clean)
-                    pattern_v3 = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+).*?([A-Za-z]+)\s*Aplica\s+\$(.*)"
+                    # Robust Pattern 2-step: ID -> Name -> Total -> Disponible -> Categoria -> everything after "Aplica $"
+                    # Group 5 is the native Category.
+                    pattern_v3 = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+)\s*(.*?)\s*Aplica\s+\$(.*)"
                     
-                    # Fallback for lines without "Aplica $" but still looking like product entries
-                    pattern_flex = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+).*?\$?\s?(\d{1,3}(?:\.\d{3})*(?:,\d+)?|[-])"
+                    # Fallback for lines without "Aplica $" 
+                    pattern_flex = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+)\s*(.*?)\s*\$?\s?(\d{1,3}(?:\.\d{3})*(?:,\d+)?|[-])"
 
-                    match = re.search(pattern_v3, line_clean)
-                    cat_pdf = "N/A"
+                    match = re.search(pattern_v3, line)
                     if match:
                         material = match.group(1)
                         subproducto = match.group(2).strip()
                         stock = match.group(3) 
-                        cat_pdf = match.group(5).strip().capitalize()
+                        categoria_nativa = match.group(5).strip()
                         tail = match.group(6)
                         
                         # Find all number sequences in the tail (including single digits)
@@ -134,12 +128,13 @@ async def process_inventory_pdf(file_path):
                         else:
                             price_raw = "-" if "-" in tail else "0"
                     else:
-                        match = re.search(pattern_flex, line_clean)
+                        match = re.search(pattern_flex, line)
                         if match:
                             material = match.group(1)
                             subproducto = match.group(2).strip()
                             stock = match.group(3)
-                            price_raw = match.group(5).strip()
+                            categoria_nativa = match.group(5).strip()
+                            price_raw = match.group(6).strip()
                         else:
                             continue
                     
@@ -163,9 +158,9 @@ async def process_inventory_pdf(file_path):
                         "Bodega": page_bodega,
                         "Material": material,
                         "Subproducto": subproducto,
+                        "categoria_nativa": categoria_nativa,
                         "CantDisponible": float(stock) if stock else 0,
-                        "Precio Contado": float(precio_clean) if precio_clean else 0,
-                        "categoria_pdf": cat_pdf
+                        "Precio Contado": float(precio_clean) if precio_clean else 0
                     })
                     page_count += 1
                 
@@ -189,52 +184,13 @@ async def process_inventory_pdf(file_path):
         
         df = df.drop_duplicates(subset=["Material", "Subproducto", "CantDisponible"])
         
-        # --- Semantic Normalization ---
-        normalization_cache = {}
-        if os.path.exists(NORMALIZATION_CACHE_FILE):
-            try:
-                with open(NORMALIZATION_CACHE_FILE, "r", encoding="utf-8") as f:
-                    normalization_cache = json.load(f)
-            except: pass
-        else:
-            with open(NORMALIZATION_CACHE_FILE, "w", encoding="utf-8") as f:
-                json.dump({}, f)
-
-        unique_products = df["Subproducto"].unique().tolist()
-        
-        def get_attr(desc, attr):
-            # Prefer rule-based normalization first to prevent AI hallucinations
-            rb = rule_based_normalization(desc)
-            val = rb.get(attr.lower()) or rb.get(attr)
-            
-            if not val or val == "N/A":
-                # Fallback to AI cache
-                norm = normalization_cache.get(desc, {})
-                val = norm.get(attr.lower()) or norm.get(attr.capitalize()) or norm.get(attr)
-            
-            return str(val) if val else "N/A"
-
-        # Only normalize what's NOT in the cache
-        to_normalize = [p for p in unique_products if p not in normalization_cache]
-        
-        if to_normalize:
-            print(f"Normalizando {len(to_normalize)} nuevos productos únicos...")
-            for i in range(0, len(to_normalize), 5):
-                batch = to_normalize[i:i+5]
-                # AWAIT the async normalization
-                normalized_batch = await normalize_products_batch(batch)
-                if normalized_batch:
-                    normalization_cache.update(normalized_batch)
-                    with open(NORMALIZATION_CACHE_FILE, "w", encoding="utf-8") as f:
-                        json.dump(normalization_cache, f, indent=4)
-                    
-        # Final mapping
-        # Final mapping: Prefer PDF category if valid, fallback to AI extraction
-        df["categoria"] = df.apply(lambda row: row.get("categoria_pdf") if row.get("categoria_pdf") and row.get("categoria_pdf") != "N/A" else get_attr(row["Subproducto"], "categoria"), axis=1)
-        df["marca"] = df["Subproducto"].apply(lambda x: get_attr(x, "marca"))
-        df["modelo_limpio"] = df["Subproducto"].apply(lambda x: get_attr(x, "modelo_limpio"))
-        df["especificaciones"] = df["Subproducto"].apply(lambda x: get_attr(x, "especificaciones"))
-        df["tip_venta"] = df["Subproducto"].apply(lambda x: get_attr(x, "tip_venta"))
+        # --- Lightweight Normalization ---
+        # Skip AI and get native categories, use simple rule-based for the rest
+        df["categoria"] = df["categoria_nativa"]
+        df["marca"] = df["Subproducto"].apply(lambda x: rule_based_normalization(x).get("marca", "N/A"))
+        df["modelo_limpio"] = df["Subproducto"]
+        df["especificaciones"] = "-"
+        df["tip_venta"] = "-"
 
         # Save in new format with metadata
         now = datetime.now().isoformat()

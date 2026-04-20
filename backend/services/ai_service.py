@@ -17,26 +17,31 @@ class AIService:
         Eres un experto en clasificar intenciones de búsqueda para un inventario de tecnología.
         
         CAMPOS DISPONIBLES EN BD:
-        - categoria: (Categoría principal: TV, Celular, Laptop, Audífonos, Parlante, Patineta, Consola, Cámara, Aspiradora, etc. ¡No te limites a esta lista, extrae la categoría real que pide el usuario!)
-        - marca: (Samsung, Apple, HP, Lenovo, Xiaomi, Huawei, Honor, Sony, Hisense, etc.)
+        - categoria: OBLIGATORIO usar EXACTAMENTE uno de estos valores: TELEVISOR, AUDIFONOS, CONSOLA, TABLET, ASPIRADORA, PATINETA, BARRA SONIDO, PORTATIL, TORRE SONIDO, SMARTWATCH, PARLANTE, COMBO, CAMARA, COMPUTADOR, CELULAR. (Si no coincide, usa null).
+        - marca: (Samsung, Apple, HP, Lenovo, Xiaomi, Huawei, Honor, Sony, etc.)
         - modelo: (Referencia específica o palabras clave del producto)
         
         CONSULTA USUARIO: "{query}"
         
         TU TAREA:
-        Extrae los valores para filtrar el DataFrame. 
-        REGLA CRÍTICA PARA TV: Si el usuario busca pulgadas (ej: "50 pulgadas", "de 43", "55"), el campo 'modelo' DEBE incluir el número seguido de comilla doble (ej: '50"', '43"', '55"') para coincidir con la nomenclatura del inventario.
+        Extrae los valores para filtrar el DataFrame deduciendo sinónimos hacia las categorías oficiales.
+        
+        REGLAS Y SINÓNIMOS CRÍTICOS:
+        1. Para TV/Televisores: Si el usuario busca "tv55", "tv", "smart tv", la categoría es "TELEVISOR". Si busca pulgadas (ej: "tv55", "de 43"), el campo 'modelo' DEBE incluir el número seguido de comilla doble (ej: '55"').
+        2. Para Audífonos: "aud", "auriculares", "buds", "cascos" -> categoria "AUDIFONOS".
+        3. Para Relojes/Smartwatch: "relojes", "reloj", "watch", "smartwatch" -> categoria "SMARTWATCH".
+        4. Para Laptops/Computadores: "laptop", "pc", "compu", "portatil" -> categoria "PORTATIL" o "COMPUTADOR".
         
         EJEMPLOS:
-        - "televisores samsung 50 pulgadas" -> {{"categoria": "TV", "marca": "Samsung", "modelo": "50\\""}}
-        - "smart tv 43" -> {{"categoria": "TV", "marca": null, "modelo": "43\\""}}
-        - "iphone 15" -> {{"marca": "Apple", "modelo": "iphone 15", "categoria": "Celular"}}
-        - "laptop hp ryzen" -> {{"categoria": "Laptop", "marca": "HP", "modelo": "ryzen"}}
-        - "aspiradora robot" -> {{"categoria": "Aspiradora", "marca": null, "modelo": "robot"}}
+        - "tv55" -> {{"categoria": "TELEVISOR", "marca": null, "modelo": "55\\""}}
+        - "aud lenovo" -> {{"categoria": "AUDIFONOS", "marca": "Lenovo", "modelo": null}}
+        - "relojes samsung" -> {{"categoria": "SMARTWATCH", "marca": "Samsung", "modelo": null}}
+        - "iphone 15" -> {{"categoria": "CELULAR", "marca": "Apple", "modelo": "iphone 15"}}
+        - "smart tv 43 pulgadas" -> {{"categoria": "TELEVISOR", "marca": null, "modelo": "43\\""}}
         
         Responde ÚNICAMENTE en JSON con esta estructura:
         {{
-            "categoria": "Valor exacto de la lista o null",
+            "categoria": "Valor exacto de la lista oficial o null",
             "marca": "Valor o null",
             "modelo": "Valor o null",
             "intencion_general": "Resumen breve"

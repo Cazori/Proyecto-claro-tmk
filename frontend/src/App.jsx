@@ -44,8 +44,6 @@ const ChatApp = () => {
   const chatEndRef = useRef(null);
   const lastMessageRef = useRef(null);
   const prevLoading = useRef(false);
-  const touchStartX = useRef(null);
-  const touchEndX = useRef(null);
 
   // Effects
   useEffect(() => {
@@ -267,34 +265,10 @@ const ChatApp = () => {
         if (partialMatch) setSelectedImage(chatService.getSpecImageUrl(partialMatch));
       }
     }
-  const handleTouchStart = (e) => {
-    touchStartX.current = e.targetTouches[0].clientX;
-  };
-
-  const handleTouchMove = (e) => {
-    touchEndX.current = e.targetTouches[0].clientX;
-  };
-
-  const handleTouchEnd = () => {
-    if (!touchStartX.current || !touchEndX.current) return;
-    const distance = touchEndX.current - touchStartX.current;
-    const isMobile = window.innerWidth <= 768;
-    
-    // Swipe Right (open sidebar) - only if started from edge
-    if (distance > 60 && touchStartX.current < 40 && isMobile) {
-      setSidebarOpen(true);
-    }
-    // Swipe Left (close sidebar)
-    if (distance < -60 && isSidebarOpen && isMobile) {
-      setSidebarOpen(false);
-    }
-    
-    touchStartX.current = null;
-    touchEndX.current = null;
   };
 
   return (
-    <div className="app-container" onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
+    <div className="app-container">
       {/* Mobile Overlay */}
       <div
         className={`sidebar-overlay ${isSidebarOpen && window.innerWidth <= 768 ? 'active' : ''}`}
