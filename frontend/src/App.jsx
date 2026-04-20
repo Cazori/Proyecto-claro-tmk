@@ -44,6 +44,8 @@ const ChatApp = () => {
   const chatEndRef = useRef(null);
   const lastMessageRef = useRef(null);
   const prevLoading = useRef(false);
+  const touchStartX = useRef(null);
+  const touchStartY = useRef(null);
 
   // Effects
   useEffect(() => {
@@ -132,6 +134,36 @@ const ChatApp = () => {
   useEffect(() => {
     loadInitialData();
   }, []);
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const deltaX = touchEndX - touchStartX.current;
+    const deltaY = Math.abs(touchEndY - touchStartY.current);
+
+    // Swipe detection (80px horizontal delta, low vertical delta)
+    if (deltaX > 80 && deltaY < 60) {
+      // Swipe Left to Right (Open) - only if starting from left edge
+      if (!isSidebarOpen && touchStartX.current < 50) {
+        setSidebarOpen(true);
+      }
+    } else if (deltaX < -80 && deltaY < 60) {
+      // Swipe Right to Left (Close)
+      if (isSidebarOpen) {
+        setSidebarOpen(false);
+      }
+    }
+
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
 
   // Handlers
   const handleSend = async () => {
@@ -268,7 +300,11 @@ const ChatApp = () => {
   };
 
   return (
-    <div className="app-container">
+    <div 
+      className="app-container"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       {/* Mobile Overlay */}
       <div
         className={`sidebar-overlay ${isSidebarOpen && window.innerWidth <= 768 ? 'active' : ''}`}
