@@ -34,7 +34,7 @@ const CategoryIcon = ({ subproducto = '' }) => {
 };
 
 const ProductCard = ({ product, specsMapping = {}, onViewSpec }) => {
-    let { Material, Subproducto, CantDisponible, "Precio Contado": Precio, hasImage, quotas, tip, Marca } = product;
+    let { Material, Subproducto, CantDisponible, "Precio Cuotas": Precio, hasImage, quotas, tip, Marca } = product;
     const [showQuotas, setShowQuotas] = React.useState(false);
     const [showTip, setShowTip] = React.useState(false);
 
@@ -116,7 +116,7 @@ const ProductCard = ({ product, specsMapping = {}, onViewSpec }) => {
                 </div>
 
                 <div className="product-price-box">
-                    <span className="price-label">Precio Contado</span>
+                    <span className="price-label">Precio Cuotas</span>
                     <span className="price-value">
                         ${new Intl.NumberFormat('es-CO').format(Precio)}
                     </span>

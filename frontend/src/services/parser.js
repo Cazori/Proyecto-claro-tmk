@@ -33,7 +33,7 @@ export const parseMarkdownTable = (text) => {
 
                 if (key.includes('ref') || key.includes('material')) key = 'Material';
                 else if (key.includes('mod')) key = 'Subproducto';
-                else if (key.includes('pre')) key = 'Precio Contado';
+                else if (key.includes('pre') || key.includes('cuo')) key = 'Precio Cuotas';
                 else if (key.includes('uni') || key.includes('stoc') || key.includes('cant')) key = 'CantDisponible';
                 else if (key.includes('marc')) key = 'Marca';
                 else if (key.includes('caract')) key = 'Caracteristicas';

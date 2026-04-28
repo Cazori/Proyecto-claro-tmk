@@ -48,7 +48,7 @@ const MessageBubble = React.forwardRef(({ msg, specsList = [], specsMapping = {}
                                                 product={{
                                                     ...product,
                                                     CantDisponible: parseInt(String(product.CantDisponible || 0).replace(/[^\d]/g, '')) || 0,
-                                                    "Precio Contado": parseFloat(String(product['Precio Contado'] || 0).replace(/[^\d]/g, '')) || 0,
+                                                    "Precio Cuotas": parseFloat(String(product['Precio Cuotas'] || 0).replace(/[^\d]/g, '')) || 0,
                                                     hasSpec: checkHasSpec(product.Material, product.Subproducto),
                                                     quotas: (() => {
                                                         const rawId = String(product.Material || '').trim();

@@ -108,9 +108,9 @@ class InventoryService:
             
             ficha_tag = "SI" if match else "NO"
             try:
-                raw_price = item.get('Precio Contado', 0)
+                raw_price = item.get('Precio Cuotas', 0)
                 precio = f"${float(raw_price):,.0f}" if pd.notnull(raw_price) and str(raw_price).replace('.','',1).isdigit() else str(raw_price)
-            except: precio = str(item.get('Precio Contado', '-'))
+            except: precio = str(item.get('Precio Cuotas', '-'))
 
             sku_str = str(item['Material'])
             final_tip = expert_tips.get(sku_str, item.get('tip_venta', '-'))
@@ -127,7 +127,7 @@ class InventoryService:
                 # Format: 6:$X, 12:$Y...
                 quotas_info = ", ".join([f"{m}m: ${val:,.0f}" for m, val in item_quotas.items()])
 
-            line = f"- [ID: {item['Material']}] MODELO: {item['Subproducto']} | FICHA: {ficha_tag} | IMG: {has_image} | CATEGORIA: {item['categoria']} | MARCA: {item['marca']} | DESC: {item.get('especificaciones', '-')} | STOCK: {stock_val} | PRECIO CONTADO: {precio} | CUOTAS: {quotas_info} | TIP: {final_tip}\n"
+            line = f"- [ID: {item['Material']}] MODELO: {item['Subproducto']} | FICHA: {ficha_tag} | IMG: {has_image} | CATEGORIA: {item['categoria']} | MARCA: {item['marca']} | DESC: {item.get('especificaciones', '-')} | STOCK: {stock_val} | PRECIO CUOTAS: {precio} | CUOTAS: {quotas_info} | TIP: {final_tip}\n"
             inventory_context += line
             
         return inventory_context

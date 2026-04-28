@@ -120,11 +120,11 @@ async def process_inventory_pdf(file_path):
                         categoria_nativa = match.group(5).strip()
                         tail = match.group(6)
                         
-                        # Find all number sequences in the tail (including single digits)
-                        # We prioritize the LAST one as the Total Value
                         prices = re.findall(r"(\d[\d\.\s,]*\d|\d)", tail)
-                        if prices:
-                            price_raw = prices[-1]
+                        if len(prices) >= 2:
+                            price_raw = prices[-2]  # Precio Cuotas
+                        elif prices:
+                            price_raw = prices[0]
                         else:
                             price_raw = "-" if "-" in tail else "0"
                     else:
@@ -160,7 +160,7 @@ async def process_inventory_pdf(file_path):
                         "Subproducto": subproducto,
                         "categoria_nativa": categoria_nativa,
                         "CantDisponible": float(stock) if stock else 0,
-                        "Precio Contado": float(precio_clean) if precio_clean else 0
+                        "Precio Cuotas": float(precio_clean) if precio_clean else 0
                     })
                     page_count += 1
                 
