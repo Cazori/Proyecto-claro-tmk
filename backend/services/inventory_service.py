@@ -96,7 +96,7 @@ class InventoryService:
         # Sort and limit
         results = results.sort_values(by=["CantDisponible"], ascending=False)
         results = results.drop_duplicates(subset=["Material"], keep="first")
-        results = results.sort_values(by=["CantDisponible", "Precio Contado"], ascending=[False, False]).head(500)
+        results = results.sort_values(by=["CantDisponible", "Precio Cuotas"], ascending=[False, False]).head(500)
         
         inventory_context = ""
         for _, item in results.iterrows():
