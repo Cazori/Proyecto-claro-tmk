@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { chatService } from '../../services/api';
 
 const SalesLookup = () => {
@@ -13,6 +13,16 @@ const SalesLookup = () => {
     const [isUploading, setIsUploading] = useState(false);
     const fileInputRef = useRef(null);
 
+    // Responsive state
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [expandedCard, setExpandedCard] = useState(null);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     const handleSearch = async (e) => {
         e.preventDefault();
         if (!query || query.trim().length < 3) return;
@@ -26,7 +36,7 @@ const SalesLookup = () => {
                setSearchError('La base de ventas no ha sido cargada.');
                setResults([]);
             } else {
-               setResults(data);
+               setResults([...data].reverse());
                if (data.length === 0) setSearchError('No se encontraron ventas para este asesor.');
             }
         } catch (error) {
@@ -166,44 +176,90 @@ const SalesLookup = () => {
                             </h3>
                         </div>
                         <div style={{ overflowX: 'auto' }} className="markdown-content">
-                            <table style={{ margin: 0, background: 'transparent', border: 'none', borderRadius: 0 }}>
-                                <thead>
-                                    <tr>
-                                        <th style={{ minWidth: '160px', whiteSpace: 'nowrap' }}>Documento Cliente</th>
-                                        <th style={{ minWidth: '220px' }}>Nombre Cliente</th>
-                                        <th style={{ minWidth: '120px', whiteSpace: 'nowrap' }}>Código</th>
-                                        <th style={{ minWidth: '250px' }}>Producto</th>
-                                        <th style={{ minWidth: '150px', whiteSpace: 'nowrap' }}>Estado Actual</th>
-                                        <th style={{ minWidth: '140px', whiteSpace: 'nowrap' }}>Fecha Entrega</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                            {isMobile ? (
+                                <div className="sales-mobile-list">
                                     {results.map((sale, index) => (
-                                        <tr key={index}>
-                                            <td style={{ color: '#F3F4F6', fontWeight: '500', whiteSpace: 'nowrap' }}>{sale.document}</td>
-                                            <td>{sale.client}</td>
-                                            <td style={{ color: '#A78BFA', fontWeight: '600', whiteSpace: 'nowrap' }}>{sale.code}</td>
-                                            <td>{sale.product}</td>
-                                            <td style={{ whiteSpace: 'nowrap' }}>
-                                                <span style={{ 
-                                                    padding: '4px 10px', 
-                                                    borderRadius: '8px', 
-                                                    fontSize: '0.75rem', 
-                                                    fontWeight: '600',
-                                                    letterSpacing: '0.5px',
-                                                    backgroundColor: sale.status.includes('PROGRAMADA') ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)',
-                                                    color: sale.status.includes('PROGRAMADA') ? '#34D399' : '#FBBF24',
-                                                    border: `1px solid ${sale.status.includes('PROGRAMADA') ? 'rgba(16, 185, 129, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`,
-                                                    display: 'inline-block'
-                                                }}>
-                                                    {sale.status || 'N/A'}
-                                                </span>
-                                            </td>
-                                            <td style={{ color: '#D1D5DB', fontWeight: '500', whiteSpace: 'nowrap' }}>{sale.delivery_date}</td>
-                                        </tr>
+                                        <div key={index} className="sales-mobile-card">
+                                            <div 
+                                                className="sales-card-header" 
+                                                onClick={() => setExpandedCard(expandedCard === index ? null : index)}
+                                            >
+                                                <div className="sales-card-header-main">
+                                                    <div className="sales-client-name">{sale.client}</div>
+                                                    <span className={`sales-status-badge ${sale.status.includes('PROGRAMADA') ? 'status-green' : 'status-yellow'}`}>
+                                                        {sale.status || 'N/A'}
+                                                    </span>
+                                                </div>
+                                                <div className={`sales-card-chevron ${expandedCard === index ? 'expanded' : ''}`}>
+                                                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            
+                                            {expandedCard === index && (
+                                                <div className="sales-card-body">
+                                                    <div className="sales-detail-row">
+                                                        <span className="sales-detail-label">Documento:</span>
+                                                        <span className="sales-detail-value">{sale.document}</span>
+                                                    </div>
+                                                    <div className="sales-detail-row">
+                                                        <span className="sales-detail-label">Código:</span>
+                                                        <span className="sales-detail-value highlight">{sale.code}</span>
+                                                    </div>
+                                                    <div className="sales-detail-row">
+                                                        <span className="sales-detail-label">Producto:</span>
+                                                        <span className="sales-detail-value">{sale.product}</span>
+                                                    </div>
+                                                    <div className="sales-detail-row">
+                                                        <span className="sales-detail-label">Fecha Entrega:</span>
+                                                        <span className="sales-detail-value">{sale.delivery_date}</span>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
                                     ))}
-                                </tbody>
-                            </table>
+                                </div>
+                            ) : (
+                                <table style={{ margin: 0, background: 'transparent', border: 'none', borderRadius: 0 }}>
+                                    <thead>
+                                        <tr>
+                                            <th style={{ minWidth: '160px', whiteSpace: 'nowrap' }}>Documento Cliente</th>
+                                            <th style={{ minWidth: '220px' }}>Nombre Cliente</th>
+                                            <th style={{ minWidth: '120px', whiteSpace: 'nowrap' }}>Código</th>
+                                            <th style={{ minWidth: '250px' }}>Producto</th>
+                                            <th style={{ minWidth: '150px', whiteSpace: 'nowrap' }}>Estado Actual</th>
+                                            <th style={{ minWidth: '140px', whiteSpace: 'nowrap' }}>Fecha Entrega</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {results.map((sale, index) => (
+                                            <tr key={index}>
+                                                <td style={{ color: '#F3F4F6', fontWeight: '500', whiteSpace: 'nowrap' }}>{sale.document}</td>
+                                                <td>{sale.client}</td>
+                                                <td style={{ color: '#A78BFA', fontWeight: '600', whiteSpace: 'nowrap' }}>{sale.code}</td>
+                                                <td>{sale.product}</td>
+                                                <td style={{ whiteSpace: 'nowrap' }}>
+                                                    <span style={{ 
+                                                        padding: '4px 10px', 
+                                                        borderRadius: '8px', 
+                                                        fontSize: '0.75rem', 
+                                                        fontWeight: '600',
+                                                        letterSpacing: '0.5px',
+                                                        backgroundColor: sale.status.includes('PROGRAMADA') ? 'rgba(16, 185, 129, 0.15)' : 'rgba(245, 158, 11, 0.15)',
+                                                        color: sale.status.includes('PROGRAMADA') ? '#34D399' : '#FBBF24',
+                                                        border: `1px solid ${sale.status.includes('PROGRAMADA') ? 'rgba(16, 185, 129, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`,
+                                                        display: 'inline-block'
+                                                    }}>
+                                                        {sale.status || 'N/A'}
+                                                    </span>
+                                                </td>
+                                                <td style={{ color: '#D1D5DB', fontWeight: '500', whiteSpace: 'nowrap' }}>{sale.delivery_date}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            )}
                         </div>
                     </div>
                 )}

@@ -46,6 +46,16 @@ export const chatService = {
         return response.json();
     },
 
+    async getAllProducts() {
+        const response = await fetch(`${BASE_URL}/all-products`);
+        return response.json();
+    },
+
+    async getSpecsMapping() {
+        const response = await fetch(`${BASE_URL}/specs-mapping`);
+        return response.json();
+    },
+
     async getQuotas() {
         const response = await fetch(`${BASE_URL}/quotas`);
         return response.json();

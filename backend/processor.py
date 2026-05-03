@@ -165,9 +165,9 @@ async def process_inventory_pdf(file_path):
                     page_count += 1
                 
                 if page_count > 0:
-                    print(f"📄 Página {i+1}: Encontrados {page_count} productos ({page_bodega})")
+                    print(f"Pagina {i+1}: Encontrados {page_count} productos ({page_bodega})")
         
-        print(f"📊 DEBUG: Total items extraídos del PDF: {len(data)}")
+        print(f"DEBUG: Total items extraidos del PDF: {len(data)}")
         if not data:
             return None
 
@@ -175,12 +175,12 @@ async def process_inventory_pdf(file_path):
         
         # CENSUS - Global before filter
         bodega_census = df["Bodega"].value_counts().to_dict()
-        print(f"📈 Resumen por Bodega (Pre-filtro): {bodega_census}")
+        print(f"Resumen por Bodega (Pre-filtro): {bodega_census}")
 
         if not df.empty and "Bodega" in df.columns:
             # Allow "BOGOT", "ZF", or "CEM BOG"
             df = df[df["Bodega"].astype(str).str.upper().str.contains("BOGOT|ZF|BOG")]
-            print(f"⚖️ Filtrado estricto: BOGOTÁ/ZF. Items finales: {len(df)}")
+            print(f"Filtrado estricto: BOGOTÁ/ZF. Items finales: {len(df)}")
         
         df = df.drop_duplicates(subset=["Material", "Subproducto", "CantDisponible"])
         
@@ -268,13 +268,13 @@ async def get_latest_inventory():
                                 local_mtime = os.path.getmtime(PROCESSED_DATA_FILE)
                             
                             if cloud_mtime > local_mtime + 5: # 5s buffer
-                                print("☁ Supabase tiene una versión más reciente. Sincronizando...")
+                                print("Supabase tiene una version mas reciente. Sincronizando...")
                                 should_sync = True
                     except:
                         should_sync = True
                 
                 if should_sync:
-                    print("☁ Sincronizando inventario desde Supabase DB...")
+                    print("Sincronizando inventario desde Supabase DB...")
                     cloud_df = await get_inventory_from_db(columns="*")
                     if cloud_df is not None and not cloud_df.empty:
                         inventory_payload = {

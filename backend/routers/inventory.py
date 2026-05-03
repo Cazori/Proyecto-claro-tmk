@@ -60,3 +60,27 @@ async def find_product(material: str):
         return {"error": "Producto no encontrado"}
     except Exception as e:
         return {"error": str(e)}
+
+@router.get("/all-products")
+async def all_products():
+    """Returns a lean list of all products for the UI (Image Manager)"""
+    try:
+        df = await get_latest_inventory()
+        if df is None or df.empty:
+            return []
+            
+        # Select only necessary columns to keep payload small
+        lean_df = df[['Material', 'Subproducto', 'categoria']].copy()
+        lean_df = lean_df.drop_duplicates(subset=["Material"], keep="first")
+        
+        records = []
+        for _, row in lean_df.iterrows():
+            records.append({
+                "Material": str(row['Material']),
+                "Subproducto": str(row['Subproducto']),
+                "categoria": str(row['categoria'])
+            })
+        return records
+    except Exception as e:
+        print(f"Error fetching all products: {e}")
+        return []

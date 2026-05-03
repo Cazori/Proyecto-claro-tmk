@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { chatService } from '../../services/api';
+import ImageManager from '../specs/ImageManager';
 
 const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleSpecUpload, specUploadStatus, knowledge, specsList, refreshData }) => {
     const [unlocked, setUnlocked] = useState(false);
@@ -15,10 +16,7 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
     const [saveStatus, setSaveStatus] = useState('');
     const [isGenerating, setIsGenerating] = useState(false);
 
-    // New state for linking images
-    const [linkMaterial, setLinkMaterial] = useState('');
-    const [selectedImageFile, setSelectedImageFile] = useState('');
-    const [linkStatus, setLinkStatus] = useState('');
+    const [activeTab, setActiveTab] = useState('image_manager');
 
     const handleUnlock = () => {
         if (passwordInput === 'TEC123') {
@@ -102,22 +100,6 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
             setQuotasStatus('Error al subir el archivo.');
         } finally {
             setQuotasLoading(false);
-        }
-    };
-
-    const handleLinkImage = async () => {
-        if (!linkMaterial || !selectedImageFile) return;
-        setLinkStatus('Vinculando...');
-        try {
-            const result = await chatService.linkSpec(linkMaterial, selectedImageFile);
-            if (result.message) {
-                setLinkStatus('✓ ' + result.message);
-                if (refreshData) await refreshData();
-            } else {
-                setLinkStatus('Error al vincular.');
-            }
-        } catch (e) {
-            setLinkStatus('Error de conexión.');
         }
     };
 
@@ -207,191 +189,202 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
 
     // --- MAIN CONTENT (unlocked) ---
     return (
-        <div className="chat-area" style={{ color: 'white', padding: '20px' }}>
-            <div style={{ display: 'flex', gap: '20px', marginBottom: '32px', flexWrap: 'wrap' }}>
-                <div style={{ flex: 1, background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                    <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px' }}>Subir Ficha Técnica / Imagen</h3>
+        <div className="chat-area" style={{ color: 'white', padding: '20px', display: 'flex', flexDirection: 'column', height: '100%' }}>
+            
+            {/* Header Tabs */}
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '24px', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '16px' }}>
+                <button
+                    onClick={() => setActiveTab('image_manager')}
+                    style={{
+                        background: activeTab === 'image_manager' ? '#7C3AED' : 'transparent',
+                        border: 'none',
+                        padding: '10px 20px',
+                        borderRadius: '10px',
+                        color: activeTab === 'image_manager' ? 'white' : '#9CA3AF',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s'
+                    }}
+                >
+                    🖼️ Gestor de Imágenes
+                </button>
+                <button
+                    onClick={() => setActiveTab('expert_tips')}
+                    style={{
+                        background: activeTab === 'expert_tips' ? '#7C3AED' : 'transparent',
+                        border: 'none',
+                        padding: '10px 20px',
+                        borderRadius: '10px',
+                        color: activeTab === 'expert_tips' ? 'white' : '#9CA3AF',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s'
+                    }}
+                >
+                    💡 Tips de Venta
+                </button>
+                <button
+                    onClick={() => setActiveTab('data_files')}
+                    style={{
+                        background: activeTab === 'data_files' ? '#7C3AED' : 'transparent',
+                        border: 'none',
+                        padding: '10px 20px',
+                        borderRadius: '10px',
+                        color: activeTab === 'data_files' ? 'white' : '#9CA3AF',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s'
+                    }}
+                >
+                    ⚙️ Archivos Base (Cuotas)
+                </button>
+            </div>
 
-                    <div style={{ marginBottom: '15px' }}>
-                        <label style={{ display: 'block', fontSize: '13px', color: '#9CA3AF', marginBottom: '8px' }}>Asociar a Modelo o Material:</label>
-                        <input
-                            type="text"
-                            placeholder="Ej: 100234 o HP G10"
-                            value={specName || ''}
-                            onChange={(e) => setSpecName(e.target.value)}
-                            style={{ width: '100%', background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white', outline: 'none' }}
-                            list="material-suggestions"
-                        />
-                        <datalist id="material-suggestions">
-                            {knowledge.map((k, i) => (
-                                <option key={i} value={k.sku}>{k.model}</option>
-                            ))}
-                        </datalist>
+            {/* Tab Content */}
+            <div style={{ flex: 1, overflowY: 'auto' }}>
+                
+                {activeTab === 'image_manager' && (
+                    <ImageManager specsList={specsList} refreshData={refreshData} />
+                )}
+
+                {activeTab === 'expert_tips' && (
+                    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                        <div style={{ background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(167, 139, 250, 0.2)' }}>
+                            <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '4px', color: '#A78BFA' }}>Editor de Tip de Venta Individual</h3>
+                            <p style={{ fontSize: '13px', color: '#9CA3AF', marginBottom: '16px' }}>Busca por código de Material para editar el speech personalizado de un producto específico.</p>
+
+                            <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
+                                <input
+                                    type="text"
+                                    placeholder="Pegar Material aquí..."
+                                    value={searchMaterial}
+                                    onChange={(e) => setSearchMaterial(e.target.value)}
+                                    style={{ flex: 1, background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white' }}
+                                    list="edit-suggestions"
+                                />
+                                <datalist id="edit-suggestions">
+                                    {knowledge.map((k, i) => (
+                                        <option key={i} value={k.sku}>{k.model}</option>
+                                    ))}
+                                </datalist>
+                                <button
+                                    onClick={handleSearch}
+                                    style={{ background: '#7C3AED', border: 'none', padding: '10px 20px', borderRadius: '8px', color: 'white', fontWeight: '600', cursor: 'pointer' }}
+                                >
+                                    Buscar Producto
+                                </button>
+                            </div>
+
+                            {foundItem && (
+                                <div style={{ background: 'rgba(255,255,255,0.03)', padding: '16px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                                    <div style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '4px' }}>{foundItem.model}</div>
+                                    <div style={{ fontSize: '12px', color: '#9CA3AF', marginBottom: '12px' }}>{foundItem.specs}</div>
+
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
+                                        <label style={{ fontSize: '13px', color: '#A78BFA' }}>Speech para el Chat:</label>
+                                        <button
+                                            onClick={handleGenerateAITip}
+                                            disabled={isGenerating}
+                                            style={{ background: 'none', border: 'none', color: '#C4B5FD', fontSize: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}
+                                        >
+                                            {isGenerating ? 'Generando...' : '✨ Sugerir con IA'}
+                                        </button>
+                                    </div>
+                                    <textarea
+                                        rows="2"
+                                        value={editTip}
+                                        onChange={(e) => setEditTip(e.target.value)}
+                                        placeholder="Argumento de venta ganador..."
+                                        style={{ width: '100%', background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white', outline: 'none', resize: 'none', marginBottom: '12px' }}
+                                    />
+
+                                    <button
+                                        onClick={handleSaveTip}
+                                        style={{ background: 'rgba(167, 139, 250, 0.2)', border: '1px solid rgba(167, 139, 250, 0.4)', padding: '8px 16px', borderRadius: '8px', color: '#C4B5FD', fontWeight: '600', cursor: 'pointer', width: '100%' }}
+                                    >
+                                        Guardar Tip para {foundItem.sku}
+                                    </button>
+                                </div>
+                            )}
+                            {saveStatus && <p style={{ marginTop: '10px', fontSize: '13px', color: saveStatus.includes('✓') ? '#10B981' : '#F87171' }}>{saveStatus}</p>}
+                        </div>
                     </div>
+                )}
 
-                    <input type="file" accept="image/*,.pdf" onChange={(e) => setSpecFile(e.target.files[0])} />
-
-                    {specFile && specFile.type.startsWith('image/') && (
-                        <div style={{ marginTop: '15px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
-                            <img
-                                src={URL.createObjectURL(specFile)}
-                                alt="Preview"
-                                style={{ width: '100%', maxHeight: '200px', objectFit: 'contain', background: '#000' }}
+                {activeTab === 'data_files' && (
+                    <div style={{ maxWidth: '800px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        {/* Cuotas Uploader */}
+                        <div style={{ background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(245, 158, 11, 0.2)' }}>
+                            <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '4px', color: '#FCD34D' }}>💰 Subir Cuotas (cuotas.xlsx)</h3>
+                            <p style={{ fontSize: '13px', color: '#9CA3AF', marginBottom: '16px' }}>Actualiza el archivo maestro de cuotas del banco.</p>
+                            <input
+                                type="file"
+                                accept=".xlsx"
+                                onChange={(e) => setQuotasFile(e.target.files[0])}
+                                style={{ marginBottom: '12px' }}
                             />
+                            {quotasFile && (
+                                <button
+                                    onClick={handleQuotasUpload}
+                                    disabled={quotasLoading}
+                                    style={{ display: 'block', marginTop: '8px', background: quotasLoading ? '#374151' : 'rgba(245, 158, 11, 0.2)', border: '1px solid rgba(245, 158, 11, 0.4)', padding: '10px 20px', borderRadius: '10px', color: '#FCD34D', fontWeight: '600', cursor: quotasLoading ? 'not-allowed' : 'pointer', width: '100%' }}
+                                >
+                                    {quotasLoading ? 'Procesando...' : `Subir "${quotasFile.name}"`}
+                                </button>
+                            )}
+                            {quotasStatus && <p style={{ marginTop: '10px', fontSize: '13px', color: '#FCD34D' }}>{quotasStatus}</p>}
                         </div>
-                    )}
 
-                    {specFile && (
-                        <button
-                            onClick={handleSpecUpload}
-                            disabled={!specName || specName.trim() === ''}
-                            style={{
-                                marginTop: '15px',
-                                background: (!specName || specName.trim() === '') ? '#374151' : '#7C3AED',
-                                border: 'none',
-                                padding: '10px 20px',
-                                borderRadius: '10px',
-                                color: 'white',
-                                fontWeight: '600',
-                                cursor: (!specName || specName.trim() === '') ? 'not-allowed' : 'pointer',
-                                width: '100%'
-                            }}
-                        >
-                            Subir como "{specName || 'Archivo'}"
-                        </button>
-                    )}
-                    {specUploadStatus && <p style={{ marginTop: '10px', fontSize: '13px', color: '#A78BFA' }}>{specUploadStatus}</p>}
-                </div>
+                        {/* Fichas Manual Uploader */}
+                        <div style={{ background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                            <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px' }}>Subir Imagen Manualmente</h3>
+                            <div style={{ marginBottom: '15px' }}>
+                                <label style={{ display: 'block', fontSize: '13px', color: '#9CA3AF', marginBottom: '8px' }}>Asociar a Modelo o Material:</label>
+                                <input
+                                    type="text"
+                                    placeholder="Ej: 100234 o HP G10"
+                                    value={specName || ''}
+                                    onChange={(e) => setSpecName(e.target.value)}
+                                    style={{ width: '100%', background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white', outline: 'none' }}
+                                    list="material-suggestions"
+                                />
+                            </div>
 
-                <div style={{ flex: 1, background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                    <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px', color: '#C4B5FD' }}>🔗 Vincular Material a Imagen Existente</h3>
-                    <p style={{ fontSize: '13px', color: '#9CA3AF', marginBottom: '16px' }}>Si la imagen ya está subida, búscala aquí y asígnala a un código de material.</p>
+                            <input type="file" accept="image/*,.pdf" onChange={(e) => setSpecFile(e.target.files[0])} />
 
-                    <div style={{ marginBottom: '15px' }}>
-                        <label style={{ display: 'block', fontSize: '13px', color: '#9CA3AF', marginBottom: '8px' }}>Código de Material o Modelo:</label>
-                        <input
-                            type="text"
-                            placeholder="Ej: 100234"
-                            value={linkMaterial}
-                            onChange={(e) => setLinkMaterial(e.target.value)}
-                            style={{ width: '100%', background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white', outline: 'none' }}
-                        />
-                    </div>
+                            {specFile && specFile.type.startsWith('image/') && (
+                                <div style={{ marginTop: '15px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
+                                    <img
+                                        src={URL.createObjectURL(specFile)}
+                                        alt="Preview"
+                                        style={{ width: '100%', maxHeight: '200px', objectFit: 'contain', background: '#000' }}
+                                    />
+                                </div>
+                            )}
 
-                    <div style={{ marginBottom: '15px' }}>
-                        <label style={{ display: 'block', fontSize: '13px', color: '#9CA3AF', marginBottom: '8px' }}>Seleccionar Imagen:</label>
-                        <select
-                            value={selectedImageFile}
-                            onChange={(e) => setSelectedImageFile(e.target.value)}
-                            style={{ width: '100%', background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white', outline: 'none' }}
-                        >
-                            <option value="">Selecciona una imagen...</option>
-                            {specsList.map((f, i) => (
-                                <option key={i} value={f}>{f}</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <button
-                        onClick={handleLinkImage}
-                        disabled={!linkMaterial || !selectedImageFile}
-                        style={{
-                            background: (!linkMaterial || !selectedImageFile) ? '#374151' : 'linear-gradient(135deg, #10B981, #059669)',
-                            border: 'none',
-                            padding: '12px',
-                            borderRadius: '10px',
-                            color: 'white',
-                            fontWeight: '700',
-                            cursor: (!linkMaterial || !selectedImageFile) ? 'not-allowed' : 'pointer',
-                            width: '100%'
-                        }}
-                    >
-                        Vincular Ahora
-                    </button>
-                    {linkStatus && <p style={{ marginTop: '10px', fontSize: '13px', color: linkStatus.includes('✓') ? '#10B981' : '#F87171' }}>{linkStatus}</p>}
-                </div>
-            </div>
-
-            {/* Sales Speech Editor */}
-            <div style={{ background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(167, 139, 250, 0.2)', marginBottom: '32px' }}>
-                <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '4px', color: '#A78BFA' }}>💡 Editor de Tip de Venta Individual</h3>
-                <p style={{ fontSize: '13px', color: '#9CA3AF', marginBottom: '16px' }}>Busca por código de Material para editar el speech personalizado de un producto específico.</p>
-
-                <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', flexWrap: 'wrap' }}>
-                    <input
-                        type="text"
-                        placeholder="Pegar Material aquí..."
-                        value={searchMaterial}
-                        onChange={(e) => setSearchMaterial(e.target.value)}
-                        style={{ flex: 1, background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white' }}
-                        list="edit-suggestions"
-                    />
-                    <datalist id="edit-suggestions">
-                        {knowledge.map((k, i) => (
-                            <option key={i} value={k.sku}>{k.model}</option>
-                        ))}
-                    </datalist>
-                    <button
-                        onClick={handleSearch}
-                        style={{ background: '#7C3AED', border: 'none', padding: '10px 20px', borderRadius: '8px', color: 'white', fontWeight: '600', cursor: 'pointer' }}
-                    >
-                        Buscar Producto
-                    </button>
-                </div>
-
-                {foundItem && (
-                    <div style={{ background: 'rgba(255,255,255,0.03)', padding: '16px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                        <div style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '4px' }}>{foundItem.model}</div>
-                        <div style={{ fontSize: '12px', color: '#9CA3AF', marginBottom: '12px' }}>{foundItem.specs}</div>
-
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                            <label style={{ fontSize: '13px', color: '#A78BFA' }}>Speech para el Chat:</label>
-                            <button
-                                onClick={handleGenerateAITip}
-                                disabled={isGenerating}
-                                style={{ background: 'none', border: 'none', color: '#C4B5FD', fontSize: '12px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}
-                            >
-                                {isGenerating ? 'Generando...' : '✨ Sugerir con IA'}
-                            </button>
+                            {specFile && (
+                                <button
+                                    onClick={handleSpecUpload}
+                                    disabled={!specName || specName.trim() === ''}
+                                    style={{
+                                        marginTop: '15px',
+                                        background: (!specName || specName.trim() === '') ? '#374151' : '#7C3AED',
+                                        border: 'none',
+                                        padding: '10px 20px',
+                                        borderRadius: '10px',
+                                        color: 'white',
+                                        fontWeight: '600',
+                                        cursor: (!specName || specName.trim() === '') ? 'not-allowed' : 'pointer',
+                                        width: '100%'
+                                    }}
+                                >
+                                    Subir como "{specName || 'Archivo'}"
+                                </button>
+                            )}
+                            {specUploadStatus && <p style={{ marginTop: '10px', fontSize: '13px', color: '#A78BFA' }}>{specUploadStatus}</p>}
                         </div>
-                        <textarea
-                            rows="2"
-                            value={editTip}
-                            onChange={(e) => setEditTip(e.target.value)}
-                            placeholder="Argumento de venta ganador..."
-                            style={{ width: '100%', background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white', outline: 'none', resize: 'none', marginBottom: '12px' }}
-                        />
-
-                        <button
-                            onClick={handleSaveTip}
-                            style={{ background: 'rgba(167, 139, 250, 0.2)', border: '1px solid rgba(167, 139, 250, 0.4)', padding: '8px 16px', borderRadius: '8px', color: '#C4B5FD', fontWeight: '600', cursor: 'pointer', width: '100%' }}
-                        >
-                            Guardar Tip para {foundItem.sku}
-                        </button>
                     </div>
                 )}
-                {saveStatus && <p style={{ marginTop: '10px', fontSize: '13px', color: saveStatus.includes('✓') ? '#10B981' : '#F87171' }}>{saveStatus}</p>}
-            </div>
-
-            {/* Cuotas Uploader */}
-            <div style={{ background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(245, 158, 11, 0.2)', marginBottom: '32px' }}>
-                <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '4px', color: '#FCD34D' }}>💰 Subir Cuotas (cuotas.xlsx)</h3>
-                <input
-                    type="file"
-                    accept=".xlsx"
-                    onChange={(e) => setQuotasFile(e.target.files[0])}
-                    style={{ marginBottom: '12px' }}
-                />
-                {quotasFile && (
-                    <button
-                        onClick={handleQuotasUpload}
-                        disabled={quotasLoading}
-                        style={{ display: 'block', marginTop: '8px', background: quotasLoading ? '#374151' : 'rgba(245, 158, 11, 0.2)', border: '1px solid rgba(245, 158, 11, 0.4)', padding: '10px 20px', borderRadius: '10px', color: '#FCD34D', fontWeight: '600', cursor: quotasLoading ? 'not-allowed' : 'pointer', width: '100%' }}
-                    >
-                        {quotasLoading ? 'Procesando...' : `Subir "${quotasFile.name}"`}
-                    </button>
-                )}
-                {quotasStatus && <p style={{ marginTop: '10px', fontSize: '13px', color: '#FCD34D' }}>{quotasStatus}</p>}
             </div>
         </div>
     );

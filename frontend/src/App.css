@@ -1117,3 +1117,122 @@ html {
     box-shadow: 0 0 25px #A855F7;
   }
 }
+
+/* --- SALES MOBILE ACCORDION --- */
+.sales-mobile-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+}
+
+.sales-mobile-card {
+  background: rgba(31, 41, 55, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.sales-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  cursor: pointer;
+  background: rgba(17, 24, 39, 0.5);
+  user-select: none;
+}
+
+.sales-card-header:hover {
+  background: rgba(31, 41, 55, 0.6);
+}
+
+.sales-card-header-main {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sales-client-name {
+  color: #F3F4F6;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.sales-status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  width: max-content;
+}
+
+.status-green {
+  background-color: rgba(16, 185, 129, 0.15);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-yellow {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #FBBF24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.sales-card-chevron {
+  color: #9CA3AF;
+  transition: transform 0.3s ease;
+}
+
+.sales-card-chevron.expanded {
+  transform: rotate(180deg);
+  color: #A78BFA;
+}
+
+.sales-card-body {
+  padding: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: slideDown 0.3s ease-out;
+}
+
+.sales-detail-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sales-detail-label {
+  font-size: 12px;
+  color: #9CA3AF;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sales-detail-value {
+  font-size: 14px;
+  color: #D1D5DB;
+  font-weight: 500;
+}
+
+.sales-detail-value.highlight {
+  color: #A78BFA;
+  font-weight: 600;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
