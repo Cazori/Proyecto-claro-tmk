@@ -18,6 +18,11 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
 
     const [activeTab, setActiveTab] = useState('image_manager');
 
+    // Link states for manual overwrite
+    const [linkMaterial, setLinkMaterial] = useState('');
+    const [selectedImageFile, setSelectedImageFile] = useState('');
+    const [linkStatus, setLinkStatus] = useState('');
+
     const handleUnlock = () => {
         if (passwordInput === 'TEC123') {
             setUnlocked(true);
@@ -100,6 +105,22 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
             setQuotasStatus('Error al subir el archivo.');
         } finally {
             setQuotasLoading(false);
+        }
+    };
+
+    const handleLinkImage = async () => {
+        if (!linkMaterial || !selectedImageFile) return;
+        setLinkStatus('Vinculando...');
+        try {
+            const result = await chatService.linkSpec(linkMaterial, selectedImageFile);
+            if (result.message) {
+                setLinkStatus('✓ ' + result.message);
+                if (refreshData) await refreshData();
+            } else {
+                setLinkStatus('Error al vincular.');
+            }
+        } catch (e) {
+            setLinkStatus('Error de conexión.');
         }
     };
 
@@ -333,6 +354,57 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
                                 </button>
                             )}
                             {quotasStatus && <p style={{ marginTop: '10px', fontSize: '13px', color: '#FCD34D' }}>{quotasStatus}</p>}
+                        </div>
+
+                        {/* Manual Link / Overwrite */}
+                        <div style={{ background: '#111827', padding: '24px', borderRadius: '20px', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
+                            <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '4px', color: '#10B981' }}>🔗 Corregir / Sobrescribir Vínculo</h3>
+                            <p style={{ fontSize: '13px', color: '#9CA3AF', marginBottom: '16px' }}>Usa esta opción si te equivocaste en el Gestor de Imágenes y quieres forzar un cambio.</p>
+                            
+                            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                                <div style={{ flex: 1, minWidth: '200px' }}>
+                                    <label style={{ display: 'block', fontSize: '12px', color: '#9CA3AF', marginBottom: '6px' }}>Código de Material:</label>
+                                    <input
+                                        type="text"
+                                        placeholder="Ej: 100234"
+                                        value={linkMaterial}
+                                        onChange={(e) => setLinkMaterial(e.target.value)}
+                                        style={{ width: '100%', background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white', outline: 'none' }}
+                                    />
+                                </div>
+                                <div style={{ flex: 1, minWidth: '200px' }}>
+                                    <label style={{ display: 'block', fontSize: '12px', color: '#9CA3AF', marginBottom: '6px' }}>Seleccionar Imagen:</label>
+                                    <select
+                                        value={selectedImageFile}
+                                        onChange={(e) => setSelectedImageFile(e.target.value)}
+                                        style={{ width: '100%', background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white', outline: 'none' }}
+                                    >
+                                        <option value="">Selecciona una imagen...</option>
+                                        {specsList.map((f, i) => (
+                                            <option key={i} value={f}>{f}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button
+                                onClick={handleLinkImage}
+                                disabled={!linkMaterial || !selectedImageFile}
+                                style={{
+                                    marginTop: '16px',
+                                    background: (!linkMaterial || !selectedImageFile) ? '#374151' : 'linear-gradient(135deg, #10B981, #059669)',
+                                    border: 'none',
+                                    padding: '12px',
+                                    borderRadius: '10px',
+                                    color: 'white',
+                                    fontWeight: '700',
+                                    cursor: (!linkMaterial || !selectedImageFile) ? 'not-allowed' : 'pointer',
+                                    width: '100%'
+                                }}
+                            >
+                                Actualizar Vínculo Manualmente
+                            </button>
+                            {linkStatus && <p style={{ marginTop: '10px', fontSize: '13px', color: linkStatus.includes('✓') ? '#10B981' : '#F87171' }}>{linkStatus}</p>}
                         </div>
 
                         {/* Fichas Manual Uploader */}
