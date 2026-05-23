@@ -1,7 +1,7 @@
 import pdfplumber
 import os
 
-pdf_path = "backend/storage/Inventario 16-02-26 C230.pdf"
+pdf_path = "backend/storage/Inv 14 mayo tmk .pdf"
 
 def inspect_pdf():
     if not os.path.exists(pdf_path):

@@ -120,13 +120,22 @@ async def process_inventory_pdf(file_path):
                         categoria_nativa = match.group(5).strip()
                         tail = match.group(6)
                         
-                        prices = re.findall(r"(\d[\d\.\s,]*\d|\d)", tail)
-                        if len(prices) >= 2:
-                            price_raw = prices[-2]  # Precio Cuotas
-                        elif prices:
-                            price_raw = prices[0]
+                        # Extract price, prioritizing 'Precio con IVA'
+                        price_raw = None
+                        # Attempt to find explicit 'Precio con IVA' pattern
+                        iva_match = re.search(r"Precio\s+con\s+IVA\s*[:\-]?\s*([\d\.,\s]+)", tail, re.IGNORECASE)
+                        if iva_match:
+                            price_raw = iva_match.group(1).strip()
                         else:
-                            price_raw = "-" if "-" in tail else "0"
+                            # Fallback: extract any numeric price patterns
+                            prices = re.findall(r"(\d[\d\.\s,]*\d|\d)", tail)
+                            if len(prices) >= 2:
+                                price_raw = prices[-2]  # Precio Cuotas as fallback
+                            elif prices:
+                                price_raw = prices[0]
+                            else:
+                                price_raw = "-" if "-" in tail else "0"
+                        
                     else:
                         match = re.search(pattern_flex, line)
                         if match:
