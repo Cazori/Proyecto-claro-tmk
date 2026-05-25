@@ -105,47 +105,54 @@ async def process_inventory_pdf(file_path):
                 lines = text.split('\n')
                 page_count = 0
                 for line in lines:
-                    # Robust Pattern 2-step: ID -> Name -> Total -> Disponible -> Categoria -> everything after "Aplica $"
-                    # Group 5 is the native Category.
+                    # Define parsing patterns
+                    # 1. New PDF structure: [Material] [Subproducto] [Stock] [Categoría] $ [Precio con IVA] ...
+                    pattern_new = r"(\d{7,8})\s+(.+?)\s+(\d+)\s+([A-ZÁÉÍÓÚÑa-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚÑa-záéíóúñ]+)*)\s*\$\s*([\d\.\s,]+)"
+                    # 2. Older structures
                     pattern_v3 = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+)\s*(.*?)\s*Aplica\s+\$(.*)"
-                    
-                    # Fallback for lines without "Aplica $" 
                     pattern_flex = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+)\s*(.*?)\s*\$?\s?(\d{1,3}(?:\.\d{3})*(?:,\d+)?|[-])"
 
-                    match = re.search(pattern_v3, line)
-                    if match:
-                        material = match.group(1)
-                        subproducto = match.group(2).strip()
-                        stock = match.group(3) 
-                        categoria_nativa = match.group(5).strip()
-                        tail = match.group(6)
-                        
-                        # Extract price, prioritizing 'Precio con IVA'
-                        price_raw = None
-                        # Attempt to find explicit 'Precio con IVA' pattern
-                        iva_match = re.search(r"Precio\s+con\s+IVA\s*[:\-]?\s*([\d\.,\s]+)", tail, re.IGNORECASE)
-                        if iva_match:
-                            price_raw = iva_match.group(1).strip()
-                        else:
-                            # Fallback: extract any numeric price patterns
-                            prices = re.findall(r"(\d[\d\.\s,]*\d|\d)", tail)
-                            if len(prices) >= 2:
-                                price_raw = prices[-2]  # Precio Cuotas as fallback
-                            elif prices:
-                                price_raw = prices[0]
-                            else:
-                                price_raw = "-" if "-" in tail else "0"
-                        
+                    match_new = re.search(pattern_new, line)
+                    if match_new:
+                        material = match_new.group(1)
+                        subproducto = match_new.group(2).strip()
+                        stock = match_new.group(3)
+                        categoria_nativa = match_new.group(4).strip()
+                        price_raw = match_new.group(5).strip()
                     else:
-                        match = re.search(pattern_flex, line)
-                        if match:
-                            material = match.group(1)
-                            subproducto = match.group(2).strip()
-                            stock = match.group(3)
-                            categoria_nativa = match.group(5).strip()
-                            price_raw = match.group(6).strip()
+                        match_v3 = re.search(pattern_v3, line)
+                        if match_v3:
+                            material = match_v3.group(1)
+                            subproducto = match_v3.group(2).strip()
+                            stock = match_v3.group(3) 
+                            categoria_nativa = match_v3.group(5).strip()
+                            tail = match_v3.group(6)
+                            
+                            # Extract price, prioritizing 'Precio con IVA'
+                            price_raw = None
+                            # Attempt to find explicit 'Precio con IVA' pattern
+                            iva_match = re.search(r"Precio\s+con\s+IVA\s*[:\-]?\s*([\d\.,\s]+)", tail, re.IGNORECASE)
+                            if iva_match:
+                                price_raw = iva_match.group(1).strip()
+                            else:
+                                # Fallback: extract any numeric price patterns
+                                prices = re.findall(r"(\d[\d\.\s,]*\d|\d)", tail)
+                                if len(prices) >= 2:
+                                    price_raw = prices[-2]  # Precio Cuotas as fallback
+                                elif prices:
+                                    price_raw = prices[0]
+                                else:
+                                    price_raw = "-" if "-" in tail else "0"
                         else:
-                            continue
+                            match_flex = re.search(pattern_flex, line)
+                            if match_flex:
+                                material = match_flex.group(1)
+                                subproducto = match_flex.group(2).strip()
+                                stock = match_flex.group(3)
+                                categoria_nativa = match_flex.group(5).strip()
+                                price_raw = match_flex.group(6).strip()
+                            else:
+                                continue
                     
                     # Handle hyphenated prices
                     if price_raw == "-":

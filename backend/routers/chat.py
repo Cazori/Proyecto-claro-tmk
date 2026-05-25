@@ -1,4 +1,5 @@
 import os
+import re
 import pandas as pd
 from fastapi import APIRouter, HTTPException
 from config import CLEO_PROMPT, SYNONYMS
@@ -39,6 +40,9 @@ async def chat(query: str):
     query_clean = query.lower().replace(" pulgadas", "\"").replace(" pulgada", "\"").replace(" pulgs", "\"")
     query_clean = query_clean.replace("pulgadas", "\"").replace("pulgada", "\"").replace("pulgs", "\"")
     query_clean = query_clean.replace("ram", "g").replace("gb", "g")
+    
+    # Separar letras y números pegados (ej: tv55 -> tv 55)
+    query_clean = re.sub(r'(\b[a-zA-Z]+)(\d+)\b', r'\1 \2', query_clean)
     
     raw_keywords = query_clean.split()
     stop_words = ["de", "con", "el", "la", "los", "las", "un", "una", "en", "para", "por"]
