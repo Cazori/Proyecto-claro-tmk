@@ -1,42 +1,49 @@
-# 🚀 Claro Inventario AI
+# Claro Inventario AI (Asistente "Cleo")
 
-**Claro Inventario AI** es un asistente inteligente diseñado para optimizar la gestión y consulta de inventarios técnicos. Esta solución permite a los usuarios interactuar con una base de datos de productos mediante lenguaje natural, ofreciendo una experiencia fluida y eficiente.
+![Versión](https://img.shields.io/badge/version-1.9.5-brightgreen.svg)
+![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
+![React](https://img.shields.io/badge/react-18%2B-blue.svg)
+![FastAPI](https://img.shields.io/badge/fastapi-0.100%2B-green.svg)
 
-## ✨ Características Principales
-
-- 🔍 **Búsqueda Avanzada**: Implementación de búsqueda difusa (*fuzzy search*) para encontrar productos incluso con términos parciales o errores ortográficos.
-- 💬 **Asistente Inteligente**: Chat interactivo que responde preguntas sobre disponibilidad, especificaciones y precios.
-- 📄 **Gestión de Fichas Técnicas**: Visualización directa de documentos técnicos asociados a los productos.
-- 📊 **Panel de Control**: Interfaz intuitiva para monitorear el inventario y las interacciones.
-- 🧠 **Base de Conocimiento**: Sistema alimentado por reglas de negocio y conocimiento experto para respuestas precisas.
-
-## 🛠️ Tecnologías Utilizadas
-
-### Frontend
-- **React.js**: Biblioteca principal para la interfaz de usuario.
-- **Tailwind CSS**: Estilizado moderno y responsivo.
-- **Vite**: Herramienta de construcción rápida y eficiente.
-
-### Backend
-- **FastAPI**: Framwork de alto rendimiento para la API.
-- **Python**: Lógica central y procesamiento de datos.
-- **Uvicorn**: Servidor ASGI para el despliegue del backend.
-
-## 🚀 Instalación y Uso
-
-### Prerrequisitos
-- Node.js (v18+)
-- Python (3.9+)
-
-### Configuración del Backend
-1. Navega a la carpeta `backend`.
-2. Instala las dependencias: `pip install -r requirements.txt`.
-3. Inicia el servidor: `python -m uvicorn main:app --reload`.
-
-### Configuración del Frontend
-1. Navega a la carpeta `frontend`.
-2. Instala las dependencias: `npm install`.
-3. Inicia el modo desarrollo: `npm run dev`.
+Ecosistema inteligente conversacional y panel de control administrativo diseñado para el canal de Telemercadeo (TMK) de Claro. Permite a los asesores comerciales consultar existencias físicas de inventario en bodegas críticas, visualizar precios, calcular cuotas mensuales de financiamiento y acceder a fichas técnicas oficiales mediante lenguaje natural.
 
 ---
-Desarrollado para mejorar la eficiencia operativa en el manejo de inventarios tecnológicos.
+
+##  Características Principales
+
+*    **Búsqueda Híbrida Avanzada (Fast Path / AI Path):**
+    *   **Fast Path:** Filtrado directo en DataFrame mediante palabras clave para respuestas inmediatas de baja latencia.
+    *   **AI Path:** Análisis y clasificación de intención conversacional mediante IA para responder a consultas complejas.
+*    **AIPool (Tolerancia a fallos):** Sistema de balanceo y rotación automática de APIs de lenguaje. Si falla Google Gemini, se escala la petición inmediatamente a Groq, OpenAI o Grok.
+*    **Parser Inteligente de Inventarios (PDF a Base de Datos):** Extracción asíncrona de SKUs, stocks y precios con IVA mediante hilos en segundo plano para evitar bloqueos del servidor.
+*    **Procesamiento de Cuotas de Financiación:** Mapeo automático de tablas financieras complejas de Claro desde archivos Excel (`.xlsx`) hacia la base de datos Postgres.
+*    **Branding y Persuasión Comercial:** Generación automática de tips y speech persuasivos de venta por cada producto para apoyar al operador durante la llamada telefónica.
+
+---
+
+## 🛠️ Stack de Tecnologías
+
+*   **Backend:** Python 3.10+, FastAPI, Uvicorn, Pandas, pdfplumber, Supabase Client.
+*   **Modelos de Lenguaje (LLMs):** Google Gemini, Groq (Llama 3.3), OpenAI API, xAI Grok.
+*   **Frontend:** React.js, Vite, Tailwind CSS.
+*   **Base de Datos y Almacenamiento:** Supabase (PostgreSQL y Storage Buckets).
+
+---
+
+## ⚙️ Configuración del Entorno
+
+### Requisitos
+*   Python 3.10+
+*   Node.js v18+
+
+### Variables de Entorno (backend/.env)
+Configura el archivo `.env` en la raíz de la carpeta `backend`:
+```env
+SUPABASE_URL=https://tu-proyecto.supabase.co
+SUPABASE_KEY=tu-anon-key-de-supabase
+
+# Configura al menos uno de los siguientes proveedores de IA:
+GEMINI_API_KEY=tu-clave-de-gemini
+GROQ_API_KEY=tu-clave-de-groq
+OPENAI_API_KEY=tu-clave-de-openai
+GROK_API_KEY=tu-clave-de-grok
