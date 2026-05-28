@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { chatService } from '../../services/api';
 import ImageManager from '../specs/ImageManager';
+import PostventaFollowUp from './PostventaFollowUp';
 
 const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleSpecUpload, specUploadStatus, knowledge, specsList, refreshData }) => {
     const [unlocked, setUnlocked] = useState(false);
@@ -259,6 +260,21 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
                 >
                     ⚙️ Archivos Base (Cuotas)
                 </button>
+                <button
+                    onClick={() => setActiveTab('postventa')}
+                    style={{
+                        background: activeTab === 'postventa' ? '#7C3AED' : 'transparent',
+                        border: 'none',
+                        padding: '10px 20px',
+                        borderRadius: '10px',
+                        color: activeTab === 'postventa' ? 'white' : '#9CA3AF',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s'
+                    }}
+                >
+                    📈 Seguimiento Postventa
+                </button>
             </div>
 
             {/* Tab Content */}
@@ -456,6 +472,10 @@ const ExpertKnowledge = ({ specFile, setSpecFile, specName, setSpecName, handleS
                             {specUploadStatus && <p style={{ marginTop: '10px', fontSize: '13px', color: '#A78BFA' }}>{specUploadStatus}</p>}
                         </div>
                     </div>
+                )}
+
+                {activeTab === 'postventa' && (
+                    <PostventaFollowUp />
                 )}
             </div>
         </div>
