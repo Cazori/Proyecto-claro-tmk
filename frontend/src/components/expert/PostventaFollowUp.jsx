@@ -10,6 +10,7 @@ const PostventaFollowUp = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+    const [sortOrder, setSortOrder] = useState('asc'); // 'asc' = más antiguos primero, 'desc' = más recientes primero
     
     // Modal de mensaje personalizado
     const [activeClient, setActiveClient] = useState(null);
@@ -90,16 +91,10 @@ const PostventaFollowUp = () => {
                         date: dateVal,
                         product: prodCol && row[prodCol] ? String(row[prodCol]).trim() : 'Computador',
                         phone: phoneCol && row[phoneCol] ? String(row[phoneCol]).replace(/[^\d+]/g, '') : '',
-                        status: statusCol && row[statusCol] ? String(row[statusCol]).trim() : 'N/A'
+                        status: statusCol && row[statusCol] ? String(row[statusCol]).trim() : 'N/A',
+                        contacted: false
                     };
                 }).filter(record => record.name && record.name.trim() !== '' && record.name.trim().toLowerCase() !== 'undefined'); // Filtrar filas sin nombre
-
-                // Ordenar registros por fecha: desde el más antiguo al más reciente
-                parsedRecords.sort((a, b) => {
-                    if (!a.date) return 1;
-                    if (!b.date) return -1;
-                    return a.date.getTime() - b.date.getTime();
-                });
 
                 setClients(parsedRecords);
                 setLoading(false);
@@ -127,7 +122,10 @@ const PostventaFollowUp = () => {
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ');
 
-        const baseMessage = `Hola ${cleanName}!\n\nTe habla Juan Camacho, asesor de tecnología de Claro.\n\nHace algunos meses adquiriste un computador con nosotros y quería preguntarte cómo te ha ido con el equipo. ¿Todo funcionando correctamente? 💻\n\nTe pregunto porque estamos realizando un seguimiento preventivo a algunos clientes y quisiera validar algo contigo.`;
+        const baseMessage = `Hola ${cleanName} 👋\n\nTe habla Juan Camacho, asesor de tecnología de Claro.\n\nQuería saludarte y preguntarte cómo te ha ido con el computador que adquiriste con nosotros. ¿Todo funcionando correctamente? 💻\n\nTe escribo porque estamos realizando un seguimiento preventivo a algunos clientes y quisiera validar algo contigo.`;
+
+        // Marcar cliente como contactado
+        setClients(prev => prev.map(c => c.id === client.id ? { ...c, contacted: true } : c));
 
         setActiveClient(client);
         setCustomMessage(baseMessage);
@@ -166,9 +164,9 @@ const PostventaFollowUp = () => {
         return diffDays > 90;
     };
 
-    // Filtrar y buscar registros de clientes reactivamente
+    // Filtrar, buscar y ordenar registros de clientes reactivamente
     const filteredClients = useMemo(() => {
-        return clients.filter(c => {
+        const filtered = clients.filter(c => {
             const matchesSearch = c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 c.product.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 c.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -191,7 +189,15 @@ const PostventaFollowUp = () => {
 
             return matchesSearch && matchesStartDate && matchesEndDate;
         });
-    }, [clients, searchTerm, startDate, endDate]);
+
+        // Ordenar según sortOrder
+        return [...filtered].sort((a, b) => {
+            if (!a.date) return 1;
+            if (!b.date) return -1;
+            const diff = a.date.getTime() - b.date.getTime();
+            return sortOrder === 'asc' ? diff : -diff;
+        });
+    }, [clients, searchTerm, startDate, endDate, sortOrder]);
 
     // Estadísticas
     const stats = useMemo(() => {
@@ -300,6 +306,17 @@ const PostventaFollowUp = () => {
                                 style={{ width: '100%', background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white', outline: 'none', boxSizing: 'border-box' }}
                             />
                         </div>
+                        <div style={{ flex: 1, minWidth: '150px' }}>
+                            <label style={{ display: 'block', fontSize: '12px', color: '#9CA3AF', marginBottom: '6px' }}>Orden por Fecha:</label>
+                            <select
+                                value={sortOrder}
+                                onChange={(e) => setSortOrder(e.target.value)}
+                                style={{ width: '100%', background: '#1F2937', border: '1px solid rgba(255,255,255,0.1)', padding: '10px', borderRadius: '8px', color: 'white', outline: 'none', boxSizing: 'border-box', cursor: 'pointer' }}
+                            >
+                                <option value="asc">Más antiguos primero</option>
+                                <option value="desc">Más recientes primero</option>
+                            </select>
+                        </div>
                         {(searchTerm || startDate || endDate) && (
                             <button
                                 onClick={() => { setSearchTerm(''); setStartDate(''); setEndDate(''); }}
@@ -310,102 +327,144 @@ const PostventaFollowUp = () => {
                         )}
                     </div>
 
-                    {/* Table Container */}
-                    <div style={{ background: '#111827', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)', overflow: 'hidden' }}>
-                        <div style={{ overflowX: 'auto' }}>
-                            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '600px' }}>
-                                <thead>
-                                    <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.02)' }}>
-                                        <th style={{ padding: '16px 20px', fontSize: '13px', color: '#9CA3AF', fontWeight: '600' }}>Cliente</th>
-                                        <th style={{ padding: '16px 20px', fontSize: '13px', color: '#9CA3AF', fontWeight: '600' }}>Fecha Venta</th>
-                                        <th style={{ padding: '16px 20px', fontSize: '13px', color: '#9CA3AF', fontWeight: '600' }}>Cédula/Código</th>
-                                        <th style={{ padding: '16px 20px', fontSize: '13px', color: '#9CA3AF', fontWeight: '600' }}>Celular</th>
-                                        <th style={{ padding: '16px 20px', fontSize: '13px', color: '#9CA3AF', fontWeight: '600' }}>Equipo</th>
-                                        <th style={{ padding: '16px 20px', fontSize: '13px', color: '#9CA3AF', fontWeight: '600', textAlign: 'center' }}>Estado</th>
-                                        <th style={{ padding: '16px 20px', fontSize: '13px', color: '#9CA3AF', fontWeight: '600', textAlign: 'center' }}>Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {filteredClients.map((client) => {
-                                        const isPriority = isPriorityClient(client.date);
-                                        return (
-                                            <tr key={client.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', transition: 'background 0.2s' }} className="table-row-hover">
-                                                <td style={{ padding: '16px 20px' }}>
-                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                                        <span style={{ fontWeight: '600', color: 'white' }}>{client.name}</span>
-                                                        {isPriority && (
-                                                            <span style={{
-                                                                background: 'rgba(245, 158, 11, 0.1)',
-                                                                border: '1px solid rgba(245, 158, 11, 0.3)',
-                                                                color: '#FBBF24',
-                                                                fontSize: '10px',
-                                                                padding: '2px 8px',
-                                                                borderRadius: '12px',
-                                                                fontWeight: 'bold'
-                                                            }}>
-                                                                Prioridad
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                </td>
-                                                <td style={{ padding: '16px 20px', color: '#D1D5DB', fontSize: '14px' }}>
-                                                    {formatDate(client.date)}
-                                                </td>
-                                                <td style={{ padding: '16px 20px', color: '#9CA3AF', fontSize: '14px', fontFamily: 'monospace' }}>
-                                                    {client.code}
-                                                </td>
-                                                <td style={{ padding: '16px 20px', color: '#9CA3AF', fontSize: '14px', fontFamily: 'monospace' }}>
-                                                    {client.phone || 'N/A'}
-                                                </td>
-                                                <td style={{ padding: '16px 20px', color: '#D1D5DB', fontSize: '13px', maxWidth: '250px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={client.product}>
-                                                    {client.product}
-                                                </td>
-                                                <td style={{ padding: '16px 20px', textAlign: 'center' }}>
+                    {/* Cards Container (replaces table for responsive view) */}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '16px' }}>
+                        {filteredClients.map((client) => {
+                            const isPriority = isPriorityClient(client.date);
+                            return (
+                                <div
+                                    key={client.id}
+                                    style={{
+                                        background: '#111827',
+                                        borderRadius: '16px',
+                                        border: '1px solid rgba(255, 255, 255, 0.05)',
+                                        padding: '20px',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-between',
+                                        gap: '12px',
+                                        transition: 'all 0.2s ease',
+                                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                                    }}
+                                >
+                                    <div>
+                                        {/* Card Header: Client Name & Badges */}
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px', marginBottom: '8px' }}>
+                                            <h4 style={{ margin: 0, fontSize: '16px', fontWeight: '700', color: 'white', wordBreak: 'break-word' }}>
+                                                {client.name}
+                                            </h4>
+                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px', flexShrink: 0 }}>
+                                                {client.contacted ? (
                                                     <span style={{
-                                                        background: client.status.toLowerCase() === 'activo' || client.status.toLowerCase() === 'entregado' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(156, 163, 175, 0.1)',
-                                                        color: client.status.toLowerCase() === 'activo' || client.status.toLowerCase() === 'entregado' ? '#10B981' : '#9CA3AF',
-                                                        padding: '4px 8px',
-                                                        borderRadius: '8px',
-                                                        fontSize: '11px',
+                                                        background: 'rgba(16, 185, 129, 0.1)',
+                                                        border: '1px solid rgba(16, 185, 129, 0.3)',
+                                                        color: '#10B981',
+                                                        fontSize: '10px',
+                                                        padding: '2px 8px',
+                                                        borderRadius: '12px',
                                                         fontWeight: 'bold',
-                                                        textTransform: 'uppercase'
+                                                        whiteSpace: 'nowrap'
                                                     }}>
-                                                        {client.status}
+                                                        ✓ Contactado
                                                     </span>
-                                                </td>
-                                                <td style={{ padding: '16px 20px', textAlign: 'center' }}>
-                                                    <button
-                                                        onClick={() => handleGenerateMessage(client)}
-                                                        style={{
-                                                            background: 'rgba(167, 139, 250, 0.1)',
-                                                            border: '1px solid rgba(167, 139, 250, 0.3)',
-                                                            color: '#C4B5FD',
-                                                            padding: '8px 16px',
-                                                            borderRadius: '8px',
-                                                            fontWeight: '600',
-                                                            fontSize: '13px',
-                                                            cursor: 'pointer',
-                                                            transition: 'all 0.2s'
-                                                        }}
-                                                        className="action-button"
-                                                    >
-                                                        💬 Generar mensaje
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                    {filteredClients.length === 0 && (
-                                        <tr>
-                                            <td colSpan="5" style={{ padding: '40px', textAlign: 'center', color: '#9CA3AF' }}>
-                                                Ningún cliente coincide con los filtros establecidos.
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
+                                                ) : (
+                                                    <span style={{
+                                                        background: 'rgba(156, 163, 175, 0.05)',
+                                                        border: '1px solid rgba(156, 163, 175, 0.2)',
+                                                        color: '#9CA3AF',
+                                                        fontSize: '10px',
+                                                        padding: '2px 8px',
+                                                        borderRadius: '12px',
+                                                        fontWeight: 'bold',
+                                                        whiteSpace: 'nowrap'
+                                                    }}>
+                                                        Pendiente
+                                                    </span>
+                                                )}
+                                                {isPriority && (
+                                                    <span style={{
+                                                        background: 'rgba(245, 158, 11, 0.1)',
+                                                        border: '1px solid rgba(245, 158, 11, 0.3)',
+                                                        color: '#FBBF24',
+                                                        fontSize: '10px',
+                                                        padding: '2px 8px',
+                                                        borderRadius: '12px',
+                                                        fontWeight: 'bold',
+                                                        whiteSpace: 'nowrap'
+                                                    }}>
+                                                        Prioridad
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {/* Card Info Fields */}
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '13px', color: '#9CA3AF' }}>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                <span>Fecha Venta:</span>
+                                                <strong style={{ color: '#D1D5DB' }}>{formatDate(client.date)}</strong>
+                                            </div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                <span>Cédula:</span>
+                                                <strong style={{ color: '#D1D5DB', fontFamily: 'monospace' }}>{client.code}</strong>
+                                            </div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                <span>Celular:</span>
+                                                <strong style={{ color: '#D1D5DB', fontFamily: 'monospace' }}>{client.phone || 'N/A'}</strong>
+                                            </div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px' }}>
+                                                <span>Equipo:</span>
+                                                <strong style={{ color: '#E5E7EB', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', maxWidth: '180px' }} title={client.product}>
+                                                    {client.product}
+                                                </strong>
+                                            </div>
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                <span>Estado:</span>
+                                                <span style={{
+                                                    background: client.status.toLowerCase() === 'activo' || client.status.toLowerCase() === 'entregado' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(156, 163, 175, 0.1)',
+                                                    color: client.status.toLowerCase() === 'activo' || client.status.toLowerCase() === 'entregado' ? '#10B981' : '#9CA3AF',
+                                                    padding: '2px 8px',
+                                                    borderRadius: '6px',
+                                                    fontSize: '11px',
+                                                    fontWeight: 'bold',
+                                                    textTransform: 'uppercase'
+                                                }}>
+                                                    {client.status}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Action Button */}
+                                    <div style={{ marginTop: '8px' }}>
+                                        <button
+                                            onClick={() => handleGenerateMessage(client)}
+                                            style={{
+                                                width: '100%',
+                                                background: 'rgba(167, 139, 250, 0.1)',
+                                                border: '1px solid rgba(167, 139, 250, 0.3)',
+                                                color: '#C4B5FD',
+                                                padding: '10px',
+                                                borderRadius: '8px',
+                                                fontWeight: '600',
+                                                fontSize: '13px',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.2s'
+                                            }}
+                                        >
+                                            💬 Generar mensaje
+                                        </button>
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
+
+                    {filteredClients.length === 0 && (
+                        <div style={{ background: '#111827', padding: '40px', textAlign: 'center', color: '#9CA3AF', borderRadius: '16px', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                            Ningún cliente coincide con los filtros establecidos.
+                        </div>
+                    )}
                 </div>
             )}
 
