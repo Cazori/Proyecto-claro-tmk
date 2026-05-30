@@ -127,15 +127,7 @@ const PostventaFollowUp = () => {
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ');
 
-        const baseMessage = `¡Hola, ${cleanName}! Te habla Juan Camacho, tu asesor de tecnología de Claro. Te escribo brevemente porque en los meses anteriores, adquiriste un computador con nosotros y quería saber cómo te ha ido con el equipo.
-
-¿Has tenido alguna dificultad? 💻✨
-
-Te contacto de manera personalizada porque por estos días ya venció (o está próximo a vencer) la licencia gratuita de Microsoft Office que viene de fábrica, por lo que el compu te va a quedar limitado para trabajar o estudiar.
-
-Para solucionarlo, estamos ofreciendo un servicio técnico de instalación de Office permanente (sin mensualidades ni suscripciones), junto con un paquete de optimización que incluye antivirus y un bloqueador de anuncios para que navegues rápido y sin publicidad molesta.
-
-Si te interesa dejar el compu Full de una vez y olvidarte de pagar licencias, avísanos y lo cuadramos. ¡Un saludo!`;
+        const baseMessage = `Hola ${cleanName}!\n\nTe habla Juan Camacho, asesor de tecnología de Claro.\n\nHace algunos meses adquiriste un computador con nosotros y quería preguntarte cómo te ha ido con el equipo. ¿Todo funcionando correctamente? 💻\n\nTe pregunto porque estamos realizando un seguimiento preventivo a algunos clientes y quisiera validar algo contigo.`;
 
         setActiveClient(client);
         setCustomMessage(baseMessage);
