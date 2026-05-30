@@ -71,13 +71,14 @@ const PostventaFollowUp = () => {
                 const headers = Object.keys(rawJson[0]);
                 
                 const clientCol = headers.find(h => /cliente|nombre/i.test(h));
-                const dateCol = headers.find(h => /fecha.*venta|fecha.*contrato|venta.*fecha/i.test(h));
-                const codeCol = headers.find(h => /código|codigo|cust_code|radicado|id/i.test(h));
-                const prodCol = headers.find(h => /producto|descripcion|descripción/i.test(h));
+                const dateCol = headers.find(h => /fecha/i.test(h));
+                const codeCol = headers.find(h => /código|codigo|cust_code|radicado|id|cedula|cédula/i.test(h));
+                const prodCol = headers.find(h => /producto|descripcion|descripción|equipo/i.test(h));
                 const phoneCol = headers.find(h => /teléfono|telefono|celular|contacto|móvil|movil|phone/i.test(h));
+                const statusCol = headers.find(h => /estado/i.test(h));
 
                 if (!clientCol || !dateCol) {
-                    throw new Error("No se encontraron las columnas requeridas ('Cliente' y 'Fecha Venta').");
+                    throw new Error("No se encontraron las columnas requeridas (por ejemplo, 'NOMBRE Y APELLIDO' y 'FECHA').");
                 }
 
                 const parsedRecords = rawJson.map((row, idx) => {
@@ -88,9 +89,10 @@ const PostventaFollowUp = () => {
                         name: String(row[clientCol]).trim(),
                         date: dateVal,
                         product: prodCol && row[prodCol] ? String(row[prodCol]).trim() : 'Computador',
-                        phone: phoneCol && row[phoneCol] ? String(row[phoneCol]).replace(/[^\d+]/g, '') : ''
+                        phone: phoneCol && row[phoneCol] ? String(row[phoneCol]).replace(/[^\d+]/g, '') : '',
+                        status: statusCol && row[statusCol] ? String(row[statusCol]).trim() : 'N/A'
                     };
-                }).filter(record => record.name); // Filtrar filas sin nombre de cliente
+                }).filter(record => record.name && record.name.trim() !== '' && record.name.trim().toLowerCase() !== 'undefined'); // Filtrar filas sin nombre
 
                 // Ordenar registros por fecha: desde el más antiguo al más reciente
                 parsedRecords.sort((a, b) => {
@@ -177,7 +179,9 @@ Si te interesa dejar el compu Full de una vez y olvidarte de pagar licencias, av
         return clients.filter(c => {
             const matchesSearch = c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 c.product.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                c.code.toLowerCase().includes(searchTerm.toLowerCase());
+                c.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                c.phone.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                (c.status && c.status.toLowerCase().includes(searchTerm.toLowerCase()));
 
             let matchesStartDate = true;
             let matchesEndDate = true;
@@ -277,7 +281,7 @@ Si te interesa dejar el compu Full de una vez y olvidarte de pagar licencias, av
                     {/* Filter Bar */}
                     <div style={{ background: '#111827', padding: '20px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
                         <div style={{ flex: 2, minWidth: '220px' }}>
-                            <label style={{ display: 'block', fontSize: '12px', color: '#9CA3AF', marginBottom: '6px' }}>Buscar por Nombre, Producto o Código:</label>
+                            <label style={{ display: 'block', fontSize: '12px', color: '#9CA3AF', marginBottom: '6px' }}>Buscar por Nombre, Equipo, Cédula, Celular o Estado:</label>
                             <input
                                 type="text"
                                 placeholder="Escribe para buscar..."
@@ -322,8 +326,10 @@ Si te interesa dejar el compu Full de una vez y olvidarte de pagar licencias, av
                                     <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.02)' }}>
                                         <th style={{ padding: '16px 20px', fontSize: '13px', color: '#9CA3AF', fontWeight: '600' }}>Cliente</th>
                                         <th style={{ padding: '16px 20px', fontSize: '13px', color: '#9CA3AF', fontWeight: '600' }}>Fecha Venta</th>
-                                        <th style={{ padding: '16px 20px', fontSize: '13px', color: '#9CA3AF', fontWeight: '600' }}>Código</th>
-                                        <th style={{ padding: '16px 20px', fontSize: '13px', color: '#9CA3AF', fontWeight: '600' }}>Producto</th>
+                                        <th style={{ padding: '16px 20px', fontSize: '13px', color: '#9CA3AF', fontWeight: '600' }}>Cédula/Código</th>
+                                        <th style={{ padding: '16px 20px', fontSize: '13px', color: '#9CA3AF', fontWeight: '600' }}>Celular</th>
+                                        <th style={{ padding: '16px 20px', fontSize: '13px', color: '#9CA3AF', fontWeight: '600' }}>Equipo</th>
+                                        <th style={{ padding: '16px 20px', fontSize: '13px', color: '#9CA3AF', fontWeight: '600', textAlign: 'center' }}>Estado</th>
                                         <th style={{ padding: '16px 20px', fontSize: '13px', color: '#9CA3AF', fontWeight: '600', textAlign: 'center' }}>Acción</th>
                                     </tr>
                                 </thead>
@@ -356,8 +362,24 @@ Si te interesa dejar el compu Full de una vez y olvidarte de pagar licencias, av
                                                 <td style={{ padding: '16px 20px', color: '#9CA3AF', fontSize: '14px', fontFamily: 'monospace' }}>
                                                     {client.code}
                                                 </td>
+                                                <td style={{ padding: '16px 20px', color: '#9CA3AF', fontSize: '14px', fontFamily: 'monospace' }}>
+                                                    {client.phone || 'N/A'}
+                                                </td>
                                                 <td style={{ padding: '16px 20px', color: '#D1D5DB', fontSize: '13px', maxWidth: '250px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={client.product}>
                                                     {client.product}
+                                                </td>
+                                                <td style={{ padding: '16px 20px', textAlign: 'center' }}>
+                                                    <span style={{
+                                                        background: client.status.toLowerCase() === 'activo' || client.status.toLowerCase() === 'entregado' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(156, 163, 175, 0.1)',
+                                                        color: client.status.toLowerCase() === 'activo' || client.status.toLowerCase() === 'entregado' ? '#10B981' : '#9CA3AF',
+                                                        padding: '4px 8px',
+                                                        borderRadius: '8px',
+                                                        fontSize: '11px',
+                                                        fontWeight: 'bold',
+                                                        textTransform: 'uppercase'
+                                                    }}>
+                                                        {client.status}
+                                                    </span>
                                                 </td>
                                                 <td style={{ padding: '16px 20px', textAlign: 'center' }}>
                                                     <button
