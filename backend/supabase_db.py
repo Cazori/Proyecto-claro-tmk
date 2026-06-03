@@ -22,6 +22,9 @@ async def save_inventory_to_db(df: pd.DataFrame):
     verified_cols = ['Material', 'Subproducto', 'CantDisponible', 'Precio Contado', 'categoria', 'marca', 'modelo_limpio', 'especificaciones', 'tip_venta']
     
     safe_df = df.copy()
+    if "Precio Cuotas" in safe_df.columns:
+        safe_df["Precio Contado"] = safe_df["Precio Cuotas"]
+        
     available_cols = [c for c in verified_cols if c in safe_df.columns]
     safe_df = safe_df[available_cols]
     
@@ -49,7 +52,10 @@ async def get_inventory_from_db(columns: str = "*"):
         # Optimization: Fetching only what we need reduces memory usage on Render
         response = supabase.table('inventory').select(columns).execute()
         if response.data:
-            return pd.DataFrame(response.data)
+            df = pd.DataFrame(response.data)
+            if "Precio Contado" in df.columns:
+                df["Precio Cuotas"] = df["Precio Contado"]
+            return df
     except Exception as e:
         print(f"✗ Error leyendo de Supabase: {e}")
     return None

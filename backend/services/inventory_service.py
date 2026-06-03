@@ -96,6 +96,14 @@ class InventoryService:
         # Sort and limit
         results = results.sort_values(by=["CantDisponible"], ascending=False)
         results = results.drop_duplicates(subset=["Material"], keep="first")
+        
+        # Ensure 'Precio Cuotas' column exists defensively to prevent KeyErrors
+        if "Precio Cuotas" not in results.columns:
+            if "Precio Contado" in results.columns:
+                results["Precio Cuotas"] = results["Precio Contado"]
+            else:
+                results["Precio Cuotas"] = 0.0
+
         results = results.sort_values(by=["CantDisponible", "Precio Cuotas"], ascending=[False, False]).head(500)
         
         inventory_context = ""
