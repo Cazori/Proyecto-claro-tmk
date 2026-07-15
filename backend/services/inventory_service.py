@@ -21,7 +21,29 @@ class InventoryService:
         if not valid_keywords:
             return pd.DataFrame()
 
+        # Category aliases so short keywords can match full category names
+        CATEGORIA_ALIASES = {
+            "tv": ["televisor", "television"],
+            "prt": ["portatil", "laptop", "port", "notebook"],
+            "tab": ["tablet"],
+            "cel": ["celular", "telefono", "smartphone"],
+            "reloj": ["smartwatch", "watch"],
+            "sw": ["smartwatch", "watch"],
+            "ptn": ["patineta", "scooter"],
+            "aud": ["audifonos", "auriculares", "cascos"],
+        }
+
+        def _matches_categoria(k, categoria_norm):
+            """Check if keyword matches category field with alias expansion."""
+            if k in categoria_norm:
+                return True
+            for alias in CATEGORIA_ALIASES.get(k, []):
+                if alias in categoria_norm or categoria_norm in alias:
+                    return True
+            return False
+
         def matches_keywords(row):
+            categoria_norm = normalize_str(row.get("categoria", ""))
             for k in valid_keywords:
                 if '\"' in k:
                     if k not in normalize_str(row["Subproducto"]): return False
@@ -29,6 +51,7 @@ class InventoryService:
                          k in normalize_str(row["Material"]) or 
                          k in normalize_str(row["modelo_limpio"]) or
                          k in normalize_str(row["especificaciones"]) or
+                         _matches_categoria(k, categoria_norm) or
                          (k == "ptn" and any(s in normalize_str(row["Subproducto"]) for s in ["ptn", "ptnet", "patinet", "scter"]))):
                     return False
             return True

@@ -847,6 +847,69 @@ html {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: all 0.2s ease;
+}
+
+.product-title-premium:hover {
+  color: #E5E7EB;
+}
+
+.product-title-premium.expanded {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  word-break: break-word;
+}
+
+.title-expand-hint {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(16, 185, 129, 0.2);
+  color: #34D399;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 8px;
+  margin-left: 8px;
+  vertical-align: middle;
+  line-height: 1.4;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+/* ── Accessory Chips ──────────────────────────────── */
+.accessory-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.accessory-chip {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(16, 185, 129, 0.12);
+  color: #6EE7B7;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  letter-spacing: 0.02em;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.accessory-chip:hover {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+@media (max-width: 480px) {
+  .accessory-chip {
+    font-size: 9px;
+    padding: 2px 8px;
+  }
 }
 
 .product-meta-row {

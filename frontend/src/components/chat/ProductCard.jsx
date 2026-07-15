@@ -1,6 +1,54 @@
 import React from 'react';
 import { chatService } from '../../services/api';
 
+// ── Accessory detection ──────────────────────────────────────────
+const ACCESSORY_PATTERNS = [
+  { regex: /\+\s*LAP[IÍ]Z\b/i,                    label: 'Lápiz' },
+  { regex: /\+\s*(?:S\s*PEN|STYLUS)\b/i,           label: 'S Pen' },
+  { regex: /\+\s*TECLADO\b/i,                      label: 'Teclado' },
+  { regex: /\+\s*KEYBOARD\b/i,                     label: 'Teclado' },
+  { regex: /\+\s*FUNDA\b/i,                        label: 'Funda' },
+  { regex: /\+\s*(?:CASE|COVER|ESTUCHE)\b/i,       label: 'Funda' },
+  { regex: /\+\s*(?:CARGADOR|CHARGER)\b/i,          label: 'Cargador' },
+  { regex: /\+\s*CABLE\b/i,                        label: 'Cable' },
+  { regex: /\+\s*(?:MOUSE|RAT[OÓ]N)\b/i,            label: 'Mouse' },
+  { regex: /\+\s*(?:AUD[IÍ]FONOS|BUDS|AURICULARES)\b/i, label: 'Audífonos' },
+  { regex: /\+\s*HUB\b/i,                           label: 'Hub' },
+  { regex: /\+\s*(?:CONTROL|REMOTO)\b/i,            label: 'Control' },
+  { regex: /\+\s*SOPORTE\b/i,                       label: 'Soporte' },
+  { regex: /\+\s*(?:FILTRO)\b/i,                    label: 'Filtro' },
+  { regex: /\+\s*(?:ADAPTADOR)\b/i,                 label: 'Adaptador' },
+  { regex: /\+\s*(?:MICA|HIDROGEL|VIDRIO)\b/i,      label: 'Protector' },
+  { regex: /\+\s*(?:BASE|DOCK|STAND)\b/i,           label: 'Base' },
+];
+
+const findAccessories = (title) => {
+  if (!title) return [];
+  const seen = new Set();
+  const result = [];
+  for (const { regex, label } of ACCESSORY_PATTERNS) {
+    if (regex.test(title) && !seen.has(label)) {
+      seen.add(label);
+      result.push(label);
+    }
+  }
+  return result;
+};
+
+const cleanTitle = (title, accessories) => {
+  // Remove accessory parts from display title for cleaner look
+  if (!title || accessories.length === 0) return title;
+  let cleaned = title;
+  for (const { regex } of ACCESSORY_PATTERNS) {
+    cleaned = cleaned.replace(regex, '');
+  }
+  // Extra: remove trailing " + " or leading/trailing whitespace
+  cleaned = cleaned.replace(/\s*\+\s*$/, '').replace(/\s*\+\s*/g, ' ').trim();
+  // Clean up double spaces
+  cleaned = cleaned.replace(/\s{2,}/g, ' ');
+  return cleaned || title; // fallback to original if we over-cleaned
+};
+
 const CategoryIcon = ({ subproducto = '' }) => {
     const s = subproducto.toLowerCase();
 
@@ -37,9 +85,20 @@ const ProductCard = ({ product, specsMapping = {}, onViewSpec }) => {
     let { Material, Subproducto, CantDisponible, "Precio Cuotas": Precio, hasImage, quotas, tip, Marca } = product;
     const [showQuotas, setShowQuotas] = React.useState(false);
     const [showTip, setShowTip] = React.useState(false);
+    const [titleExpanded, setTitleExpanded] = React.useState(false);
 
     // Localization: Replace "Home Theater" with "Barra de sonido"
     const localizedTitle = Subproducto ? Subproducto.replace(/Home Theater/gi, 'Barra de sonido') : '';
+
+    // Detect accessories from the full title
+    const accessories = React.useMemo(() => findAccessories(localizedTitle), [localizedTitle]);
+    const hasAccessories = accessories.length > 0;
+
+    // Clean display title (remove accessory parts) for truncated view
+    const displayTitle = React.useMemo(
+      () => hasAccessories ? cleanTitle(localizedTitle, accessories) : localizedTitle,
+      [localizedTitle, accessories, hasAccessories]
+    );
 
     const isOutOfStock = CantDisponible === 0;
     const isCriticalStock = CantDisponible >= 1 && CantDisponible <= 3;
@@ -92,9 +151,25 @@ const ProductCard = ({ product, specsMapping = {}, onViewSpec }) => {
             </div>
 
             <div className="product-info-area">
-                <h4 className="product-title-premium" title={localizedTitle}>
-                    {localizedTitle}
+                <h4
+                  className={`product-title-premium${titleExpanded ? ' expanded' : ''}`}
+                  title={localizedTitle}
+                  onClick={() => setTitleExpanded(!titleExpanded)}
+                  style={{ cursor: displayTitle !== localizedTitle || titleExpanded ? 'pointer' : 'default' }}
+                >
+                    {titleExpanded ? localizedTitle : displayTitle}
+                    {(displayTitle !== localizedTitle && !titleExpanded) && (
+                      <span className="title-expand-hint">+{accessories.length}</span>
+                    )}
                 </h4>
+
+                {hasAccessories && (
+                  <div className="accessory-chips">
+                    {accessories.map((acc, i) => (
+                      <span key={i} className="accessory-chip">+ {acc}</span>
+                    ))}
+                  </div>
+                )}
 
                 <div className="product-meta-row" style={{ flexWrap: 'wrap', gap: '4px' }}>
                     {Marca && Marca !== 'N/A' && (
