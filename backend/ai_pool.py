@@ -103,7 +103,7 @@ class GeminiProvider(AIProvider):
 
 class GroqProvider(AIProvider):
     """Groq provider (ultra-fast inference)"""
-    def __init__(self, name: str, api_key: str, model: str = "llama-3.3-70b-versatile"):
+    def __init__(self, name: str, api_key: str, model: str = "llama-3.1-70b-versatile"):
         super().__init__(name, api_key)
         self.model_name = model
         self.base_url = "https://api.groq.com/openai/v1"
