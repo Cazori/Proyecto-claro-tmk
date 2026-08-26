@@ -3,7 +3,6 @@ import re
 import json
 from datetime import datetime
 from config import SPECS_DIR, NOISE_WORDS, SPECS_MAPPING_FILE
-from embeddings_service import embeddings_service
 
 # In-request cache for spec resolution to avoid redundant calls
 _spec_match_cache = {}
@@ -134,16 +133,5 @@ def resolve_spec_match(mat_id, subprod, available_specs, manual_map):
             max_score = score
             best_file = f
             
-    if best_file:
-        _spec_match_cache[cache_key] = best_file
-        return best_file
-
-    # 4. Semantic Matching (Priority 4)
-    semantic_match = embeddings_service.find_best_match(subprod_upper, available_specs, threshold=0.82)
-    if semantic_match:
-        if not check_variant_mismatch(subprod_upper, semantic_match):
-            _spec_match_cache[cache_key] = semantic_match
-            return semantic_match
-    
     _spec_match_cache[cache_key] = None
     return None

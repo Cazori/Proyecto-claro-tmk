@@ -24,20 +24,31 @@ if not os.path.exists(KNOWLEDGE_FILE):
     with open(KNOWLEDGE_FILE, "w", encoding="utf-8") as f:
         json.dump([], f)
 
-# Global AI Pool (Lazy Initialization)
+# Global AI Pool (Eager Initialization with Validation)
 _ai_pool = None
 
 def get_ai_pool():
-    """Lazily initializes and returns the AI Pool"""
+    """Returns the AI Pool. Initializes and validates on first call."""
     global _ai_pool
     if _ai_pool is None:
         try:
             from ai_pool import AIPool, RotationStrategy
-            print("🚀 Initializing AI Pool (Lazy Load)...")
+            print("🚀 Initializing AI Pool...")
             _ai_pool = AIPool(strategy=RotationStrategy.FASTEST_FIRST)
+            
+            # VALIDACIÓN ESTRICTA: debe haber al menos 1 proveedor funcional
+            if not _ai_pool.providers:
+                raise RuntimeError(
+                    "No hay proveedores de IA configurados. "
+                    "Verifica GROQ_API_KEY, GEMINI_API_KEY, OPENAI_API_KEY, GROK_API_KEY en .env"
+                )
+            
+            print(f"✓ AI Pool listo con {len(_ai_pool.providers)} proveedor(es): "
+                  f"{[p.name for p in _ai_pool.providers]}")
+                  
         except Exception as e:
-            print(f"✗ CRITICAL: Failed to initialize AI Pool: {e}")
-            _ai_pool = None
+            print(f"✗ CRITICAL: AI Pool initialization failed: {e}")
+            raise  # Falla rápido — la app no debe arrancar sin IA
     return _ai_pool
 
 # Shared Nomenclature & Constants

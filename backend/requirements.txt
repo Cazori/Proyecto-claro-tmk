@@ -12,3 +12,4 @@ gunicorn
 groq
 supabase
 openpyxl
+tenacity
