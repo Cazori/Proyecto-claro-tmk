@@ -34,7 +34,7 @@ def get_ai_pool():
         try:
             from ai_pool import AIPool, RotationStrategy
             print("🚀 Initializing AI Pool...")
-            _ai_pool = AIPool(strategy=RotationStrategy.FASTEST_FIRST)
+            _ai_pool = AIPool(strategy=RotationStrategy.FALLBACK)
             
             # VALIDACIÓN ESTRICTA: debe haber al menos 1 proveedor funcional
             if not _ai_pool.providers:

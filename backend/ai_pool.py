@@ -103,52 +103,74 @@ class GeminiProvider(AIProvider):
 
 class GroqProvider(AIProvider):
     """Groq provider (ultra-fast inference)"""
-    def __init__(self, name: str, api_key: str, model: str = "llama-3.1-70b-versatile"):
+    def __init__(self, name: str, api_key: str, model: str = "openai/gpt-oss-120b"):
         super().__init__(name, api_key)
         self.model_name = model
         self.base_url = "https://api.groq.com/openai/v1"
+        # Fallback models if primary is decommissioned
+        # Based on actual API key testing - current available models
+        self.fallback_models = [
+            "openai/gpt-oss-120b",
+            "openai/gpt-oss-20b",
+            "llama-3.1-8b-instant",  # This may still be available
+            "gemma2-9b-it"           # This may still be available
+        ]
     
     async def generate(self, prompt: str) -> str:
-        start_time = time.time()
-        headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json"
-        }
+        """Try primary model, then fallbacks on decommissioned/400 errors."""
+        models_to_try = [self.model_name] + [m for m in self.fallback_models if m != self.model_name]
         
-        # Some models prefer a system message + user message
-        payload = {
-            "model": self.model_name,
-            "messages": [
-                {"role": "system", "content": "Eres Cleo, un asistente útil para inventarios."},
-                {"role": "user", "content": prompt}
-            ],
-            "temperature": 0.5,
-            "max_tokens": 1024
-        }
-        
-        try:
-            async with httpx.AsyncClient(timeout=30.0) as client:
-                response = await client.post(
-                    f"{self.base_url}/chat/completions",
-                    headers=headers,
-                    json=payload
-                )
-                if response.status_code != 200:
-                    error_detail = response.text
-                    raise Exception(f"Groq API Error {response.status_code}: {error_detail}")
-                
-                data = response.json()
-                
+        for model in models_to_try:
+            start_time = time.time()
+            headers = {
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json"
+            }
+            payload = {
+                "model": model,
+                "messages": [
+                    {"role": "system", "content": "Eres Cleo, un asistente útil para inventarios."},
+                    {"role": "user", "content": prompt}
+                ],
+                "temperature": 0.5,
+                "max_tokens": 1024
+            }
+            
+            try:
+                async with httpx.AsyncClient(timeout=30.0) as client:
+                    response = await client.post(
+                        f"{self.base_url}/chat/completions",
+                        headers=headers,
+                        json=payload
+                    )
+                    if response.status_code == 400 and "decommissioned" in response.text:
+                        print(f"⚠️ Groq model '{model}' decommissioned, trying next...")
+                        continue  # Try next fallback model
+                    if response.status_code != 200:
+                        error_detail = response.text
+                        raise Exception(f"Groq API Error {response.status_code}: {error_detail}")
+                    
+                    data = response.json()
+                    latency_ms = (time.time() - start_time) * 1000
+                    text = data["choices"][0]["message"]["content"]
+                    self.update_stats(True, latency_ms)
+                    if model != self.model_name:
+                        print(f"✓ Groq fallback succeeded with '{model}'")
+                    return text.strip()
+                    
+            except Exception as e:
                 latency_ms = (time.time() - start_time) * 1000
-                text = data["choices"][0]["message"]["content"]
-                self.update_stats(True, latency_ms)
-                return text.strip()
-                
-        except Exception as e:
-            latency_ms = (time.time() - start_time) * 1000
-            error_msg = str(e)
-            self.update_stats(False, latency_ms, error_msg)
-            raise Exception(f"Groq error: {error_msg}")
+                error_msg = str(e)
+                if "decommissioned" in error_msg:
+                    print(f"⚠️ Groq model '{model}' decommissioned, trying next...")
+                    continue  # Try next fallback
+                self.update_stats(False, latency_ms, error_msg)
+                # Don't raise yet, try next model if available
+                if model != models_to_try[-1]:
+                    continue
+                raise Exception(f"Groq error (all models failed): {error_msg}")
+        
+        raise Exception("Groq: all models exhausted")
 
 
 class GrokProvider(AIProvider):
