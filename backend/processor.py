@@ -94,7 +94,8 @@ async def process_inventory_pdf(file_path):
                 text = page.extract_text()
                 if not text: continue
                 
-                # Robust Bodega detection
+                # Robust Bodega detection (deprecated: bodegas now detected per-line).
+                # Kept for backwards-compat with older page-level detection.
                 text_upper = text.upper()
                 if any(k in text_upper for k in ["ZF", "BOGOTÁ", "BOGOTA", "CEM BOG"]):
                     page_bodega = "CEM Bogotá - ZF"
@@ -105,54 +106,95 @@ async def process_inventory_pdf(file_path):
                 lines = text.split('\n')
                 page_count = 0
                 for line in lines:
-                    # Define parsing patterns
-                    # 1. New PDF structure: [Material] [Subproducto] [Stock] [Categoría] $ [Precio con IVA] ...
-                    pattern_new = r"(\d{7,8})\s+(.+?)\s+(\d+)\s+([A-ZÁÉÍÓÚÑa-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚÑa-záéíóúñ]+)*)\s*\$\s*([\d\.\s,]+)"
-                    # 2. Older structures
-                    pattern_v3 = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+)\s*(.*?)\s*Aplica\s+\$(.*)"
-                    pattern_flex = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+)\s*(.*?)\s*\$?\s?(\d{1,3}(?:\.\d{3})*(?:,\d+)?|[-])"
-
-                    match_new = re.search(pattern_new, line)
-                    if match_new:
-                        material = match_new.group(1)
-                        subproducto = match_new.group(2).strip()
-                        stock = match_new.group(3)
-                        categoria_nativa = match_new.group(4).strip()
-                        price_raw = match_new.group(5).strip()
-                    else:
-                        match_v3 = re.search(pattern_v3, line)
-                        if match_v3:
-                            material = match_v3.group(1)
-                            subproducto = match_v3.group(2).strip()
-                            stock = match_v3.group(3) 
-                            categoria_nativa = match_v3.group(5).strip()
-                            tail = match_v3.group(6)
-                            
-                            # Extract price, prioritizing 'Precio con IVA'
-                            price_raw = None
-                            # Attempt to find explicit 'Precio con IVA' pattern
-                            iva_match = re.search(r"Precio\s+con\s+IVA\s*[:\-]?\s*([\d\.,\s]+)", tail, re.IGNORECASE)
-                            if iva_match:
-                                price_raw = iva_match.group(1).strip()
-                            else:
-                                # Fallback: extract any numeric price patterns
-                                prices = re.findall(r"(\d[\d\.\s,]*\d|\d)", tail)
-                                if len(prices) >= 2:
-                                    price_raw = prices[-2]  # Precio Cuotas as fallback
-                                elif prices:
-                                    price_raw = prices[0]
-                                else:
-                                    price_raw = "-" if "-" in tail else "0"
+                    # ─── NEW FORMAT (per-line bodega) ─────────────────────────────
+                    # "CEM Bogotá - ZF C230 H001 7023740 AUD BUDS ... 32 AUDIFONOS $ 1.016.900 $ 1.016.900 $ -"
+                    # Bodega + centro + H001 + Material + Descripcion + Stock + Categoria + $ Precio(s)
+                    bodega_line = None
+                    m_line = re.match(
+                        r"^CEM\s+(?P<bodega>Bogotá\s*-\s*ZF|Bogota|Bogotá|Cali|Barranquilla|Medellín|Medellin|CAVA\s+[A-Za-zÁÉÍÓÚÑáéíóúñ]+)"
+                        r"\s+C\d+\s+H\d+\s+(?P<material>\d{7,8})\s+(?P<desc>.+)$",
+                        line.strip(), re.IGNORECASE)
+                    match_new = None
+                    material = subproducto = stock = categoria_nativa = price_raw = None
+                    if m_line:
+                        bodega_line = m_line.group("bodega").strip()
+                        material = m_line.group("material")
+                        desc_rest = m_line.group("desc").strip()
+                        # La descripción real termina antes del pattern " <stock> <CATEGORIA> $ <precio>..."
+                        # Capturar stock (ultimo número antes de la categoria) y categoria (antes de $)
+                        # Ej: "AUD BUDS 4 PRO BT6.1 530MAH IP57 NG SAMS 32 AUDIFONOS $ 1.016.900 ..."
+                        precio_match = re.search(r"(\d+)\s+([A-ZÁÉÍÓÚÑa-záéíóúñ ]+?)\s*\$", desc_rest)
+                        if precio_match:
+                            stock = precio_match.group(1)
+                            categoria_nativa = precio_match.group(2).strip()
+                            # Subproducto = todo lo anterior a la secuencia " stock categoria"
+                            # Usar el indice donde empieza el stock dentro del match, no rfind
+                            stock_idx = precio_match.start(1)
+                            subproducto = desc_rest[:stock_idx].strip()
                         else:
-                            match_flex = re.search(pattern_flex, line)
-                            if match_flex:
-                                material = match_flex.group(1)
-                                subproducto = match_flex.group(2).strip()
-                                stock = match_flex.group(3)
-                                categoria_nativa = match_flex.group(5).strip()
-                                price_raw = match_flex.group(6).strip()
+                            stock = "0"
+                            categoria_nativa = "N/A"
+                            subproducto = desc_rest
+                        price_raw = None  # Precio se extrae aparte (los $ del final)
+                    # ───────────────────────────────────────────────────────────────
+
+                    if material is None:
+                        # No es el nuevo formato por línea: probar los formatos legados
+                        # 1. New PDF structure: [Material] [Subproducto] [Stock] [Categoría] $ [Precio con IVA] ...
+                        pattern_new = r"(\d{7,8})\s+(.+?)\s+(\d+)\s+([A-ZÁÉÍÓÚÑa-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚÑa-záéíóúñ]+)*)\s*\$\s*([\d\.\s,]+)"
+                        # 2. Older structures
+                        pattern_v3 = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+)\s*(.*?)\s*Aplica\s+\$(.*)"
+                        pattern_flex = r"(\d{7,8})\s*(.+?)\s+(\d+)\s+(\d+)\s*(.*?)\s*\$?\s?(\d{1,3}(?:\.\d{3})*(?:,\d+)?|[-])"
+
+                        match_new = re.search(pattern_new, line)
+                        if match_new:
+                            material = match_new.group(1)
+                            subproducto = match_new.group(2).strip()
+                            stock = match_new.group(3)
+                            categoria_nativa = match_new.group(4).strip()
+                            price_raw = match_new.group(5).strip()
+                        else:
+                            match_v3 = re.search(pattern_v3, line)
+                            if match_v3:
+                                material = match_v3.group(1)
+                                subproducto = match_v3.group(2).strip()
+                                stock = match_v3.group(3)
+                                categoria_nativa = match_v3.group(5).strip()
+                                tail = match_v3.group(6)
+
+                                # Extract price, prioritizing 'Precio con IVA'
+                                price_raw = None
+                                iva_match = re.search(r"Precio\s+con\s+IVA\s*[:\-]?\s*([\d\.,\s]+)", tail, re.IGNORECASE)
+                                if iva_match:
+                                    price_raw = iva_match.group(1).strip()
+                                else:
+                                    prices = re.findall(r"(\d[\d\.\s,]*\d|\d)", tail)
+                                    if len(prices) >= 2:
+                                        price_raw = prices[-2]
+                                    elif prices:
+                                        price_raw = prices[0]
+                                    else:
+                                        price_raw = "-" if "-" in tail else "0"
                             else:
-                                continue
+                                match_flex = re.search(pattern_flex, line)
+                                if match_flex:
+                                    material = match_flex.group(1)
+                                    subproducto = match_flex.group(2).strip()
+                                    stock = match_flex.group(3)
+                                    categoria_nativa = match_flex.group(5).strip()
+                                    price_raw = match_flex.group(6).strip()
+                                else:
+                                    continue
+
+                    # Si la línea nueva fue capturada (bodega per-line), extraer el precio
+                    # del final de la línea: "…$ <precio con IVA> $ <pago contado> $ -"
+                    if bodega_line and price_raw is None:
+                        # Tomar el segundo bloque con $ … (Precio con IVA) para el campo "Precio Cuotas"
+                        precios = re.findall(r"\$\s*([\d\.\s,]+)", line)
+                        if precios:
+                            price_raw = precios[0].strip()  # Precio con IVA (primero)
+                        else:
+                            price_raw = "0"
                     
                     # Handle hyphenated prices
                     if price_raw == "-":
@@ -171,7 +213,7 @@ async def process_inventory_pdf(file_path):
                             precio_clean = precio_clean[:7]
                     
                     data.append({
-                        "Bodega": page_bodega,
+                        "Bodega": bodega_line or page_bodega,
                         "Material": material,
                         "Subproducto": subproducto,
                         "categoria_nativa": categoria_nativa,
