@@ -96,11 +96,12 @@ class InventoryService:
         return results
 
     @staticmethod
-    def format_inventory_context(results: pd.DataFrame) -> str:
-        """Formats the filtered inventory results into a human-readable string for the AI prompt."""
-        if results.empty:
-            return "No se encontraron productos que coincidan exactamente con la búsqueda."
+    def _build_inventory_rows(results: pd.DataFrame) -> list:
+        """Builds a list of dicts with all display fields for each inventory item.
 
+        Shared by the text context and the deterministic Markdown renderer so the
+        formatting logic (specs, images, quotas, sales tips) lives in one place.
+        """
         try:
             available_specs = os.listdir(SPECS_DIR)
             with open(SPECS_MAPPING_FILE, "r", encoding="utf-8") as f:
@@ -108,18 +109,18 @@ class InventoryService:
             with open(KNOWLEDGE_FILE, "r", encoding="utf-8") as f:
                 expert_data = json.load(f)
                 expert_tips = {item['sku']: item.get('tip_venta') for item in expert_data if item.get('tip_venta')}
-            
+
             quotas_map = {}
             if os.path.exists(QUOTA_MAPPING_FILE):
                 with open(QUOTA_MAPPING_FILE, "r", encoding="utf-8") as f:
                     quotas_map = json.load(f)
-        except:
+        except Exception:
             available_specs, manual_map, expert_tips, quotas_map = [], {}, {}, {}
 
         # Sort and limit
         results = results.sort_values(by=["CantDisponible"], ascending=False)
         results = results.drop_duplicates(subset=["Material"], keep="first")
-        
+
         # Ensure 'Precio Cuotas' column exists defensively to prevent KeyErrors
         if "Precio Cuotas" not in results.columns:
             if "Precio Contado" in results.columns:
@@ -128,39 +129,101 @@ class InventoryService:
                 results["Precio Cuotas"] = 0.0
 
         results = results.sort_values(by=["CantDisponible", "Precio Cuotas"], ascending=[False, False]).head(500)
-        
-        inventory_context = ""
+
+        rows = []
         for _, item in results.iterrows():
             match = resolve_spec_match(item['Material'], item['Subproducto'], available_specs, manual_map)
             has_image = "NO"
             if match and isinstance(match, str):
                 if any(match.lower().endswith(ext) for ext in [".jpg", ".jpeg", ".png", ".webp"]):
                     has_image = "SI"
-            
+
             ficha_tag = "SI" if match else "NO"
             try:
                 raw_price = item.get('Precio Cuotas', 0)
-                precio = f"${float(raw_price):,.0f}" if pd.notnull(raw_price) and str(raw_price).replace('.','',1).isdigit() else str(raw_price)
-            except: precio = str(item.get('Precio Cuotas', '-'))
+                precio = f"${float(raw_price):,.0f}" if pd.notnull(raw_price) and str(raw_price).replace('.', '', 1).isdigit() else str(raw_price)
+            except Exception:
+                precio = str(item.get('Precio Cuotas', '-'))
 
             sku_str = str(item['Material'])
             final_tip = expert_tips.get(sku_str, item.get('tip_venta', '-'))
-            if not final_tip or final_tip == "nan" or pd.isna(final_tip): final_tip = "-"
+            if not final_tip or final_tip == "nan" or pd.isna(final_tip):
+                final_tip = "-"
 
-            try: stock_val = int(float(item.get('CantDisponible', 0)))
-            except: stock_val = 0
+            try:
+                stock_val = int(float(item.get('CantDisponible', 0)))
+            except Exception:
+                stock_val = 0
 
             # Get quotas for this material
             mat_id_str = str(item['Material'])
             item_quotas = quotas_map.get(mat_id_str) or quotas_map.get(mat_id_str.strip().lstrip('0'))
             quotas_info = "N/A"
             if item_quotas:
-                # Format: 6:$X, 12:$Y...
                 quotas_info = ", ".join([f"{m}m: ${val:,.0f}" for m, val in item_quotas.items()])
 
-            line = f"- [ID: {item['Material']}] MODELO: {item['Subproducto']} | FICHA: {ficha_tag} | IMG: {has_image} | CATEGORIA: {item['categoria']} | MARCA: {item['marca']} | DESC: {item.get('especificaciones', '-')} | STOCK: {stock_val} | PRECIO CUOTAS: {precio} | CUOTAS: {quotas_info} | TIP: {final_tip}\n"
+            rows.append({
+                "referencia": str(item['Material']),
+                "ficha": ficha_tag,
+                "imagen": "VER" if has_image == "SI" else "-",
+                "marca": item.get('marca', 'N/A'),
+                "modelo": item['Subproducto'],
+                "precio": precio,
+                "unidades": str(stock_val),
+                "caracteristicas": str(item.get('especificaciones', '-')),
+                "tip": final_tip,
+                "cuotas": quotas_info,
+                "categoria": item.get('categoria', ''),
+            })
+        return rows
+
+    @staticmethod
+    def format_inventory_context(results: pd.DataFrame) -> str:
+        """Formats the filtered inventory results into a human-readable string for the AI prompt."""
+        if results.empty:
+            return "No se encontraron productos que coincidan exactamente con la búsqueda."
+
+        rows = InventoryService._build_inventory_rows(results)
+        if not rows:
+            return "No se encontraron productos que coincidan exactamente con la búsqueda."
+
+        inventory_context = ""
+        for r in rows:
+            line = f"- [ID: {r['referencia']}] MODELO: {r['modelo']} | FICHA: {r['ficha']} | IMG: {r['imagen']} | CATEGORIA: {r['categoria']} | MARCA: {r['marca']} | DESC: {r['caracteristicas']} | STOCK: {r['unidades']} | PRECIO CUOTAS: {r['precio']} | CUOTAS: {r['cuotas']} | TIP: {r['tip']}\n"
             inventory_context += line
-            
+
         return inventory_context
+
+    EMPTY_RESPONSE = "No encontré equipos con esa descripción en Bogotá. ¿Deseas buscar otra categoría?"
+
+    @staticmethod
+    def render_inventory_markdown(results: pd.DataFrame) -> str:
+        """Deterministically renders inventory results as a Markdown table (no AI).
+
+        This replaces the LLM-based `generate_response` for the result table. It is
+        exact, predictable, and cannot hallucinate prices or break the 1-to-1 rule.
+        """
+        if results.empty:
+            return InventoryService.EMPTY_RESPONSE
+
+        rows = InventoryService._build_inventory_rows(results)
+        if not rows:
+            return InventoryService.EMPTY_RESPONSE
+
+        header = "| Referencia | Ficha | Imagen | Marca | Modelo | Precio | Unidades | Caracteristicas | Tip |"
+        separator = "|---|---|---|---|---|---|---|---|---|"
+
+        def esc(cell: str) -> str:
+            # Escape pipe and newlines so they don't break the Markdown table
+            return str(cell).replace("|", "/").replace("\n", " ").replace("\r", " ").strip()
+
+        lines = [header, separator]
+        for r in rows:
+            tip_col = r['tip'] if r['tip'] and r['tip'] != "-" else "-"
+            lines.append(
+                f"| {esc(r['referencia'])} | {r['ficha']} | {r['imagen']} | {esc(r['marca'])} | "
+                f"{esc(r['modelo'])} | {esc(r['precio'])} | {r['unidades']} | {esc(r['caracteristicas'])} | {esc(tip_col)} |"
+            )
+        return "\n".join(lines)
 
 inventory_service = InventoryService()

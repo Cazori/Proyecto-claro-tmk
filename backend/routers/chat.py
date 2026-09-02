@@ -1,8 +1,7 @@
-import os
 import re
 import pandas as pd
 from fastapi import APIRouter, HTTPException
-from config import CLEO_PROMPT, SYNONYMS
+from config import SYNONYMS
 from utils import log_debug
 from services.ai_service import ai_service
 from services.inventory_service import inventory_service
@@ -100,30 +99,16 @@ async def chat(query: str):
             results = inventory_service.filter_inventory(df, valid_keywords)
             log_debug(f"Fallback: {len(results)} resultados.")
 
-    # 3. Format context and generate response
-    inventory_context = inventory_service.format_inventory_context(results)
-    
-    # Restore the v1.9.0 recommendation rule
-    full_prompt = f"""
-    {CLEO_PROMPT}
-
-    DATOS DEL INVENTARIO ENCONTRADO:
-    {inventory_context}
-
-    PREGUNTA DEL USUARIO:
-    "{query}"
-    
-    REGLA: Si no hay inventario, sugiere productos similares si los ves, o di que no hay stock disponible.
-    """
-
+    # 3. Render final response deterministically (no LLM for the result table).
+    #    Exact, predictable, cannot hallucinate prices or break the 1-to-1 rule.
     try:
-        response_text = await ai_service.generate_response(full_prompt)
-        if not response_text:
-             return {"response": "Lo siento, el sistema de IA no está disponible."}
+        response_text = inventory_service.render_inventory_markdown(results)
         return {"response": response_text}
     except Exception as e:
         print(f"Error Cleo: {e}")
         error_msg = str(e)
+        # Quota errors no longer apply to the render, but keep a safe fallback so the
+        # endpoint never 500s on unexpected formatting errors.
         if "429" in error_msg or "quota" in error_msg.lower():
             return {"response": "Cleo ha alcanzado el límite de consultas. Por favor, espera unos minutos o añade más APIs."}
         return {"response": "Lo siento, tuve un problema analizando el inventario."}
