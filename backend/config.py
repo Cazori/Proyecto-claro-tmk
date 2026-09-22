@@ -59,7 +59,14 @@ SYNONYMS = {
     "tel": "telefono", "telefonos": "celular", "aud": "aud", "audifono": "aud", "audifonos": "aud",
     "auricular": "aud", "auriculares": "aud", "cascos": "aud", "buds": "aud",
     "smrt": "smart", "watch": "reloj", "sw": "reloj", "tablet": "tab", "tablets": "tab",
-    "ryzen": "rzn", "intel": "ic", "core": "ic", "ram": "g", "gb": "g"
+    "ryzen": "rzn", "intel": "ic", "core": "ic", "ram": "g", "gb": "g",
+    # Marcas (nombre de usuario -> token abreviado del inventario)
+    "samsung": "sams", "sams": "sams", "xiaomi": "xiao", "xiao": "xiao",
+    "lenovo": "leno", "leno": "leno", "huawei": "huaw", "huaw": "huaw",
+    "honor": "honr", "honr": "honr", "motorola": "moto", "moto": "moto",
+    "hisense": "hssn", "hssn": "hssn", "panasonic": "pnsc", "pnsc": "pnsc",
+    "aiwa": "aiwa", "segway": "sgwy", "sgwy": "sgwy", "acer": "acer",
+    "oppo": "oppo", "sony": "sony", "tcl": "tcl", "asus": "asus", "kally": "klly"
 }
 
 NOISE_WORDS = {"ngr", "grs", "slv", "negro", "gris", "silver", "pulg", "pulgadas", "inches", "smart"}

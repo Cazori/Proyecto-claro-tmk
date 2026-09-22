@@ -44,6 +44,7 @@ class InventoryService:
 
         def matches_keywords(row):
             categoria_norm = normalize_str(row.get("categoria", ""))
+            marca_norm = normalize_str(row.get("marca", ""))
             for k in valid_keywords:
                 if '\"' in k:
                     if k not in normalize_str(row["Subproducto"]): return False
@@ -51,6 +52,7 @@ class InventoryService:
                          k in normalize_str(row["Material"]) or 
                          k in normalize_str(row["modelo_limpio"]) or
                          k in normalize_str(row["especificaciones"]) or
+                         k in marca_norm or marca_norm in k or
                          _matches_categoria(k, categoria_norm) or
                          (k == "ptn" and any(s in normalize_str(row["Subproducto"]) for s in ["ptn", "ptnet", "patinet", "scter"]))):
                     return False
