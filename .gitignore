@@ -61,6 +61,7 @@ backend/inventory_text.txt
 backend/model_report.txt
 backend/response_cleaned.txt
 backend/response_strict.txt
+backend/performance_tracker.json
 cuotas.xlsx
 recover_inventory.py
 *.tmp

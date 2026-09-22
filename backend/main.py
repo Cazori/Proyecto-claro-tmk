@@ -211,8 +211,6 @@ app.include_router(chat.router, tags=["Chat"])
 app.include_router(specs.router, tags=["Specs"])
 app.include_router(quotas.router, tags=["Quotas"])
 app.include_router(knowledge.router, tags=["Knowledge"])
-from routers import sales
-app.include_router(sales.router, tags=["Sales"])
 
 if __name__ == "__main__":
     print("Iniciando servidor Cleo AI Modular (v1.9.4)...")
